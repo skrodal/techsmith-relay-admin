@@ -16,6 +16,9 @@ I tillegg til UNINETT Connect tjenesteplattform for autentisering benytter Relay
   - https://github.com/skrodal/uninett-kind
 - Relay API (registrert i Connect)
 
+![Preview](/app/img/RelayAdmin.png)
+
+
 Andre avhengigheter:
 
 - Modifisert utgave av AdminLTE Control Panel Theme (basert på Bootstrap 3)
