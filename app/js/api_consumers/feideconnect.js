@@ -49,6 +49,7 @@ var FEIDE_CONNECT = (function () {
 			};
 			userObj.email = user.email;
 			userObj.photo = jso.config.get("endpoints").photo + user.profilephoto;
+			// userObj.org.id = 'uio.no';
 			userObj.org.id = org;
 			userObj.org.shortname = org.split('.')[0];
 			UTILS.updateAuthProgress("Brukerinfo");

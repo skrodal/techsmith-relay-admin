@@ -70,7 +70,7 @@ var PAGE_MY_RELAY = (function () {
 
 		$.each(contentArr, function (index, contentObj) {
 			hitCount += contentObj.hits;
-			deletedCount += contentObj.deleted == 1 ? 1 : 0;
+			deletedCount += contentObj.is_deleted == 1 ? 1 : 0;
 			durationTotalSec += contentObj.duration_s;
 		});
 
@@ -98,11 +98,11 @@ var PAGE_MY_RELAY = (function () {
 				// Simon 20FEB2015: 1st column is date presented in a way DataTables can sort (YYYY-MM-DD) and is hidden
 				// The other, visible, date column sorts by this column here. A very useful 'hack'.
 				{
-					"data": "created",
+					"data": "created_date",
 					"render": function (data, type, full, meta) {
-						//var date = new Date(data*1000);
-						//return two(date.getUTCFullYear() + '-' + two(date.getUTCMonth()+1) + '-' + date.getUTCDate());
-						return data;
+						var date = new Date(data.sec*1000);
+						return date.getUTCFullYear() + '-' + UTILS.two(date.getUTCMonth()+1) + '-' +  UTILS.two(date.getUTCDate());
+						//return data;
 					},
 					"bVisible": false // HIDE COLUMN
 				},
@@ -120,11 +120,11 @@ var PAGE_MY_RELAY = (function () {
 					}
 				},
 				{
-					"data": "created",
+					"data": "created_date",
 					"render": function (data, type, full, meta) {
-						//var date = new Date(data*1000);
-						//return two(date.getUTCDate()) + '. ' + months_short[date.getUTCMonth()] + ' ' + date.getUTCFullYear();
-						return data;
+						var date = new Date(data.sec*1000);
+						return UTILS.two(date.getUTCDate()) + '. ' + UTILS.months_short(date.getUTCMonth()) + ' ' + date.getUTCFullYear();
+						//return data;
 					},
 					"iDataSort": 0 // USE HIDDEN DATE COLUMN FOR SORTING
 				},
@@ -159,13 +159,12 @@ var PAGE_MY_RELAY = (function () {
 		// Update the modal's content
 		var modal = $(this);
 		var presPreview = modal.find('#presentation_preview');
-		//var pres_date = new Date(pres_data.created.sec*1000);
-		//pres_date = two(pres_date.getUTCDate()) + '. ' + months_short[pres_date.getUTCMonth()] + ' ' + pres_date.getUTCFullYear();
-		var presCreatedDate = presentationObj.created;
+		var pres_date = new Date(presentationObj.created_date.sec*1000);
+		var presCreatedDate = UTILS.two(pres_date.getUTCDate()) + '. ' + UTILS.months_short(pres_date.getUTCMonth()) + ' ' + pres_date.getUTCFullYear();
 
 		modal.find('#presentation_title').text(presentationObj.title);
 		modal.find('#presentation_description').text(presentationObj.description);
-		modal.find('#presentation_author').html('- ' + presentationObj.recorder_name + '<br/>' + presCreatedDate);
+		modal.find('#presentation_author').html('- ' + presentationObj.recorded_by + '<br/>' + presCreatedDate);
 		modal.find('#presentation_hits').text(presentationObj.hits);
 		modal.find('#presentation_duration').html('<i class="ion ion-ios-clock"></i> ' + UTILS.secToTime(presentationObj.duration_s));
 		// Set preview - load() is important

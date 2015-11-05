@@ -127,7 +127,15 @@ var UTILS = (function () {
 		}, 
 		convertDataTablesData : function(dataObject){
 			return convertDataTablesData(dataObject);
-		} 
+		},
+		timestamp2date : function (timestamp) {
+			var date = new Date(timestamp * 1000);
+			return  UTILS.two(date.getUTCDate()) + '. ' + UTILS.months_short(date.getUTCMonth()) + ' ' + date.getUTCFullYear();
+		},
+		months_short : function(month){
+			var months = ['jan.', 'feb.', 'apr.', 'mai', 'jun.', 'jul.', 'aug.', 'sep.', 'nov.', 'okt.', 'nov.', 'des.'];
+			return months[month];
+		}
 
 	}
 })();

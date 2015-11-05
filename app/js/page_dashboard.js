@@ -21,10 +21,10 @@ var PAGE_DASHBOARD = (function () {
 	function refreshQueueMonitor() {
 		$('#pageDashboard').find('#relayQueueMonitor').find('.ajax').show();
 		$('#relayQueueMonitorContent').html('');
-		$.when(RELAY.queueXHR()).done(function (queue) {
+		$.when(RELAY.serviceQueueXHR()).done(function (queue) {
 			//  TODO: Logic/presentation
-			var total = queue.data.total || 'Ingen jobber i k&oslash;';
-			var details = queue.data.jobs || JSON.stringify(queue.data.jobs, null, 4);
+			var total = queue.total || 'Ingen jobber i k&oslash;';
+			var details = queue.jobs ? JSON.stringify(queue.jobs, null, 4) : 'Ingen detaljer tilgjengelig';
 
 			$('#relayQueueMonitorContent').html(
 				'<strong>Jobber:</strong> ' + total + '<br>' +
@@ -132,7 +132,8 @@ var PAGE_DASHBOARD = (function () {
 	function _buildOrgsUserCountPie(orgs) {
 		_destroyPieChart();
 		var orgsUserCountChartData = [];
-		$.each(orgs, function (index, orgObj) {
+
+		$.each(orgs, function (org, orgObj) {
 			// Chart prefs and data
 			orgsUserCountChartData.push({
 				value: orgObj.users,
@@ -153,11 +154,11 @@ var PAGE_DASHBOARD = (function () {
 	 */
 	function onShowListener() {
 		$.when(RELAY.ready()).done(function () {
-			pieOrgsUserCount = _buildOrgsUserCountPie(RELAY.subscribersInfo().orgs);
+			pieOrgsUserCount = _buildOrgsUserCountPie(RELAY.subscribersInfo());
 			$('#pageDashboard').find('#usersPie').find('.ajax').hide();
 		});
-		//
-		lineLastWeeksHits = _buildLastWeeksHitsChart();
+		// TODO: When hits are back in the API
+		// lineLastWeeksHits = _buildLastWeeksHitsChart();
 	}
 
 	/**

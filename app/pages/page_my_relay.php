@@ -153,12 +153,12 @@
 				<p id="presentation_duration"><!-- AJAX --></p>
 
 				<!-- FILES TABLE -->
-				<div class="box box-solid bg-gray">
+				<div class="box box-solid bg-dark-gray">
                     <div class="box-header">
 	                    <span id="presentation_hits" class="badge bg-black-gradient pull-right"><!-- AJAX --></span>&nbsp;
                         <h3 class="box-title">Filer</h3>
                     </div>
-                    <div class="box-body no-padding">
+                    <div class="box-body">
                         <table id="presentation-files-table" class="table table-condensed">
                             <thead>
                                 <th>Type</th>

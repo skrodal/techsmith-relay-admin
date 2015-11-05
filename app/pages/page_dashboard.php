@@ -40,7 +40,7 @@
 						<span class="info-box-text">BRUKERE</span>
 						<span class="info-box-number globalUsersCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
 						<div class="progress bg-red"></div>
-						<span class="progress-description text-muted">Totalt</span>
+						<span class="progress-description text-muted">Ansatte/Studenter</span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
@@ -53,7 +53,7 @@
 					<span class="info-box-icon bg-green"><i class="ion ion-ios-people"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">MED INNHOLD</span>
-						<span class="info-box-number"> <span class="globalEmployeeCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span> /  <span class="globalStudentCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span> </span>
+						<span class="info-box-number globalActiveUsersCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
 						<div class="progress bg-green"></div>
 						<span class="progress-description text-muted">Ansatte/Studenter</span>
 					</div><!-- /.info-box-content -->

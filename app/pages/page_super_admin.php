@@ -49,7 +49,7 @@
 					<span class="info-box-icon bg-yellow"><i class="ion ion-ios-people"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">BRUKERE</span>
-						<span class="info-box-number"> <span class="globalUsersCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span> <small>(<span class="globalEmployeeCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>/<span class="globalStudentCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>)</small> </span>
+						<span class="info-box-number"> <span class="globalUsersCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span> </span>
 						<div class="progress bg-green"></div>
 						<span class="progress-description text-muted">Totalt <small>(Ansatte/Studenter)</small></span>
 					</div><!-- /.info-box-content -->

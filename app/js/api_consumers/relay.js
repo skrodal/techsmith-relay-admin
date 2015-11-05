@@ -7,7 +7,7 @@
 
 var RELAY = (function () {
 	// Default value
-	var STORAGE_COST_PER_TB = 15000;
+	var STORAGE_COST_PER_TB = 11000;
 	// Indicator
 	var READY = $.Deferred();
 	// Bunch of ajax calls for org storage, only READY when all of these are done
@@ -19,11 +19,12 @@ var RELAY = (function () {
 	// Ajax indicators, pipes result $.when(XHR_).done(result) :-)
 	var XHR_SERVICE_VERSION,
 		XHR_SERVICE_WORKERS,
+		XHR_SERVICE_STORAGE,
 		XHR_USERS_TOTAL,
-		XHR_USERS_TOTAL_EMPLOYEES,
-		XHR_USERS_TOTAL_STUDENTS,
+		XHR_USERS_TOTAL_ACTIVE,
 		XHR_PRESENTATIONS_TOTAL,
 		XHR_HITS_LAST_WEEK;
+
 
 	/**
 	 * Trigger point (see APP)
@@ -32,60 +33,49 @@ var RELAY = (function () {
 		XHR_SUBSCRIBERS_INFO = _getSubscribersInfoXHR();
 		XHR_SERVICE_VERSION = _getServiceVersionXHR();
 		XHR_SERVICE_WORKERS = _getServiceWorkersXHR();
-		XHR_USERS_TOTAL = _getUsersTotalXHR();
-		XHR_USERS_TOTAL_EMPLOYEES = _getUsersTotalEmployeesXHR();
-		XHR_USERS_TOTAL_STUDENTS = _getUsersTotalStudentsXHR();
+		XHR_USERS_TOTAL = _getTotalUsersByAffiliationCountXHR();
+		XHR_USERS_TOTAL_ACTIVE = _getTotalActiveUsersByAffiliationCountXHR();
 		XHR_PRESENTATIONS_TOTAL = _getPresentationsTotalXHR();
-		XHR_HITS_LAST_WEEK = _getHitsLastWeekXHR();
+		XHR_SERVICE_STORAGE = _getServiceStorageXHR();
+		// TODO: When added to API
+		// XHR_HITS_LAST_WEEK = _getHitsLastWeekXHR();
 
-// When our org list has been fetched
+		// When our org list has been fetched
 		$.when(XHR_SUBSCRIBERS_INFO).done(function (info) {
 			// Store first set of data returned from getSubscribersInfoXHR()
 			SUBSCRIBERS_INFO = info;
 			// Show notification
 			var adminNotification = $.notify(
-				{ icon: FEIDE_CONNECT.user().photo, title: 'Hey ' + FEIDE_CONNECT.user().name.first + ', du er admin!', message: 'Henter ekstra innhold for deg :-)'},
-				{ type: 'minimalist', delay: 100000, icon_type: 'image',
+				{
+					icon: FEIDE_CONNECT.user().photo,
+					title: 'Hey ' + FEIDE_CONNECT.user().name.first + ', du er admin!',
+					message: 'Henter ekstra innhold for deg :-)'
+				},
+				{
+					type: 'minimalist', delay: 100000, icon_type: 'image',
 					template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-						'<img data-notify="icon" class="img-circle pull-left">' +
-						'<span data-notify="title">{1}</span>' +
-						'<span data-notify="message">{2}</span>' +
-						'</div>'
+					'<img data-notify="icon" class="img-circle pull-left">' +
+					'<span data-notify="title">{1}</span>' +
+					'<span data-notify="message">{2}</span>' +
+					'</div>'
 				});
 
-			// Loop all orgs to get usercount per org (time-consuming)
-			$.each(SUBSCRIBERS_INFO.orgs, function (orgName, orgData) {
-				//SUBSCRIBERS_INFO.orgs[orgName].users = 0;
-				// Note limit. We don't want a list of users, just the count...
-				var request = jso.ajax({url: jso.config.get("endpoints").relay + "users/organisation/" + orgName + "?limit=1", dataType: 'json'}).done(function (data) {
-					//SUBSCRIBERS_INFO.orgs[orgName].users = data.paginator.total_count;
-					orgData.users = data.paginator.total_count;
-					// Update
-					if (KIND.isAdmin()) {
-						adminNotification.update({ 'message': 'Henter ' + orgName + '...' });
-					}
-				})
-				// Add request to array
-				XHR_PROMISES.push(request);
-			});
-			// When all requests are complete, this part of RELAY is ready.
-			$.when.apply(null, XHR_PROMISES).done(function () {
-				// Tells the client that Relay is now DONE
-				READY.resolve();
-				// Update, then hide notification
-				adminNotification.update({'message': 'Ferdig! Menyen er oppdatert.'});
-				setTimeout(function () {
-					adminNotification.close();
-				}, 1000);
-			});
-
+			READY.resolve();
+			// Update, then hide notification
+			adminNotification.update({'message': 'Ferdig! Menyen er oppdatert.'});
+			setTimeout(function () {
+				adminNotification.close();
+			}, 1000);
 		});
 	};
 
 	/** data.version **/
 	function _getServiceVersionXHR() {
-		return jso.ajax({url: jso.config.get("endpoints").relay + "service/version", dataType: 'json'}).pipe(function (obj) {
-			return obj.data.version;
+		return jso.ajax({
+			url: jso.config.get("endpoints").relay + "service/version/",
+			dataType: 'json'
+		}).pipe(function (obj) {
+			return obj.data.versValue;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (version):", "Henting av data feilet.");
 		});
@@ -93,8 +83,11 @@ var RELAY = (function () {
 
 	/** data.total **/
 	function _getServiceWorkersXHR() {
-		return jso.ajax({url: jso.config.get("endpoints").relay + "service/workers", dataType: 'json'}).pipe(function (obj) {
-			return obj.data.total;
+		return jso.ajax({
+			url: jso.config.get("endpoints").relay + "service/workers/",
+			dataType: 'json'
+		}).pipe(function (obj) {
+			return obj.data.length;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (workerCount):", "Henting av data feilet.");
 		});
@@ -103,77 +96,70 @@ var RELAY = (function () {
 	/** data.total, data.jobs[] **/
 	function getServiceQueueXHR() {
 		return jso.ajax({
-			url: jso.config.get("endpoints").relay + "service/queue",
+			url: jso.config.get("endpoints").relay + "service/queue/",
 			dataType: 'json'
+		}).pipe(function (obj) {
+			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (queue):", "Henting av k&oslash;status feilet. Pr&oslash;v p&aring; nytt.");
 		});
 	}
 
-	/** data.total **/
-	function _getUsersTotalXHR() {
-		return jso.ajax({url: jso.config.get("endpoints").relay + "users/total", dataType: 'json'}).pipe(function (obj) {
-			return obj.data.total;
+	/** data **/
+	function _getServiceStorageXHR() {
+		return jso.ajax({
+			url: jso.config.get("endpoints").relay + "service/diskusage/",
+			dataType: 'json'
+		}).pipe(function (obj) {
+			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (userCount):", "Henting av data feilet.");
+			UTILS.alertError("Relay API (queue):", "Henting av lagring. Pr&oslash;v p&aring; nytt.");
 		});
 	}
 
-	/** data.total **/
-	function _getUsersTotalStudentsXHR() {
-		return jso.ajax({url: jso.config.get("endpoints").relay + "users/affiliation/student/total", dataType: 'json'}).pipe(function (obj) {
-			return obj.data.total;
+	/** data.employees, data.students **/
+	function _getTotalUsersByAffiliationCountXHR() {
+		return jso.ajax({
+			url: jso.config.get("endpoints").relay + "service/users/affiliation/count/",
+			dataType: 'json'
+		}).pipe(function (obj) {
+			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (studentCount):", "Henting av data feilet.");
+			UTILS.alertError("Relay API (active user count):", "Henting av data feilet.");
 		});
 	}
 
-	/** data.total  **/
-	function _getUsersTotalEmployeesXHR() {
-		return jso.ajax({url: jso.config.get("endpoints").relay + "users/affiliation/ansatt/total", dataType: 'json'}).pipe(function (obj) {
-			return obj.data.total;
+	/** data.employees, data.students **/
+	function _getTotalActiveUsersByAffiliationCountXHR() {
+		return jso.ajax({
+			url: jso.config.get("endpoints").relay + "service/users/affiliation/active/count/",
+			dataType: 'json'
+		}).pipe(function (obj) {
+			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (employeeCount):", "Henting av data feilet.");
+			UTILS.alertError("Relay API (user count):", "Henting av data feilet.");
 		});
 	}
 
 	/** data.total  **/
 	function getOrgPresentationCountXHR(org) {
-		return jso.ajax({url: jso.config.get("endpoints").relay + "organisations/" + org + "/presentations/total", dataType: 'json'}).pipe(function (obj) {
-			return obj.data.total;
+		return jso.ajax({
+			url: jso.config.get("endpoints").relay + "org/" + org + "/presentations/count/",
+			dataType: 'json'
+		}).pipe(function (obj) {
+			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (presentations):", "Henting av data feilet.");
 		});
 	}
 
-	/** data.org, data.storage[] (.size_mib, .date) **/
+	/** data.org, data.org.users, data.org.presentations, data.org.total_mib, data.org.storage[] **/
 	function _getSubscribersInfoXHR() {
-		return jso.ajax({url: jso.config.get("endpoints").relay + "organisations?limit=10000", dataType: 'json'}).pipe(function (orgList) {
-			// Sort by org name
-			orgList.data.sort(function (a, b) {
-				return (a.org.toLowerCase() < b.org.toLowerCase()) ? -1 : (a.org.toLowerCase() > b.org.toLowerCase()) ? 1 : 0;
-			});
-			// Populate an object of orgs : storage[],users,total_mib
-			var SUBSCRIBERS_INFO = {};
-			SUBSCRIBERS_INFO.total_mib = 0;
-			SUBSCRIBERS_INFO.orgs = {};
-			// Get total storage global and per org
-			$.each(orgList.data, function (index, orgObj) {
-				// Default value
-				SUBSCRIBERS_INFO.orgs[orgObj.org] = {};
-				SUBSCRIBERS_INFO.orgs[orgObj.org].total_mib = 0;
-				SUBSCRIBERS_INFO.orgs[orgObj.org].storage = [];
-				SUBSCRIBERS_INFO.orgs[orgObj.org].users = 0;
-
-				// If any storage registered for org, get the latest registered storage
-				if (orgObj.storage.length > 0) {
-					SUBSCRIBERS_INFO.orgs[orgObj.org].storage = orgObj.storage;
-					SUBSCRIBERS_INFO.orgs[orgObj.org].total_mib = orgObj.storage[orgObj.storage.length - 1].size_mib;
-				}
-				// Update global storage
-				SUBSCRIBERS_INFO.total_mib += SUBSCRIBERS_INFO.orgs[orgObj.org].total_mib;
-			});
-			return SUBSCRIBERS_INFO;
+		return jso.ajax({
+			url: jso.config.get("endpoints").relay + "admin/orgs/info/",
+			dataType: 'json'
+		}).pipe(function (orgList) {
+			return orgList.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (orgsStorage):", "Henting av data feilet.");
 		});
@@ -181,9 +167,11 @@ var RELAY = (function () {
 
 	/** paginator.total_count **/
 	function _getPresentationsTotalXHR() {
-		// TODO: This is a workaround since presentations/total DOES NOT WORK
-		return jso.ajax({url: jso.config.get("endpoints").relay + "presentations?limit=1", dataType: 'json'}).pipe(function (obj) {
-			return obj.paginator.total_count;
+		return jso.ajax({
+			url: jso.config.get("endpoints").relay + "service/presentations/count/",
+			dataType: 'json'
+		}).pipe(function (obj) {
+			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (presentationCount):", "Henting av data feilet.");
 		});
@@ -195,10 +183,13 @@ var RELAY = (function () {
 		var d = new Date(new Date().setDate(new Date().getDate() - 8));
 		var weekAgo = d.getFullYear() + '-' + (d.getUTCMonth() + 1) + '-' + d.getUTCDate();
 
-		return jso.ajax({url: jso.config.get("endpoints").relay + "requests/from/" + weekAgo + "/to/" + yesterday, dataType: 'json'}).pipe(function (hitsArr) {
+		return jso.ajax({
+			url: jso.config.get("endpoints").relay + "requests/from/" + weekAgo + "/to/" + yesterday,
+			dataType: 'json'
+		}).pipe(function (hitsArr) {
 			return hitsArr.data;
 		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (presentationCount):", "Henting av data feilet.");
+			UTILS.alertError("Relay API (presentationHitCount):", "Henting av data feilet.");
 		});
 	}
 
@@ -227,14 +218,18 @@ var RELAY = (function () {
 		serviceWorkersXHR: function () {
 			return XHR_SERVICE_WORKERS;
 		},
+		// Will update for each call
+		serviceQueueXHR: function () {
+			return getServiceQueueXHR();
+		},
+		serviceStorageXHR: function () {
+			return XHR_SERVICE_STORAGE;
+		},
 		usersTotalXHR: function () {
 			return XHR_USERS_TOTAL;
 		},
-		usersTotalEmployeesXHR: function () {
-			return XHR_USERS_TOTAL_EMPLOYEES;
-		},
-		usersTotalStudentsXHR: function () {
-			return XHR_USERS_TOTAL_STUDENTS;
+		usersTotalActiveXHR: function () {
+			return XHR_USERS_TOTAL_ACTIVE;
 		},
 		presentationsTotalXHR: function () {
 			return XHR_PRESENTATIONS_TOTAL;
@@ -242,20 +237,17 @@ var RELAY = (function () {
 		hitsLastWeekXHR: function () {
 			return XHR_HITS_LAST_WEEK;
 		},
-		queueXHR: function () {
-			return getServiceQueueXHR();
-		},
-		orgPresentationCountXHR: function (org) {
-			return getOrgPresentationCountXHR(org);
+		orgPresentationCount: function (org) {
+			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].presentations : 0;
 		},
 		orgStorageTotalMiB: function (org) {
-			return SUBSCRIBERS_INFO.orgs[org] ? SUBSCRIBERS_INFO.orgs[org].total_mib : 0;
+			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].total_mib : 0;
 		},
 		orgStorageArr: function (org) {
-			return SUBSCRIBERS_INFO.orgs[org] ? SUBSCRIBERS_INFO.orgs[org].storage : [];
+			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].storage : [];
 		},
 		orgUserCount: function (org) {
-			return SUBSCRIBERS_INFO.orgs[org] ? SUBSCRIBERS_INFO.orgs[org].users : 0;
+			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].users : 0;
 		},
 		storageCostTB: function () {
 			return STORAGE_COST_PER_TB;

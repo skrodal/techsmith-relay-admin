@@ -15,7 +15,6 @@ var PAGE_SUPER_ADMIN = (function () {
 	var SELECTED_ORG = "";
 	var SELECTED_ORG_RECORDED_DATES_NUM = 0;
 
-
 	/**
 	 * Called by MENU which checks that necessary data is available
 	 */
@@ -40,33 +39,35 @@ var PAGE_SUPER_ADMIN = (function () {
 		$('#pageSuperAdmin').find('#inputCostTB').val(RELAY.storageCostTB());
 		// All fields referring to cost defined by calculator
 		$('#pageSuperAdmin').find('.costTB').text("kr. " + RELAY.storageCostTB());
-		// On disk as of last reading (total)
-		$('#pageSuperAdmin').find('.subscribersDiskusageTotal').text(UTILS.mib2tb(RELAY.subscribersInfo().total_mib).toFixed(2) + "TB");
-		// Invoice estimate total
-		$('#pageSuperAdmin').find('.totalStorageCostEstimate').text( 'kr. ' + (UTILS.mib2tb(RELAY.subscribersInfo().total_mib) * RELAY.storageCostTB()).toFixed() );
 
-		// QuickStats below line graph
-		var orgTotalStorageMiB = RELAY.orgStorageTotalMiB(SELECTED_ORG);
-		var orgStoragePercentageGlobal = (orgTotalStorageMiB / RELAY.subscribersInfo().total_mib) * 100;
-		// Storage
-		$('#pageSuperAdmin').find('.orgTotalStorage').text(UTILS.mib2gb(orgTotalStorageMiB).toFixed(2) + " GB");
-		$('#pageSuperAdmin').find('.orgStoragePercentageGlobal').text(orgStoragePercentageGlobal.toFixed(2));
-		// Users
-		$('#pageSuperAdmin').find('.orgUserCount').text(RELAY.orgUserCount(SELECTED_ORG));
-		// Subsctiption status
-		$('#pageSuperAdmin').find('.orgSubscriptionStatus').html('<span class="label bg-' + KIND.subscriptionCodesToColors()[KIND.orgSubscriptionStatusCode(SELECTED_ORG)] + '">' + KIND.subscriptionCodesToNames()[KIND.orgSubscriptionStatusCode(SELECTED_ORG)] + '</span>');
-		// Invoice estimate
-		$('#pageSuperAdmin').find('.orgInvoiceEstimate').text('kr. ' + (UTILS.mib2tb(orgTotalStorageMiB) * RELAY.storageCostTB()).toFixed(2) );
-		// Ajax call each time presentation count is requested
-		$('#pageSuperAdmin').find('.orgPresentationCount').html('<i class="fa fa-spinner fa-pulse"></i>');
-		$.when(RELAY.orgPresentationCountXHR(SELECTED_ORG)).done(function(presCount){
-			$('#pageSuperAdmin').find('.orgPresentationCount').html(presCount);
+		$.when(RELAY.serviceStorageXHR()).done(function(total_mib){
+			var serviceStorageMiB = total_mib;
+			// On disk as of last reading (total)
+			$('#pageSuperAdmin').find('.subscribersDiskusageTotal').text(UTILS.mib2tb(serviceStorageMiB).toFixed(2) + "TB");
+			// Invoice estimate total
+			$('#pageSuperAdmin').find('.totalStorageCostEstimate').text('kr. ' + (UTILS.mib2tb(serviceStorageMiB) * RELAY.storageCostTB()).toFixed());
+			// QuickStats below line graph
+			var orgTotalStorageMiB = RELAY.orgStorageTotalMiB(SELECTED_ORG);
+			var orgStoragePercentageGlobal = (orgTotalStorageMiB / serviceStorageMiB) * 100;
+
+			// Storage
+			$('#pageSuperAdmin').find('.orgTotalStorage').text(UTILS.mib2gb(orgTotalStorageMiB).toFixed(2) + " GB");
+			$('#pageSuperAdmin').find('.orgStoragePercentageGlobal').text(orgStoragePercentageGlobal.toFixed(2));
+			// Users
+			$('#pageSuperAdmin').find('.orgUserCount').text(RELAY.orgUserCount(SELECTED_ORG));
+			// Subsctiption status
+			$('#pageSuperAdmin').find('.orgSubscriptionStatus').html('<span class="label bg-' + KIND.subscriptionCodesToColors()[KIND.orgSubscriptionStatusCode(SELECTED_ORG)] + '">' + KIND.subscriptionCodesToNames()[KIND.orgSubscriptionStatusCode(SELECTED_ORG)] + '</span>');
+			// Invoice estimate
+			$('#pageSuperAdmin').find('.orgInvoiceEstimate').text('kr. ' + (UTILS.mib2tb(orgTotalStorageMiB) * RELAY.storageCostTB()).toFixed(2));
+			// Ajax call each time presentation count is requested
+			$('#pageSuperAdmin').find('.orgPresentationCount').html('<i class="fa fa-spinner fa-pulse"></i>');
+			$('#pageSuperAdmin').find('.orgPresentationCount').html(RELAY.orgPresentationCount(SELECTED_ORG));
 		});
 	}
 
 	function onShowListener() {
-		$.when(RELAY.ready().done(function(){
-			pieOrgsUserCount = _buildOrgsUserCountPie(RELAY.subscribersInfo().orgs);
+		$.when(RELAY.ready().done(function () {
+			pieOrgsUserCount = _buildOrgsUserCountPie(RELAY.subscribersInfo());
 			$('#pageSuperAdmin').find('#usersPie').find('.ajax').hide();
 			chartOrgUsageLine = _buildOrgPresentationLineChart(SELECTED_ORG);
 		}));
@@ -78,9 +79,9 @@ var PAGE_SUPER_ADMIN = (function () {
 		_destroyOrgDiskusageLineChart();
 	}
 
-	function _updateSelectedOrg(org){
+	function _updateSelectedOrg(org) {
 		// Find selected org's data
-		if (RELAY.subscribersInfo().orgs[org]) {
+		if (RELAY.subscribersInfo()[org]) {
 			SELECTED_ORG = org;
 			return true;
 		} else {
@@ -95,12 +96,12 @@ var PAGE_SUPER_ADMIN = (function () {
 	function _buildOrgsUserCountPie(orgs) {
 		_destroyPieChart();
 		var orgsUserCountChartData = [];
-		$.each(orgs, function(orgName, orgObj){
+		$.each(orgs, function (orgName, orgObj) {
 			// Chart prefs and data
 			orgsUserCountChartData.push({
 				value: orgObj.users,
-				color:'#'+(Math.random().toString(16) + '0000000').slice(2, 8),
-				highlight: '#'+(Math.random().toString(16) + '0000000').slice(2, 8),
+				color: '#' + (Math.random().toString(16) + '0000000').slice(2, 8),
+				highlight: '#' + (Math.random().toString(16) + '0000000').slice(2, 8),
 				label: orgName
 			});
 		});
@@ -117,12 +118,12 @@ var PAGE_SUPER_ADMIN = (function () {
 	}
 
 	// Update line chart on click on pie
-	$("#chartOrgsUserCountSuperAdmin").on('click', function(evt){
+	$("#chartOrgsUserCountSuperAdmin").on('click', function (evt) {
 		var activePoints = pieOrgsUserCount.getSegmentsAtEvent(evt);
-		if(_updateSelectedOrg(activePoints[0].label)) {
+		if (_updateSelectedOrg(activePoints[0].label)) {
 			chartOrgUsageLine = _buildOrgPresentationLineChart(SELECTED_ORG, activePoints[0]._saved.fillColor); // Label is org name :-)
 			_updateUI();
-			$('html, body').animate({ scrollTop: $('#orgDetailsHeader').offset().top + 'px' }, 'fast');
+			$('html, body').animate({scrollTop: $('#orgDetailsHeader').offset().top + 'px'}, 'fast');
 		}
 	});
 
@@ -130,11 +131,10 @@ var PAGE_SUPER_ADMIN = (function () {
 	/** ----------------- ./ PIE CHART ----------------- **/
 
 
-
 	/** ----------------- LINE CHART ----------------- **/
 
 	$('ul#orgListSuperAdmin').on('click', 'li.orgLineChartSelector', function () {
-		if(_updateSelectedOrg($(this).data('org'))) {
+		if (_updateSelectedOrg($(this).data('org'))) {
 			chartOrgUsageLine = _buildOrgPresentationLineChart(SELECTED_ORG);
 			_updateUI();
 		}
@@ -143,7 +143,7 @@ var PAGE_SUPER_ADMIN = (function () {
 	function _buildOrgPresentationLineChart(org, fillColor) {
 		_destroyOrgDiskusageLineChart();
 		$('#lineChartAlert').hide();
-		if(RELAY.orgStorageArr(org).length < 2){
+		if (RELAY.orgStorageArr(org).length < 2) {
 			$('#lineChartAlert').html('<code>' + org + '</code>&nbsp;&nbsp;har for f&aring; nylige lagringspunkter registrert til &aring; bygge grafen.')
 			$('#lineChartAlert').show();
 			SELECTED_ORG_RECORDED_DATES_NUM = 'INGEN';
@@ -154,6 +154,7 @@ var PAGE_SUPER_ADMIN = (function () {
 		var orgUsageChartData;
 		// "Clone" since we will be reversing and shit later on
 		orgUsageChartData = JSON.parse(JSON.stringify(RELAY.orgStorageArr(org)));
+		console.log(orgUsageChartData);
 		fillColor = typeof fillColor !== 'undefined' ? fillColor : '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
 
 		// Max 30 days
@@ -165,7 +166,8 @@ var PAGE_SUPER_ADMIN = (function () {
 		orgUsageChartData.reverse();
 		//
 		$.each(orgUsageChartData, function (index, storage) {
-			var date = new Date(storage.date.replace(/-/g, "/"));   // replace hack seems to fix Safari issue...
+			//var date = new Date(storage.date.replace(/-/g, "/"));   // replace hack seems to fix Safari issue...
+			var date = new Date(storage.date.sec * 1000);
 			// Chart labels and data
 			labels.push(date.getUTCDate() + '.' + date.getUTCMonth() + '.' + date.getUTCFullYear());      // Add label
 			data.push(UTILS.mib2mb(storage.size_mib).toFixed(2));    // And value
@@ -224,7 +226,7 @@ var PAGE_SUPER_ADMIN = (function () {
 	}
 
 	// Update chart color
-	$("#orgUsageLineChartSuperAdmin").on('click', function(evt){
+	$("#orgUsageLineChartSuperAdmin").on('click', function (evt) {
 		chartOrgUsageLine.datasets[0].fillColor = '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
 		chartOrgUsageLine.update();
 	});
@@ -238,24 +240,22 @@ var PAGE_SUPER_ADMIN = (function () {
 	function _buildOrgSubscribersTable() {
 		// Clone the array so as to not modify passed original
 		var subscribersObj = JSON.parse(JSON.stringify(KIND.subscribers()));
-		console.log(subscribersObj);
 		// Before passing dataset to table - add storage consumption and usercount per org
-		$.each(subscribersObj, function (index, org) {
+		$.each(subscribersObj, function (org, orgObj) {
 			// Get org from Kind array, map to corresponding Mediasite org and add storage to the end of the Kind array
-			var orgStorageMiB = RELAY.orgStorageTotalMiB(org.org_id);
-			var orgUserCount = RELAY.orgUserCount(org.org_id);
+			var orgStorageMiB = RELAY.orgStorageTotalMiB(org);
+			var orgUserCount = RELAY.orgUserCount(org);
 			// Create a 6th index in org array
-			org.storage =
+			orgObj.storage =
 			{
-					mib: orgStorageMiB,
-					gb: UTILS.mib2gb(orgStorageMiB).toFixed(2),
-					percentage: (orgStorageMiB / RELAY.subscribersInfo().total_mib * 100 ).toFixed(),
-					cost: (UTILS.mib2tb(orgStorageMiB) * RELAY.storageCostTB()).toFixed()
+				mib: orgStorageMiB,
+				gb: UTILS.mib2gb(orgStorageMiB).toFixed(2),
+				percentage: (orgStorageMiB / RELAY.serviceStorageXHR() * 100 ).toFixed(),
+				cost: (UTILS.mib2tb(orgStorageMiB) * RELAY.storageCostTB()).toFixed()
 			};
-			
-			org.userCount = orgUserCount;
+			orgObj.userCount = orgUserCount;
 		});
-		console.log(subscribersObj);
+
 
 		var table = $('#pageSuperAdmin').find('#subscribersTableSuperAdmin').DataTable({
 			"language": CONFIG.DATATABLES_LANGUAGE(),
@@ -293,8 +293,10 @@ var PAGE_SUPER_ADMIN = (function () {
 				{
 					"data": "org_id",
 					"render": function (data, type, full, meta) {
-						console.log('FULL: ' + full);
-						console.log('DATA: ' + data);
+						//	console.log('FULL: ');
+						//	console.log(full)
+						//	console.log('DATA: ');
+						//	console.log(data);
 						return full.org_id;
 					}
 				},
@@ -363,7 +365,7 @@ var PAGE_SUPER_ADMIN = (function () {
 		$('#pageSuperAdmin').find('#subscribersTableBox').find('.ajax').hide();
 		return table;
 	}
-	
+
 	/**
 	 * Make the users JSON object more palatable for DataTables
 	 * @param dataObject

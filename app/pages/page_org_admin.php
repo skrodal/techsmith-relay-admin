@@ -36,7 +36,7 @@
 						<span class="info-box-text">PRESENTASJONER</span>
 						<span class="info-box-number orgPresentationCount"><!-- --></span>
 						<div class="progress bg-yellow"></div>
-						<span class="progress-description text-muted">...</span>
+						<span class="progress-description text-muted">På disk</span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
@@ -81,6 +81,7 @@
 						</div>
 					</div>
 					<div class="box-body">
+						<div id="lineChartOrgAlert" class="callout callout-warning" style="display: none;"></div>
 						<p>
 							Viser siste <code class="orgRecordedDatesNum"></code> dager med endringer i diskforbruk.
 						</p>

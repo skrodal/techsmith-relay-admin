@@ -99,23 +99,18 @@ var APP = (function() {
 		$('.storageCostPerTB').html(RELAY.storageCostTB());
 		// Users count
 		$.when(RELAY.usersTotalXHR()).done(function(users){
-			$('.globalUsersCount').html(users);
+			$('.globalUsersCount').html(users.employees + '/' + users.students);
 		});
-		// Employee count
-		$.when(RELAY.usersTotalEmployeesXHR()).done(function(users){
-			$('.globalEmployeeCount').html(users);
-		});
-		// Student count
-		$.when(RELAY.usersTotalStudentsXHR()).done(function(users){
-			$('.globalStudentCount').html(users);
+		$.when(RELAY.usersTotalActiveXHR()).done(function(users){
+			$('.globalActiveUsersCount').html(users.employees + '/' + users.students);
 		});
 		// Presentation count
 		$.when(RELAY.presentationsTotalXHR()).done(function(presentations){
 			$('.globalPresentationCount').html(presentations);
 		});
 		// Org info
-		$.when(RELAY.subscribersInfoXHR()).done(function(orgs){
-			$('.subscribersDiskusageTotal').html(UTILS.mib2tb( RELAY.subscribersInfo().total_mib ).toFixed(2) + "TB");
+		$.when(RELAY.serviceStorageXHR()).done(function(total_mib){
+			$('.subscribersDiskusageTotal').html(UTILS.mib2tb( total_mib ).toFixed(2) + "TB");
 		});
 		// User count home org
 		$.when(RELAY.ready()).done(function(){

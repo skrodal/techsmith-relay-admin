@@ -11,13 +11,6 @@ var RELAY_ORG = (function () {
 	var XHR_PRESENTATIONS;
 	var XHR_PRESENTATION_COUNT;
 
-	// Routes that do not work:
-	// organisations/me
-	// organisations/me/diskusage/latest            // Not found
-	// organisations/me/presentations               // Not found
-	// organisations/me/presentations/total         // returns 0
-	// organisations/me/users/{username}            // Returns an array with paginator - makes no sense
-
 
 	/**
 	 * API Consumer - self-invokes
@@ -36,19 +29,15 @@ var RELAY_ORG = (function () {
 	})();
 
 	function _getDiskusage(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "organisations/me/diskusage", dataType: 'json'}).pipe(function (obj) {
-			// {date, size_mib}
-			var d = obj.data.storage.date.substr(0, 10).trim();
-			d = d.split('-');
-			obj.data.storage.date = d[2] + '.' + d[1] + '.' + d[0];
-			return obj.data.storage;
+		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + FEIDE_CONNECT.user().org.id + "/diskusage/", dataType: 'json'}).pipe(function (obj) {
+			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (diskusage):", "Finner ingen lagringspunkt for org <code>" + FEIDE_CONNECT.user().org.id + "</code>");
 		});
 	}
 
 	function _getPresentations(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "organisations/" + FEIDE_CONNECT.user().org.id + "/presentations?limit=100000", dataType: 'json'}).pipe(function (obj) {
+		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + FEIDE_CONNECT.user().org.id + "/presentations/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (presentations):", "Finner ingen presentasjoner for org  <code>" + FEIDE_CONNECT.user().org.id + "</code>");
@@ -56,15 +45,15 @@ var RELAY_ORG = (function () {
 	}
 
 	function _getPresentationCount(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "organisations/" + FEIDE_CONNECT.user().org.id + "/presentations/total", dataType: 'json'}).pipe(function (obj) {
-			return obj.data.total;
+		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + FEIDE_CONNECT.user().org.id + "/presentations/count/", dataType: 'json'}).pipe(function (obj) {
+			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (presentations):", "Finner ingen presentasjoner for org  <code>" + FEIDE_CONNECT.user().org.id + "</code>");
 		});
 	}
 
 	function _getUsers(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "organisations/me/users?limit=10000", dataType: 'json'}).pipe(function (obj) {
+		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + FEIDE_CONNECT.user().org.id + "/users/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (users):", "Finner ingen brukere for org <code>" + FEIDE_CONNECT.user().org.id + "</code>");
@@ -73,7 +62,7 @@ var RELAY_ORG = (function () {
 
 
 	function getUser(user){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "users/" + user, dataType: 'json'}).pipe(function (obj) {
+		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + FEIDE_CONNECT.user().org.id + "/user/" + user + "/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Finner ikke bruker", "Finner ikke bruker <code>" + user + "</code>");
@@ -81,7 +70,7 @@ var RELAY_ORG = (function () {
 	}
 
 	function getUserContent(user, showAlert){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "presentations/users/" + user, dataType: 'json'}).pipe(function (obj) {
+		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + FEIDE_CONNECT.user().org.id + "/user/" +  user + "/presentations/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			if(showAlert)
