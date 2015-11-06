@@ -12,7 +12,7 @@ JSO.enablejQuery($);
 
 // Settings pertaining to this client.
 var jso = new JSO({
-	providerID: "FeideConnect",
+	providerID: "FC-RelayAdmin",
 	client_id: "CONNECT_DASH",
 	redirect_uri: "CONNECT_DASH",
 	authorization: "https://auth.feideconnect.no/oauth/authorization",
