@@ -6,9 +6,6 @@ var CONFIG = (function () {
 	})()
 
 	return {
-		JSONEDITOR_OPTIONS: function (name) {
-			return { "modes": ["view", "text"], "mode": "text", "search": true, "indentation": 4, "name": name };
-		},
 		SCREENCAST_BASE_URL: function () {
 			return 'https://screencast.uninett.no/relay/';
 		},

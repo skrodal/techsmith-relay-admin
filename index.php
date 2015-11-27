@@ -60,7 +60,8 @@
 			<?php include_once('app/pages/index_header.php'); ?>
 			<!-- Left side column. contains the logo and sidebar -->
 			<?php include_once('app/pages/index_sidebar.php'); ?>
-
+			<!-- Shared reusable DOMs (alerts, modals) -->
+			<?php include_once('app/pages/index_shared.php'); ?>
 			<!-- Content Wrapper. Contains page content -->
 			<div class="content-wrapper">
 				<?php
@@ -76,42 +77,6 @@
 			<?php include_once('app/pages/index_footer.php'); ?>
 		</div><!-- ./wrapper -->
 
-		<!-- ERROR MODAL -->
-        <div id="modalErrorAlert" class="modal">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header bg-yellow-active">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-                <h4 id="title" class="modal-title"></h4>
-              </div>
-              <div id="message" class="modal-body">
-              </div>
-              <div class="modal-footer bg-yellow-active">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
-              </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
-		<!-- INFO MODAL -->
-        <div id="modalInfoAlert" class="modal">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header bg-blue">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-                <h4 id="title" class="modal-title"></h4>
-              </div>
-              <div id="message" class="modal-body">
-              </div>
-              <div class="modal-footer bg-blue">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
-              </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
-
-
 		<!-- Reduces response time on click on touch-devices -->
 		<script src="dist/plugins/fastclick/fastclick.min.js" type="text/javascript"></script>
 		<!-- Chart.js -->
@@ -123,6 +88,9 @@
 		<script src="dist/plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
 		<script src="dist/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
 		<script src="dist/plugins/datatables/tabletools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
+		<!-- JSON Editor -->
+		<link href="dist/plugins/jsoneditor/jsoneditor.min.css" rel="stylesheet" type="text/css"/>
+		<script src="dist/plugins/jsoneditor/jsoneditor.min.js" type="text/javascript"></script>
 	</body>
 </html>
 

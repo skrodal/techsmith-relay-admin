@@ -92,10 +92,8 @@ var PAGE_ORG_ADMIN = (function () {
 
 		// Get presentation metadata for user
 		$.when(RELAY_ORG.userContent(userName, false)).done(function (user) {
-			// create the editor
-			var container = document.getElementById("jsonUserPresentations");
-			var editor = new JSONEditor(container, CONFIG.JSONEDITOR_OPTIONS());
-			editor.set(user);
+			APP.jsonEditor().set(user);
+			APP.jsonEditor().setName(userName);
 
 			if (presentationDeletedCount == 0) {
 				modal.find('#footerText').html('Presentasjoner: <span class="badge bg-green">' + presentationCount + '</span>');
@@ -119,30 +117,38 @@ var PAGE_ORG_ADMIN = (function () {
 
 	/** DATA EXPORT MODAL **/
 	$('#dataExportModal').on('show.bs.modal', function (event) {
-		var $modal = $(this);
-		// attr 'data-action' on buttons (Brukere || Opptak)
-		var exportGroup = $(event.relatedTarget).data().action;
-		//
-		$('#jsonDataExport').empty();
-		var jsoneditor_container = document.getElementById('jsonDataExport');
-		var jsoneditor_dataview = new JSONEditor(jsoneditor_container, CONFIG.JSONEDITOR_OPTIONS(exportGroup));
-		$.when(RELAY_ORG.users(), RELAY_ORG.presentations()).done(function (usersArr, presentationsArr) {
-			// Find selected export group
-			switch (exportGroup) {
-				case 'Brukere':
-					$modal.find('.modal-title').html('<i class="ion ion-ios-people"></i> Eksporter metadata for alle <strong>brukere</strong>');
-					$modal.find('#legend_users').fadeIn();
-					jsoneditor_dataview.set(USER_LIST);
-					break;
-				case 'Opptak':
-					$modal.find('.modal-title').html('<i class="ion ion-ios-film"></i> Eksporter metadata for alle <strong>opptak</strong>');
-					$modal.find('#legend_users').hide();
-					jsoneditor_dataview.set(presentationsArr);
-					break;
-				default:
-					break;
-			}
-		});
+		// Only do something if calling button was on orgAdmin page
+		if($(event.relatedTarget).data().context === 'orgAdmin') {
+			var $modal = $(this);
+			// attr 'data-action' on buttons (Brukere || Opptak)
+			var exportGroup = $(event.relatedTarget).data().action;
+			//
+			APP.jsonEditor().setName(exportGroup);
+			APP.jsonEditor().set('Henter data, vennligst vent...');
+
+			$.when(RELAY_ORG.users(), RELAY_ORG.presentations()).done(function (usersArr, presentationsArr) {
+				// Find selected export group
+				switch (exportGroup) {
+					case 'Brukere':
+						$modal.find('.modal-title').html('<i class="ion ion-ios-people"></i> Eksporter metadata for alle <strong>brukere</strong>');
+						$modal.find('#legend_users').fadeIn();
+						APP.jsonEditor().set(USER_LIST);
+						break;
+					case 'Opptak':
+						$modal.find('.modal-title').html('<i class="ion ion-ios-film"></i> Eksporter metadata for alle <strong>opptak</strong>');
+						$modal.find('#legend_users').hide();
+						APP.jsonEditor().set(presentationsArr);
+						break;
+					default:
+						break;
+				}
+			});
+		}
+	});
+
+	/** TIDY DATA EXPORT MODAL **/
+	$('#dataExportModal').on('hide.bs.modal', function (event) {
+		APP.jsonEditor().set('Henter data, vennligst vent...');
 	});
 
 
@@ -338,7 +344,7 @@ var PAGE_ORG_ADMIN = (function () {
 		var orgUsageChartData;
 		// "Clone" since we will be reversing and shit later on
 		orgUsageChartData = JSON.parse(JSON.stringify(RELAY.orgStorageArr(USER_ORG_ID)));
-		console.log(orgUsageChartData);
+		//
 		fillColor = typeof fillColor !== 'undefined' ? fillColor : '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
 
 		// Max 30 days
@@ -353,7 +359,7 @@ var PAGE_ORG_ADMIN = (function () {
 			//var date = new Date(storage.date.replace(/-/g, "/"));   // replace hack seems to fix Safari issue...
 			var date = new Date(storage.date.sec * 1000);
 			// Chart labels and data
-			labels.push(date.getUTCDate() + '.' + date.getUTCMonth() + '.' + date.getUTCFullYear());      // Add label
+			labels.push(date.getUTCDate() + '.' + (date.getUTCMonth()+1) + '.' + date.getUTCFullYear());      // Add label
 			data.push(UTILS.mib2mb(storage.size_mib).toFixed(2));    // And value
 			counter--;
 			if (counter == 0) return false;

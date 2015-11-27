@@ -38,9 +38,9 @@
 					<span class="info-box-icon bg-red"><i class="ion ion-ios-people-outline"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">BRUKERE</span>
-						<span class="info-box-number globalUsersCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
+						<span class="info-box-number globalUsersCountTotal mightOverflow"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
 						<div class="progress bg-red"></div>
-						<span class="progress-description text-muted">Ansatte/Studenter</span>
+						<span class="progress-description text-muted mightOverflow"><span class="globalUsersCountByAffiliation"><!-- --></span></span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
@@ -53,9 +53,9 @@
 					<span class="info-box-icon bg-green"><i class="ion ion-ios-people"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">MED INNHOLD</span>
-						<span class="info-box-number globalActiveUsersCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
+						<span class="info-box-number globalActiveUsersCount mightOverflow"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
 						<div class="progress bg-green"></div>
-						<span class="progress-description text-muted">Ansatte/Studenter</span>
+						<span class="progress-description text-muted mightOverflow">Ansatte/Studenter</span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
@@ -64,8 +64,8 @@
 				<div class="info-box">
 					<span class="info-box-icon bg-yellow-active"><i class="ion ion-ios-film"></i></span>
 					<div class="info-box-content">
-						<span class="info-box-text">PRESENTASJONER</span>
-						<span class="info-box-number description-header globalPresentationCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
+						<span class="info-box-text mightOverflow">PRESENTASJONER</span>
+						<span class="info-box-number description-header globalPresentationCount mightOverflow"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
 						<div class="progress bg-yellow-active"></div>
 						<span class="progress-description text-muted">TOTALT</span>
 					</div><!-- /.info-box-content -->
@@ -77,11 +77,11 @@
 
 	    <div class="row">
 			<div class="col-lg-4">
-				<div id="serverInfo" class="box box-info collapsed-box">
+				<div id="serverInfo" class="box box-info">
 					<div class="box-header with-border">
 						<h3 class="box-title icon ion-ios-information"> Relay Server</h3>
 						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 					</div><!-- /.box-header -->
 
@@ -102,11 +102,11 @@
 					</div>
                 </div><!-- /.box -->
 
-				<div id="relayQueueMonitor" class="box box-info collapsed-box">
+				<div id="relayQueueMonitor" class="box box-info">
 					<div class="box-header with-border">
 						<h3 class="box-title icon ion-arrow-graph-up-right"> K&oslash;-monitor</h3>
 						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 					</div><!-- /.box-header -->
 
@@ -127,15 +127,22 @@
 			<div class="col-lg-8">
 				<div id="hitsLastWeekTotalContainer" class="box box-info">
 					<div class="box-header with-border">
-						<h3 class="box-title icon ion-ios-eye"> Daglige visninger siste uke</h3>
+						<h3 class="box-title icon ion-ios-eye"> Daglige hits siste uke</h3>
 						<div class="box-tools pull-right">
 							<span data-toggle="tooltip" data-original-title="Visninger siste 7 dager" class="badge bg-aqua-gradient hitsLastWeekTotal" ><!-- --></span>
-							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 					</div><!-- /.box-header -->
 
 					<div class="box-body">
-						<div class="chart" id="hitsLastWeekChart" style="height: 200px;"><!-- AJAX --></div>
+						<div class="chart" id="hitsLastWeekChart" style="height: 200px;">
+							<!-- AJAX -->
+							<span class="text-center">
+								<h3>Grafen er ikke implementert enda.</h3>
+								<h4>Kommer (kanskje) snart.</h4>
+							</span>
+
+						</div>
                     </div><!-- /.box-body -->
 					<div class="overlay ajax">
 						<i class="fa fa-spinner fa-pulse"></i>
@@ -204,18 +211,18 @@
 
 				<h2 class="page-header text-muted">Sesjonsinformasjon</h2>
 				<!-- Session info (DEV) -->
-				<div class="box box-default collapsed-box">
+				<div class="box box-default">
 					<div class="box-header with-border">
-						<h3 class="box-title ion-ios-person"> Feide Connect</h3>
+						<h3 class="box-title ion-ios-person"> (Feide)Connect</h3>
 						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 					</div>
 					<div class="box-body">
 						<pre><code id="connectSessionInfo"></code></pre>
 					</div><!-- /.box-body -->
 					<div class="box-footer">
-						Attributter hentet fra Feide Connect. Evt. feil/mangler kan meldes til <a href="mailto:support@ecampus.no">support@ecampus.no</a>
+						Attributter hentet fra UNINETT Connect Tjenesteplattform. Evt. feil/mangler kan meldes til <a href="mailto:support@ecampus.no">support@ecampus.no</a>
 					</div>
 				</div><!-- /.box -->
 

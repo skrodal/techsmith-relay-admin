@@ -51,7 +51,7 @@
 						<span class="info-box-text">LAGRING</span>
 						<span class="info-box-number orgDiskUsage"><!-- --></span>
 						<div class="progress bg-red"></div>
-						<span class="progress-description text-muted">Siden <span class="orgDiskUsageDate"></span></span>
+						<span class="progress-description text-muted mightOverflow">Siste endring <span class="orgDiskUsageDate"></span></span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
@@ -203,16 +203,16 @@
 		                    <span class="ion ion-ios-email"></span>&nbsp;&nbsp;Epostliste
 		                </button>&nbsp;&nbsp;
 
-						<div class="btn-group open">
-		                    <button type="button" class="btn btn-default dropdown-toggle icon ion-code-working" data-toggle="dropdown" aria-expanded="true">
+						<div class="btn-group">
+		                    <button type="button" class="btn btn-default dropdown-toggle icon ion-code-working" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		                        Data eksport&nbsp;&nbsp;<span class="fa fa-caret-down"></span>
 		                    </button>
 		                    <ul class="dropdown-menu">
 		                        <li>
-		                            <a data-toggle="modal" data-action="Brukere" data-target="#dataExportModal"><i class="ion ion-ios-people"></i> Metadata <strong>brukere</strong></a>
+		                            <a data-toggle="modal" data-action="Brukere" data-context="orgAdmin" data-target="#dataExportModal"><i class="ion ion-ios-people"></i> Metadata <strong>brukere</strong></a>
 		                        </li>
 		                        <li>
-		                            <a data-toggle="modal" data-action="Opptak" data-target="#dataExportModal"><i class="ion ion-ios-film"></i> Metadata <strong>opptak</strong></a>
+		                            <a data-toggle="modal" data-action="Opptak" data-context="orgAdmin" data-target="#dataExportModal"><i class="ion ion-ios-film"></i> Metadata <strong>opptak</strong></a>
 		                        </li>
 		                    </ul>
 		                </div>
@@ -254,125 +254,62 @@
 	    </div>
     </section><!-- /.content -->
 
-
-<!-- EMAIL EXPORT MODAL -->
-					<div class="modal fade" id="emailExportOrgAdminModal" tabindex="-1" role="dialog" aria-labelledby="modalExportTitle" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header bg-dark-gray">
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">&nbsp;&nbsp;&nbsp;<span aria-hidden="true">&times;</span></button>
-									<h4 class="modal-title" id="modalExportTitle">
-										<i class="ion ion-ios-people"></i>
-										Epostliste :: Alle brukere
-									</h4>
-								</div>
-								<div class="modal-body">
-									<p>Kopier og lim inn i epost (<code>To:</code> / <code>Cc:</code> / <code>BCc:</code>):</p>
-									<textarea id="emailExportList" style="width: 100%;" rows="10" onclick="$(this).select();"><!-- --></textarea>
-								</div>
-								<div class="modal-footer bg-dark-gray">
-									<button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
-								</div>
-							</div>
-						</div>
+ <!-- EMAIL EXPORT MODAL -->
+		<div class="modal fade" id="emailExportOrgAdminModal" tabindex="-1" role="dialog" aria-labelledby="modalExportTitle" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header bg-dark-gray">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">&nbsp;&nbsp;&nbsp;<span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="modalExportTitle">
+							<i class="ion ion-ios-people"></i>
+							Epostliste :: Alle brukere
+						</h4>
 					</div>
-<!-- //.modal -->
+					<div class="modal-body">
+						<p>Kopier og lim inn i epost (<code>To:</code> / <code>Cc:</code> / <code>BCc:</code>):</p>
+						<textarea id="emailExportList" style="width: 100%;" rows="10" onclick="$(this).select();"><!-- --></textarea>
+					</div>
+					<div class="modal-footer bg-dark-gray">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
+					</div>
+				</div>
+			</div>
+		</div>
+  <!-- //.modal -->
 
 <!-- USER DETAILS MODAL -->
-					<div class="modal fade" id="userDetailsModal" tabindex="-1" role="dialog" aria-labelledby="userDetailsModalTitle" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header bg-dark-gray">
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">&nbsp;&nbsp;&nbsp;<span aria-hidden="true">&times;</span></button>
-									<h4 id="userDetailsModalTitle" class="modal-title">
-										<i class="ion ion-ios-person"></i> <span id="fullName"><!--JS--></span>
-									</h4>
-								</div>
-
-								<div class="modal-body">
-									<div id="userInfo"><!-- --></div>
-
-									<hr/>
-									<p class="text-bold"><span class="ion ion-code-working"></span> Metadata Presentasjoner</p>
-									<p>Data er i <a href="https://no.wikipedia.org/wiki/JSON" target="_blank">JSON</a>-format</p>
-										<div id="jsonUserPresentations" style="height:250px;"><!-- --></div>
-									<a href="http://jsoneditoronline.org/" class="pull-right" style="text-muted" target="_blank">JSON Editor Online</a>
-
-								</div>
-
-								<div class="modal-footer bg-dark-gray">
-									<span id="footerText" class="pull-left">
-										<!-- -->
-									</span>
-									<button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
-								</div>
-							</div>
-						</div>
+		<div class="modal fade" id="userDetailsModal" tabindex="-1" role="dialog" aria-labelledby="userDetailsModalTitle" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header bg-dark-gray">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">&nbsp;&nbsp;&nbsp;<span aria-hidden="true">&times;</span></button>
+						<h4 id="userDetailsModalTitle" class="modal-title">
+							<i class="ion ion-ios-person"></i> <span id="fullName"><!--JS--></span>
+						</h4>
 					</div>
+
+					<div class="modal-body">
+						<div id="userInfo"><!-- --></div>
+
+						<hr/>
+						<p class="text-bold"><span class="ion ion-code-working"></span> Metadata Presentasjoner</p>
+						<p>Data er i <a href="https://no.wikipedia.org/wiki/JSON" target="_blank">JSON</a>-format</p>
+							<div id="jsonUserPresentations" style="height:250px;"><!-- --></div>
+						<a href="http://jsoneditoronline.org/" class="pull-right" style="text-muted" target="_blank">JSON Editor Online</a>
+
+					</div>
+
+					<div class="modal-footer bg-dark-gray">
+						<span id="footerText" class="pull-left">
+							<!-- -->
+						</span>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
+					</div>
+				</div>
+			</div>
+		</div>
 <!-- //.modal -->
 
-<!-- DATA EXPORT MODAL -->
 
-					<div id="dataExportModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
-						<div class="modal-dialog modal-lg">
-							<div class="modal-content">
-								<!-- HEADER -->
-								<div class="modal-header bg-dark-gray">
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<h4 class="modal-title"><!-- --></h4>
-								</div>
-
-								<!-- BODY -->
-								<div class="modal-body">
-									<p>Data er i <a href="https://no.wikipedia.org/wiki/JSON" target="_blank">JSON</a>-format</p>
-										<div id="jsonDataExport" style="height:250px;"><!-- --></div>
-									<a href="http://jsoneditoronline.org/" class="pull-right" style="text-muted" target="_blank">JSON Editor Online</a>
-									<br/>
-									<div id="legend_users" style="margin-top: 10px; display: none;">
-										<div class="callout bg-light-blue">
-											<h4>Om feltet 'status'</h4>
-											<p>En bruker kan ha status som følger:</p>
-											<table class="table table-bordered table-condensed">
-						                        <tbody>
-						                            <tr>
-						                                <th>Status</th>
-						                                <th>Betydning</th>
-						                            </tr>
-						                            <tr>
-						                                <td>-1</td>
-						                                <td>Status mangler - default når bruker er nyimportert.</td>
-						                            </tr>
-
-						                            <tr>
-						                                <td>1</td>
-						                                <td>Har konto, men mangler innhold.</td>
-						                            </tr>
-						                            <tr>
-						                                <td>2</td>
-						                                <td>Har konto og innhold. Type ansatt/student kan nå identifiseres.</td>
-						                            </tr>
-						                            <tr>
-						                                <td>3</td>
-						                                <td>Konto er slettet, men innhold på disk finnes fortsatt.</td>
-						                            </tr>
-						                            <tr>
-						                                <td>4</td>
-						                                <td>Konto er slettet og mangler innhold (bruker vil snart forsvinne fra systemet).</td>
-						                            </tr>
-						                        </tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-
-								<div class="modal-footer bg-dark-gray">
-									<button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
-								</div>
-							</div>
-						</div>
-					</div>
-<!-- //.modal -->
 
 <script src="app/js/page_org_admin.js" type="text/javascript"></script>
-<link href="dist/plugins/jsoneditor/jsoneditor.min.css" rel="stylesheet" type="text/css"/>
-<script src="dist/plugins/jsoneditor/jsoneditor.min.js" type="text/javascript"></script>

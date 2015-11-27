@@ -41,17 +41,17 @@
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
 
-			<!-- fix for small devices only -->
+			      <!-- fix for small devices only -->
 			<div class="clearfix visible-sm-block"></div>
 
 			<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
 				<div class="info-box">
 					<span class="info-box-icon bg-yellow"><i class="ion ion-ios-people"></i></span>
 					<div class="info-box-content">
-						<span class="info-box-text">BRUKERE</span>
-						<span class="info-box-number"> <span class="globalUsersCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span> </span>
+						<span class="info-box-text mightOverflow">ANSATTE/STUDENTER</span>
+						<span class="info-box-number"> <span class="globalUsersCountByAffiliation"><!-- --><i class="fa fa-spinner fa-pulse"></i></span> </span>
 						<div class="progress bg-green"></div>
-						<span class="progress-description text-muted">Totalt <small>(Ansatte/Studenter)</small></span>
+						<span class="progress-description text-muted">Totalt: <span class="globalUsersCountTotal"><!-- --></span></span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
@@ -69,94 +69,7 @@
 			</div><!-- /.col -->
 		</div>
 
-		<h2 class="page-header text-muted">Abonnenter og kontaktpunkt</h2>
-
-	    <div class="row">
-		    <div class="col-lg-12">
-				<!-- SUBSCRIBERS TABLE -->
-				<div id="subscribersTableBox" class="box box-primary collapsed-box">
-					<div class="box-header with-border">
-						<h3 class="box-title icon ion-ios-home"> Abonnenter</h3>
-						<div class="box-tools pull-right">
-							<span data-toggle="tooltip" title="Totalt" class="badge bg-blue subscribersTotalCount"><!--updateUserUI--></span>
-							<span data-toggle="tooltip" title="Aktive" class="badge bg-green subscribersCount"><!--updateUserUI--></span>
-							<span data-toggle="tooltip" title="Utpr&oslash;ving" class="badge bg-orange subscribersTrialCount"><!--updateUserUI--></span>
-							<span data-toggle="tooltip" title="Andre" class="badge bg-red subscribersOtherCount"><!--updateUserUI--></span>
-							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-						</div>
-					</div>
-					<div class="box-body table-responsive">
-						<table id="subscribersTableSuperAdmin" class="table table-bordered table-striped table-hover" style="width: 100%; font-size: 13px;">
-	                        <thead class="text-muted">
-	                            <tr>
-	                                <th class="text-nowrap"><i class="icon ion-android-home"></i> Org</th>
-	                                <th class="text-nowrap"><i class="icon ion-android-person"></i> Kontakt</th>
-	                                <th class="text-nowrap"><i class="icon ion-help-buoy"></i> Support</th>
-		                            <th class="text-nowrap"><i class="icon ion-ios-people"></i> Brukere</th>
-	                                <th class="text-nowrap"><i class="icon ion-upload"></i> Lagring (GB)</th>
-	                                <th class="text-nowrap"><i class="icon ion-cash"></i> Kostnad</th>
-		                            <th class="text-nowrap"><i class="icon ion-key"></i> Status</th>
-	                            </tr>
-	                        </thead>
-	                        <tbody>
-	                            <!-- AJAX/DataTables -->
-	                        </tbody>
-	                        <tfoot class="text-muted">
-	                            <tr>
-	                                <th class="text-nowrap"><i class="icon ion-android-home"></i> Org</th>
-	                                <th class="text-nowrap"><i class="icon ion-android-person"></i> Kontakt</th>
-	                                <th class="text-nowrap"><i class="icon ion-help-buoy"></i> Support</th>
-		                            <th class="text-nowrap"><i class="icon ion-ios-people"></i> Brukere</th>
-		                            <th class="text-nowrap"><i class="icon ion-upload"></i> Lagring (GB)</th>
-		                            <th class="text-nowrap"><i class="icon ion-cash"></i> Kostnad</th>
-		                            <th class="text-nowrap"><i class="icon ion-key"></i> Status</th>
-	                            </tr>
-	                        </tfoot>
-	                    </table>
-					</div><!-- /.box-body -->
-					<div class="box-footer">
-						<div class="input-group-btn">
-							<button type="button" class="btn btn-default dropdown-toggle icon ion-ios-email" data-toggle="dropdown"> Epostlister&nbsp;&nbsp;<span class="fa fa-caret-down"></span></button>
-							<ul class="dropdown-menu">
-								<li><a href="#" class="email_export icon ion-android-people" data-export-group="kontaktpersoner" data-toggle="modal" data-target="#emailExportSuperAdminModal"> Kontakter</a></li>
-								<li class="divider"></li>
-								<li><a href="#" class="email_export icon ion-help-buoy" data-export-group="supportpunkt" data-toggle="modal" data-target="#emailExportSuperAdminModal"> Supportpunkt</a></li>
-							</ul>
-						</div>
-					</div>
-
-					<!-- EMAIL EXPORT MODAL -->
-					<div class="modal fade" id="emailExportSuperAdminModal" tabindex="-1" role="dialog" aria-labelledby="modalExportTitle" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header bg-dark-gray">
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">&nbsp;&nbsp;&nbsp;<span aria-hidden="true">&times;</span></button>
-									<h4 class="modal-title" id="modalExportTitle">
-										Epostliste eksport for <strong id="emailExportTargetGroup"><!--JS--></strong>
-										<span id="emailExportCount" class="badge bg-green pull-right" title="Antall adresser i liste"><!--JS--></span>
-									</h4>
-								</div>
-								<div class="modal-body">
-									<p>Kopier og lim inn i epost (<code>To:</code> / <code>Cc:</code> / <code>BCc:</code>):</p>
-									<textarea id="emailExportList" style="width: 100%;" rows="10" onclick="$(this).select();"><!--JS--></textarea>
-									<div id="emailMissing" class="text-muted"><!--JS--></div>
-								</div>
-								<div class="modal-footer bg-dark-gray">
-									<button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- //.modal -->
-
-					<div class="overlay ajax">
-						<i class="fa ion-load-d fa-spin"></i>
-					</div>
-				</div><!-- /.box -->
-		    </div> <!-- /.col -->
-	    </div><!-- /.row -->
-
-	    <h2 class="page-header text-muted">Lagring &amp; Fakturering</h2>
+	    <h2 class="page-header text-muted">Fakturering &amp; oversikt</h2>
 
 		<div class="row">
 			<div class="col-md-6">
@@ -229,13 +142,13 @@
 			</div><!-- /.col  -->
 		</div><!-- /.row -->
 
-		<h2 id="orgDetailsHeader" class="page-header text-muted">Detaljvisning</h2>
+		<h2 id="orgDetailsHeader" class="page-header text-muted">Detaljvisning org</h2>
 
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<h3 class="box-title icon ion-arrow-graph-up-right"> Viser oversikt for <span class="selectedOrg"></span></h3>
+						<h3 class="box-title icon ion-university"> <span class="selectedOrg"></span> &nbsp;&nbsp;&nbsp; <sup><span class="orgSubscriptionStatus"></span></sup></h3>
 						<div class="box-tools pull-right">
 							<div class="btn-group">
 								<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="ion ion-university"></i> Velg org <span class="fa fa-caret-down"></span></button>
@@ -248,21 +161,30 @@
 					</div>
 					<div class="box-body">
 						<div class="row">
+
 							<div class="col-md-8">
-								<div id="lineChartAlert" class="callout callout-warning" style="display: none;"></div>
-								<div class="chart">
-									<canvas id="orgUsageLineChartSuperAdmin" style="min-height: 350px; max-height: 350px;">
-										<!-- Line Chart -->
-									</canvas>
+								<div class="box">
+									<div class="box-body">
+										<h4 class="box-title icon ion-arrow-graph-up-right"> Forbruk disk (i MB)</h4>
+										<p>Viser siste <code class="selectedOrgRecordedDatesNum"></code> datoer med registrert endring på disk for <span class="selectedOrg"></span>.</p>
+										<div id="lineChartAlert" class="callout callout-warning" style="display: none;"></div>
+										<div class="chart">
+											<canvas id="orgUsageLineChartSuperAdmin" style="min-height: 350px; max-height: 350px;">
+												<!-- Line Chart -->
+											</canvas>
+										</div>
+									</div>
+									<div class="box-footer text-muted">
+										Klikk p&aring; grafen for annen farge | H&oslash;yreklikk for &aring; lagre bildefil.
+									</div>
 								</div>
 							</div>
 
 							<div class="col-md-4">
-								<h3>
-									<i class="icon ion-university"></i> <span class="selectedOrg"></span>: <small class="pull-right"><span class="orgSubscriptionStatus"></span></small>
-								</h3>
 								<div class="box">
 									<div class="box-body">
+										<h4 class="box-title icon ion-code-working"> Tall & eksport</h4>
+										<p>Viser detaljer for <span class="selectedOrg"></span></p>.
 										<div class="row">
 											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 												<div class="description-block border-right">
@@ -295,8 +217,28 @@
 										</div><!-- /.row -->
 									</div>
 
+									<!-- Export buttons -->
 									<div class="box-footer">
-										Grafen viser siste <code class="selectedOrgRecordedDatesNum"></code> dager med endringer i diskforbruk (<strong>i MB!</strong>) for <code class="selectedOrg"></code>.
+
+	<button type="button" class="btn btn-default email_export" data-toggle="modal" data-export-group="brukere" data-target="#emailExportSuperAdminModal">
+        <span class="ion ion-ios-email"></span>&nbsp;&nbsp;Epostliste
+    </button>&nbsp;&nbsp;
+
+	<div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle icon ion-code-working" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Data eksport&nbsp;&nbsp;<span class="fa fa-caret-down"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <a data-toggle="modal" data-action="Brukere" data-context="superAdmin" data-target="#dataExportModal"><i class="ion ion-ios-people"></i> Metadata <strong>brukere</strong></a>
+            </li>
+            <li>
+                <a data-toggle="modal" data-action="Opptak" data-context="superAdmin" data-target="#dataExportModal"><i class="ion ion-ios-film"></i> Metadata <strong>opptak</strong></a>
+            </li>
+        </ul>
+    </div>
+
+
 									</div>
 								</div>
 							</div>
@@ -304,11 +246,100 @@
 					</div><!-- /.box-body -->
 
 					<div class="box-footer text-muted">
-						Klikk p&aring; grafen for annen farge | H&oslash;yreklikk for &aring; lagre bildefil.
+						<p>Du bytter org ved å klikke på kakediagram i forrige seksjon eller i menyen på tittellinja over.</p>
 					</div>
 				</div><!-- /.box -->
 			</div><!-- /.col -->
 		</div><!-- /.row -->
+
+		<h2 class="page-header text-muted">Abonnenter og kontaktpunkt</h2>
+
+	    <div class="row">
+		    <div class="col-lg-12">
+				<!-- SUBSCRIBERS TABLE -->
+				<div id="subscribersTableBox" class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title icon ion-ios-home"> Abonnenter</h3>
+						<div class="box-tools pull-right">
+							<span data-toggle="tooltip" title="Totalt" class="badge bg-blue subscribersTotalCount"><!--updateUserUI--></span>
+							<span data-toggle="tooltip" title="Aktive" class="badge bg-green subscribersCount"><!--updateUserUI--></span>
+							<span data-toggle="tooltip" title="Utpr&oslash;ving" class="badge bg-orange subscribersTrialCount"><!--updateUserUI--></span>
+							<span data-toggle="tooltip" title="Andre" class="badge bg-red subscribersOtherCount"><!--updateUserUI--></span>
+							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+						</div>
+					</div>
+					<div class="box-body table-responsive">
+						<table id="subscribersTableSuperAdmin" class="table table-bordered table-striped table-hover" style="width: 100%; font-size: 13px;">
+	                        <thead class="text-muted">
+	                            <tr>
+	                                <th class="text-nowrap"><i class="icon ion-android-home"></i> Org</th>
+	                                <th class="text-nowrap"><i class="icon ion-android-person"></i> Kontakt</th>
+	                                <th class="text-nowrap"><i class="icon ion-help-buoy"></i> Support</th>
+		                            <th class="text-nowrap"><i class="icon ion-ios-people"></i> Brukere</th>
+	                                <th class="text-nowrap"><i class="icon ion-upload"></i> Lagring (GB)</th>
+	                                <th class="text-nowrap"><i class="icon ion-cash"></i> Kostnad</th>
+		                            <th class="text-nowrap"><i class="icon ion-key"></i> Status</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <!-- AJAX/DataTables -->
+	                        </tbody>
+	                        <tfoot class="text-muted">
+	                            <tr>
+	                                <th class="text-nowrap"><i class="icon ion-android-home"></i> Org</th>
+	                                <th class="text-nowrap"><i class="icon ion-android-person"></i> Kontakt</th>
+	                                <th class="text-nowrap"><i class="icon ion-help-buoy"></i> Support</th>
+		                            <th class="text-nowrap"><i class="icon ion-ios-people"></i> Brukere</th>
+		                            <th class="text-nowrap"><i class="icon ion-upload"></i> Lagring (GB)</th>
+		                            <th class="text-nowrap"><i class="icon ion-cash"></i> Kostnad</th>
+		                            <th class="text-nowrap"><i class="icon ion-key"></i> Status</th>
+	                            </tr>
+	                        </tfoot>
+	                    </table>
+					</div><!-- /.box-body -->
+					<div class="box-footer">
+						<div class="btn-group">
+							<button type="button" class="btn btn-default dropdown-toggle icon ion-ios-email" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Epostlister&nbsp;&nbsp;<span class="fa fa-caret-down"></span></button>
+							<ul class="dropdown-menu">
+								<li><a href="#" class="email_export icon ion-android-people" data-export-group="kontaktpersoner" data-toggle="modal" data-target="#emailExportSuperAdminModal"> Kontakter</a></li>
+								<li class="divider"></li>
+								<li><a href="#" class="email_export icon ion-help-buoy" data-export-group="supportpunkt" data-toggle="modal" data-target="#emailExportSuperAdminModal"> Supportpunkt</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="overlay ajax">
+						<i class="fa ion-load-d fa-spin"></i>
+					</div>
+				</div><!-- /.box -->
+		    </div> <!-- /.col -->
+	    </div><!-- /.row -->
+
+
+<!-- EMAIL EXPORT MODAL -->
+		<div class="modal fade" id="emailExportSuperAdminModal" tabindex="-1" role="dialog" aria-labelledby="modalExportTitle" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header bg-dark-gray">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">&nbsp;&nbsp;&nbsp;<span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="modalExportTitle">
+							Epostliste eksport for <strong id="emailExportTargetGroup"><!--JS--></strong>
+							<span id="emailExportCount" class="badge bg-green pull-right" title="Antall adresser i liste"><!--JS--></span>
+						</h4>
+					</div>
+					<div class="modal-body">
+						<p>Kopier og lim inn i epost (<code>To:</code> / <code>Cc:</code> / <code>BCc:</code>):</p>
+						<textarea id="emailExportList" style="width: 100%;" rows="10" onclick="$(this).select();"><!--JS--></textarea>
+						<div id="emailMissing" class="text-muted"><!--JS--></div>
+					</div>
+					<div class="modal-footer bg-dark-gray">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
+					</div>
+				</div>
+			</div>
+		</div>
+<!-- //.modal -->
+
     </section><!-- /.content -->
 
 <!-- Scripts pertaining only to SuperAdmin -->

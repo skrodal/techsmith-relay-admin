@@ -32,7 +32,7 @@ var PAGE_SUPER_ADMIN = (function () {
 		});
 
 		// Selected from drop-down
-		$('#pageSuperAdmin').find('.selectedOrg').text(SELECTED_ORG);
+		$('#pageSuperAdmin').find('.selectedOrg').html('<code>' + SELECTED_ORG + "</code>");
 		// Number of dates available in org's storage history (max 30 days)
 		$('#pageSuperAdmin').find('.selectedOrgRecordedDatesNum').text(SELECTED_ORG_RECORDED_DATES_NUM);
 		// Calculator
@@ -40,7 +40,7 @@ var PAGE_SUPER_ADMIN = (function () {
 		// All fields referring to cost defined by calculator
 		$('#pageSuperAdmin').find('.costTB').text("kr. " + RELAY.storageCostTB());
 
-		$.when(RELAY.serviceStorageXHR()).done(function(total_mib){
+		$.when(RELAY.serviceStorageXHR()).done(function (total_mib) {
 			var serviceStorageMiB = total_mib;
 			// On disk as of last reading (total)
 			$('#pageSuperAdmin').find('.subscribersDiskusageTotal').text(UTILS.mib2tb(serviceStorageMiB).toFixed(2) + "TB");
@@ -154,7 +154,7 @@ var PAGE_SUPER_ADMIN = (function () {
 		var orgUsageChartData;
 		// "Clone" since we will be reversing and shit later on
 		orgUsageChartData = JSON.parse(JSON.stringify(RELAY.orgStorageArr(org)));
-		console.log(orgUsageChartData);
+		//
 		fillColor = typeof fillColor !== 'undefined' ? fillColor : '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
 
 		// Max 30 days
@@ -169,7 +169,7 @@ var PAGE_SUPER_ADMIN = (function () {
 			//var date = new Date(storage.date.replace(/-/g, "/"));   // replace hack seems to fix Safari issue...
 			var date = new Date(storage.date.sec * 1000);
 			// Chart labels and data
-			labels.push(date.getUTCDate() + '.' + date.getUTCMonth() + '.' + date.getUTCFullYear());      // Add label
+			labels.push(date.getUTCDate() + '.' + (date.getUTCMonth() + 1) + '.' + date.getUTCFullYear());      // Add label
 			data.push(UTILS.mib2mb(storage.size_mib).toFixed(2));    // And value
 			counter--;
 			if (counter == 0) return false;
@@ -384,41 +384,63 @@ var PAGE_SUPER_ADMIN = (function () {
 	 */
 	function _showEmailExportModal(btn) {
 		var $btnClicked = btn;
+		var $modal = $('#emailExportSuperAdminModal');
 		// Add group name to modal title
-		$('#emailExportSuperAdminModal').find('#emailExportTargetGroup').html($btnClicked.data("exportGroup"));
+		$modal.find('#emailExportTargetGroup').html($btnClicked.data("exportGroup"));
+		// Reset old info
+		$modal.find('#emailMissing').html('');
+		$modal.find('#emailExportCount').html('');
+		$modal.find('#emailExportList').html('Henter liste, vennligst vent....');
+		// The list
 		var emailList = [];
-		var tmpContact = "";
-		var nonEmailList = {'count': 0, 'orgs': ''};
-		var contactObj;
+		// Mailinglist for users at selected org selected
+		if ($btnClicked.data("exportGroup") === 'brukere') {
+			// AJAX call for this type of data
+			$.when(RELAY.orgUserListXHR(SELECTED_ORG)).then(function (usersArr){
+				$.each(usersArr, function (key, userObj){
+					emailList.push(userObj.displayname + ' <' + userObj.email + '>');
+				});
+				// Badge number in modal title
+				$modal.find('#emailExportCount').html(emailList.length);
+				// TextArea
+				$modal.find('#emailExportList').html(emailList.toString());
+			});
+		}
+		// Mailinglists for all subscribers selected
+		else {
+			var tmpContact = "";
+			var nonEmailList = {'count': 0, 'orgs': ''};
+			var contactObj;
 
-		$.each(KIND.subscribers(), function (key, org) {
-			// Teknisk ansvarlig or support?
-			contactObj = $btnClicked.data("exportGroup") == 'kontaktpersoner' ? org.contact_person : org.contact_support;
-			//
-			if (contactObj !== null && (org.subscription_code == 20 || org.subscription_code == 15)) {
-				if (contactObj.e_post !== null && contactObj.e_post.indexOf('http') == -1) {
-					tmpContact = '<' + contactObj.e_post.trim() + '>';
-					if (contactObj.navn !== null) {
-						tmpContact = contactObj.navn.trim() + ' ' + tmpContact;
+			$.each(KIND.subscribers(), function (key, org) {
+				// Teknisk ansvarlig or support?
+				contactObj = $btnClicked.data("exportGroup") === 'kontaktpersoner' ? org.contact_person : org.contact_support;
+				//
+				if (contactObj !== null && (org.subscription_code == 20 || org.subscription_code == 15)) {
+					if (contactObj.e_post !== null && contactObj.e_post.indexOf('http') == -1) {
+						tmpContact = '<' + contactObj.e_post.trim() + '>';
+						if (contactObj.navn !== null) {
+							tmpContact = contactObj.navn.trim() + ' ' + tmpContact;
+						}
+						emailList.push(tmpContact);
+
+					} else {
+						nonEmailList.count++;
+						nonEmailList.orgs += "<span class='label bg-red'>" + org.org_id + "</span> ";
 					}
-					emailList.push(tmpContact);
-
 				} else {
 					nonEmailList.count++;
 					nonEmailList.orgs += "<span class='label bg-red'>" + org.org_id + "</span> ";
 				}
-			} else {
-				nonEmailList.count++;
-				nonEmailList.orgs += "<span class='label bg-red'>" + org.org_id + "</span> ";
+			});
+			// Badge number in modal title
+			$modal.find('#emailExportCount').html(emailList.length);
+			// TextArea
+			$modal.find('#emailExportList').html(emailList.toString());
+			// Missing contact email adress
+			if (nonEmailList.count > 0) {
+				$('#emailExportSuperAdminModal').find('#emailMissing').html("<span class='badge bg-red'>" + nonEmailList.count + "</span> mangler kontaktadresse: <br/>" + nonEmailList.orgs);
 			}
-		});
-		// Badge number in modal title
-		$('#emailExportSuperAdminModal').find('#emailExportCount').html(emailList.length);
-		// TextArea
-		$('#emailExportSuperAdminModal').find('#emailExportList').html(emailList.toString());
-		// Missing contact email adress
-		if (nonEmailList.count > 0) {
-			$('#emailExportSuperAdminModal').find('#emailMissing').html("<span class='badge bg-red'>" + nonEmailList.count + "</span> mangler kontaktadresse: <br/>" + nonEmailList.orgs);
 		}
 	}
 
@@ -427,6 +449,43 @@ var PAGE_SUPER_ADMIN = (function () {
 		_showEmailExportModal($(this));
 	});
 
+	/** DATA EXPORT MODAL **/
+	$('#dataExportModal').on('show.bs.modal', function (event) {
+		// Only do something if calling button was on superAdmin page
+		if($(event.relatedTarget).data().context === 'superAdmin') {
+			var $modal = $(this);
+			// attr 'data-action' on buttons (Brukere || Opptak)
+			var exportGroup = $(event.relatedTarget).data().action;
+			//
+			APP.jsonEditor().setName(exportGroup);
+			APP.jsonEditor().set('Henter data, vennligst vent...');
+
+			// Find selected export group
+			switch (exportGroup) {
+				case 'Brukere':
+					$modal.find('.modal-title').html('<i class="ion ion-ios-people"></i> Eksporter metadata for alle <strong>brukere</strong>');
+					$modal.find('#legend_users').fadeIn();
+					$.when(RELAY.orgUserListXHR(SELECTED_ORG)).then(function (orgUserList){
+						APP.jsonEditor().set(orgUserList);
+					});
+					break;
+				case 'Opptak':
+					$modal.find('.modal-title').html('<i class="ion ion-ios-film"></i> Eksporter metadata for alle <strong>opptak</strong>');
+					$modal.find('#legend_users').hide();
+					$.when(RELAY.orgPresentationListXHR(SELECTED_ORG)).then(function (orgPresentationList){
+						APP.jsonEditor().set(orgPresentationList);
+					});
+					break;
+				default:
+					break;
+			}
+		}
+	});
+
+	/** TIDY DATA EXPORT MODAL **/
+	$('#dataExportModal').on('hide.bs.modal', function (event) {
+		APP.jsonEditor().set('Henter data, vennligst vent...');
+	});
 
 	/**
 	 * Update cost column when calc-button is pressed

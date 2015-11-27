@@ -5,34 +5,38 @@
  * @since August 2015
  */
 
-var APP = (function() {
+var APP = (function () {
+
+	var jsonEditor;
 	//
 	$(document).ready(function () {
+		// Single instance, shared by all
+		jsonEditor = new JSONEditor(document.getElementById('jsonDataExport'), { "modes": ["view", "text"], "mode": "text", "search": true, "indentation": 4 });
 
-		$.when(FEIDE_CONNECT.readyUser()).done(function(){
-			$.when(FEIDE_CONNECT.readyGroups()).done(function(){
+		$.when(FEIDE_CONNECT.readyUser()).done(function () {
+			$.when(FEIDE_CONNECT.readyGroups()).done(function () {
 				// Always
 				updateUIFeide();
 				//
-				$.when(KIND.ready()).done(function(){
+				$.when(KIND.ready()).done(function () {
 					// Always
 					updateUIKind();
 					//
-					$.when(RELAY_USER.accountXHR()).done(function(){
+					$.when(RELAY_USER.accountXHR()).done(function () {
 						// Always
 						updateUIRelayUser();
 						// If user is some sort of admin
-						if(KIND.isAdmin()){
+						if (KIND.isAdmin()) {
 							// Fetch global Relay info
 							RELAY.init();
 							//
-							$.when(RELAY.ready()).done( function(){
+							$.when(RELAY.ready()).done(function () {
 								MENU.init();
 								updateUIRelay();
 							});
 						} else {
 							// Not even a user account - stop here!
-							if(!RELAY_USER.hasAccount()){
+							if (!RELAY_USER.hasAccount()) {
 								UTILS.showAuthError("Manglende tilgang", "Du mangler brukerkonto og er ikke administrator for tjenesten. Tilgang er derfor sperret.")
 								return false;
 							}
@@ -63,7 +67,7 @@ var APP = (function() {
 		$('#userMenu').fadeIn().removeClass('hidden');
 	}
 
-	function updateUIKind(){
+	function updateUIKind() {
 		$('.userRole').html(' ' + KIND.role());
 		$('.subscribersCount').html(KIND.subscriptionCount().full);
 		$('.subscribersTrialCount').html(KIND.subscriptionCount().trial);
@@ -82,10 +86,10 @@ var APP = (function() {
 		// Sidebar
 		$('#supportDetails').html(
 			'<h4>Ditt supportpunkt: </h4>' +
-				(KIND.subscriberDetails().contact_support.navn == undefined ? '' : '<p class="bold">' + KIND.subscriberDetails().contact_support.navn + '</p>') +
-				'<p>' + epost + '</p>' +
-				(KIND.subscriberDetails().contact_support.mobil_telefon == undefined ? '' : '<p>Mobil: ' + KIND.subscriberDetails().contact_support.mobil_telefon + '</p>') +
-				(KIND.subscriberDetails().contact_support.direkte_telefon == undefined ? '' : '<p>Direkte: ' + KIND.subscriberDetails().contact_support.direkte_telefon + '</p>')
+			(KIND.subscriberDetails().contact_support.navn == undefined ? '' : '<p class="bold">' + KIND.subscriberDetails().contact_support.navn + '</p>') +
+			'<p>' + epost + '</p>' +
+			(KIND.subscriberDetails().contact_support.mobil_telefon == undefined ? '' : '<p>Mobil: ' + KIND.subscriberDetails().contact_support.mobil_telefon + '</p>') +
+			(KIND.subscriberDetails().contact_support.direkte_telefon == undefined ? '' : '<p>Direkte: ' + KIND.subscriberDetails().contact_support.direkte_telefon + '</p>')
 		);
 	}
 
@@ -94,36 +98,37 @@ var APP = (function() {
 	 * Each data fragment comes from separate API calls. Update continuously
 	 * as soon as calls are done.
 	 */
-	function updateUIRelay(){
+	function updateUIRelay() {
 		// Invoicing
 		$('.storageCostPerTB').html(RELAY.storageCostTB());
 		// Users count
-		$.when(RELAY.usersTotalXHR()).done(function(users){
-			$('.globalUsersCount').html(users.employees + '/' + users.students);
+		$.when(RELAY.usersTotalXHR()).done(function (users) {
+			$('.globalUsersCountByAffiliation').html(users.employees + '/' + users.students);
+			$('.globalUsersCountTotal').html(users.employees + users.students);
 		});
-		$.when(RELAY.usersTotalActiveXHR()).done(function(users){
+		$.when(RELAY.usersTotalActiveXHR()).done(function (users) {
 			$('.globalActiveUsersCount').html(users.employees + '/' + users.students);
 		});
 		// Presentation count
-		$.when(RELAY.presentationsTotalXHR()).done(function(presentations){
+		$.when(RELAY.presentationsTotalXHR()).done(function (presentations) {
 			$('.globalPresentationCount').html(presentations);
 		});
 		// Org info
-		$.when(RELAY.serviceStorageXHR()).done(function(total_mib){
-			$('.subscribersDiskusageTotal').html(UTILS.mib2tb( total_mib ).toFixed(2) + "TB");
+		$.when(RELAY.serviceStorageXHR()).done(function (total_mib) {
+			$('.subscribersDiskusageTotal').html(UTILS.mib2tb(total_mib).toFixed(2) + "TB");
 		});
 		// User count home org
-		$.when(RELAY.ready()).done(function(){
+		$.when(RELAY.ready()).done(function () {
 			$('.homeOrgUserCount').html(RELAY.orgUserCount(FEIDE_CONNECT.user().org.id));
 		});
 
 		// Server version
-		$.when(RELAY.serviceVersionXHR()).done(function(version){
+		$.when(RELAY.serviceVersionXHR()).done(function (version) {
 			$('.relayVersion').html(version);
 		});
 
 		// Server version
-		$.when(RELAY.serviceWorkersXHR()).done(function(workers){
+		$.when(RELAY.serviceWorkersXHR()).done(function (workers) {
 			$('.relayWorkers').html(workers);
 		});
 
@@ -132,18 +137,30 @@ var APP = (function() {
 	}
 
 
-
-	function updateUIRelayUser(){
+	function updateUIRelayUser() {
 		// TODO: Something on dashboard about user account
 	}
 
 
+
+	// Dynamically add tooltip for overflowed text (requires class mightOverflow on element)
+	$(document).on('mouseenter', '.mightOverflow', function () {
+		var $t = $(this);
+		var title = $t.attr('title');
+		if (!title) {
+			if (this.offsetWidth < this.scrollWidth) $t.attr('title', $t.text())
+		} else {
+			if (this.offsetWidth >= this.scrollWidth && title == $t.text()) $t.removeAttr('title')
+		}
+	});
+
+
+	return {
+		jsonEditor: function () {
+			return jsonEditor;
+		}
+	}
 })();
-
-
-
-
-
 
 
 /*

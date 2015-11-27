@@ -153,6 +153,30 @@ var RELAY = (function () {
 		});
 	}
 
+
+	function getOrgPresentationListXHR(org) {
+		if(KIND.isSuperAdmin()){
+			return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + org + "/presentations/", dataType: 'json'}).pipe(function (obj) {
+				return obj.data;
+			}).fail(function (jqXHR, textStatus, error) {
+				UTILS.alertError("Relay API (presentations):", "Finner ingen presentasjoner for org  <code>" + org + "</code>");
+			});
+		}
+	}
+
+	/** **/
+	function getOrgUserListXHR(org){
+		// Only for super admins
+		if(KIND.isSuperAdmin()) {
+			return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + org + "/users/", dataType: 'json'}).pipe(function (obj) {
+				return obj.data;
+			}).fail(function (jqXHR, textStatus, error) {
+				UTILS.alertError("Relay API (users):", "Finner ingen brukere for org <code>" + org + "</code>");
+			});
+		}
+	}
+
+
 	/** data.org, data.org.users, data.org.presentations, data.org.total_mib, data.org.storage[] **/
 	function _getSubscribersInfoXHR() {
 		return jso.ajax({
@@ -240,6 +264,9 @@ var RELAY = (function () {
 		orgPresentationCount: function (org) {
 			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].presentations : 0;
 		},
+		orgPresentationListXHR: function (org) {
+			return 	getOrgPresentationListXHR(org);
+		},
 		orgStorageTotalMiB: function (org) {
 			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].total_mib : 0;
 		},
@@ -248,6 +275,9 @@ var RELAY = (function () {
 		},
 		orgUserCount: function (org) {
 			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].users : 0;
+		},
+		orgUserListXHR: function (org) {
+			return 	getOrgUserListXHR(org);
 		},
 		storageCostTB: function () {
 			return STORAGE_COST_PER_TB;
