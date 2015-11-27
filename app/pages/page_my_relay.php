@@ -2,7 +2,7 @@
 	<div class="jumbotron clearfix bg-dark-gray">
 		<div class="container">
 			<h1><i class="ion ion-record text-red"></i> <strong>Min</strong>Relay</h1>
-			<p class="lead text-muted">Administrer dine TechSmith Relay opptak</p>
+			<p class="lead text-muted">Administrer dine TechSmith Relay presentasjoner</p>
 
 			<mark class="text-muted">Ditt Relay brukernavn er <span class="text-bold relayUserName"></span></mark>
 			<br/><br/>

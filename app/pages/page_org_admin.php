@@ -83,7 +83,7 @@
 					<div class="box-body">
 						<div id="lineChartOrgAlert" class="callout callout-warning" style="display: none;"></div>
 						<p>
-							Viser siste <code class="orgRecordedDatesNum"></code> dager med endringer i diskforbruk.
+							Viser siste <code class="orgRecordedDatesNum"></code> <i>datoer</i> med endringer i diskforbruk.
 						</p>
 						<div class="chart">
 							<canvas id="orgUsageLineChartOrgAdmin" style="min-height: 300px;">
