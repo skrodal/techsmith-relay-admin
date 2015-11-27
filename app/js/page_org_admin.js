@@ -90,10 +90,12 @@ var PAGE_ORG_ADMIN = (function () {
 		modal.find('#jsonUserPresentations').empty();
 		modal.find('#footerText').empty();
 
+		var jsonEditorUserDetails = new JSONEditor(document.getElementById('jsonUserPresentations'), { "modes": ["view", "text"], "mode": "text", "search": true, "indentation": 4 });
+
 		// Get presentation metadata for user
 		$.when(RELAY_ORG.userContent(userName, false)).done(function (user) {
-			APP.jsonEditor().set(user);
-			APP.jsonEditor().setName(userName);
+			jsonEditorUserDetails.set(user);
+			jsonEditorUserDetails.setName(userName);
 
 			if (presentationDeletedCount == 0) {
 				modal.find('#footerText').html('Presentasjoner: <span class="badge bg-green">' + presentationCount + '</span>');

@@ -8,6 +8,7 @@
 var APP = (function () {
 
 	var jsonEditor;
+
 	//
 	$(document).ready(function () {
 		// Single instance, shared by all
