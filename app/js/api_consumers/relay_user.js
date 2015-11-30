@@ -17,6 +17,7 @@ var RELAY_USER = (function () {
 	// users/me
 	// organisations/me/diskusage/latest
 
+	// Autorun
 	(function () {
 		$.when(FEIDE_CONNECT.readyUser().done(function(){
 			XHR_USER_ACCOUNT = _getUserAccountXHR();

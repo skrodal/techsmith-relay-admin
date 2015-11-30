@@ -51,7 +51,7 @@
 						<span class="info-box-text">LAGRING</span>
 						<span class="info-box-number orgDiskUsage"><!-- --></span>
 						<div class="progress bg-red"></div>
-						<span class="progress-description text-muted mightOverflow">Siste endring <span class="orgDiskUsageDate"></span></span>
+						<span class="progress-description text-muted mightOverflow">Siden <span class="orgDiskUsageDate"></span></span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
@@ -60,10 +60,10 @@
 				<div class="info-box">
 					<span class="info-box-icon bg-green"><i class="fa fa-money"></i></span>
 					<div class="info-box-content">
-						<span class="info-box-text">KOST</span>
+						<span class="info-box-text">KOSTNAD</span>
 						<span class="info-box-number description-header orgStorageCostEstimate"><!-- --></span>
 						<div class="progress bg-green"></div>
-						<span class="progress-description text-muted">Estimat</span>
+						<span class="progress-description text-muted mightOverflow">Estimat - kun lagring</span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->

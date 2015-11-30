@@ -11,6 +11,7 @@ var KIND = (function () {
 
 	var XHR_KIND;
 
+	// Autorun
 	(function () {
 		// Check subsciber info when we know who the user is
 		$.when(FEIDE_CONNECT.readyUser()).done(function () {

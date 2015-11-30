@@ -12,9 +12,7 @@ var RELAY_ORG = (function () {
 	var XHR_PRESENTATION_COUNT;
 
 
-	/**
-	 * API Consumer - self-invokes
-	 */
+	// Autorun
 	(function () {
 		$.when(FEIDE_CONNECT.readyUser()).done(function(){
 			$.when(KIND.ready()).done(function(){

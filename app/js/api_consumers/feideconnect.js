@@ -8,6 +8,7 @@
 var FEIDE_CONNECT = (function () {
 	var USER = {};
 
+	// Autorun
 	var XHR_USER = _getUserInfo(),
 		XHR_GROUPS = _getUserGroups();
 

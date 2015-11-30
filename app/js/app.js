@@ -14,6 +14,7 @@ var APP = (function () {
 		// Single instance, shared by all
 		jsonEditor = new JSONEditor(document.getElementById('jsonDataExport'), { "modes": ["view", "text"], "mode": "text", "search": true, "indentation": 4 });
 
+
 		$.when(FEIDE_CONNECT.readyUser()).done(function () {
 			$.when(FEIDE_CONNECT.readyGroups()).done(function () {
 				// Always
@@ -41,6 +42,7 @@ var APP = (function () {
 								UTILS.showAuthError("Manglende tilgang", "Du mangler brukerkonto og er ikke administrator for tjenesten. Tilgang er derfor sperret.")
 								return false;
 							}
+							// Only My Relay
 							MENU.init();
 						}
 					}); // relay
@@ -104,11 +106,12 @@ var APP = (function () {
 		$('.storageCostPerTB').html(RELAY.storageCostTB());
 		// Users count
 		$.when(RELAY.usersTotalXHR()).done(function (users) {
-			$('.globalUsersCountByAffiliation').html(users.employees + '/' + users.students);
 			$('.globalUsersCountTotal').html(users.employees + users.students);
+			$('.globalUsersCountByAffiliation').html(users.employees + ' ansatte og ' + users.students + ' studenter');
 		});
 		$.when(RELAY.usersTotalActiveXHR()).done(function (users) {
-			$('.globalActiveUsersCount').html(users.employees + '/' + users.students);
+			$('.globalActiveUsersCountTotal').html(users.employees + users.students);
+			$('.globalActiveUsersCountByAffiliation').html(users.employees + ' ansatte og ' + users.students + ' studenter');
 		});
 		// Presentation count
 		$.when(RELAY.presentationsTotalXHR()).done(function (presentations) {
@@ -140,6 +143,7 @@ var APP = (function () {
 
 	function updateUIRelayUser() {
 		// TODO: Something on dashboard about user account
+
 	}
 
 

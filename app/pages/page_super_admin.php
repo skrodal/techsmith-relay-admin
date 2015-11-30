@@ -48,10 +48,10 @@
 				<div class="info-box">
 					<span class="info-box-icon bg-yellow"><i class="ion ion-ios-people"></i></span>
 					<div class="info-box-content">
-						<span class="info-box-text mightOverflow">ANSATTE/STUDENTER</span>
-						<span class="info-box-number"> <span class="globalUsersCountByAffiliation"><!-- --><i class="fa fa-spinner fa-pulse"></i></span> </span>
+						<span class="info-box-text mightOverflow">BRUKERE TOTALT</span>
+						<span class="info-box-number"> <span class="globalUsersCountTotal"><!-- --><i class="fa fa-spinner fa-pulse"></i></span> </span>
 						<div class="progress bg-green"></div>
-						<span class="progress-description text-muted">Totalt: <span class="globalUsersCountTotal"><!-- --></span></span>
+						<span class="progress-description text-muted mightOverflow"><span class="globalUsersCountByAffiliation"><!-- --></span></span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
@@ -63,7 +63,7 @@
 						<span class="info-box-text">FAKTURERBART</span>
 						<span class="info-box-number description-header totalStorageCostEstimate"><!-- --></span>
 						<div class="progress bg-olive"></div>
-						<span class="progress-description text-muted">Estimat</span>
+						<span class="progress-description text-muted mightOverflow">Estimat - kun lagring</span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->

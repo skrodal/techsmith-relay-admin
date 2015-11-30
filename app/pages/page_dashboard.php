@@ -21,25 +21,25 @@
 		<h2 class="page-header text-muted">Globale tall</h2>
 
 		<div class="row">
-			<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+			<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 				<div class="info-box">
-					<span class="info-box-icon bg-aqua"><i class="ion ion-university"></i></span>
+					<span class="info-box-icon bg-green-active"><i class="ion ion-university"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">ABONNENTER</span>
 						<span class="info-box-number subscribersCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
-						<div class="progress bg-aqua"></div>
+						<div class="progress bg-green-active"></div>
 						<span class="progress-description text-muted">Fullverdige</span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
 
-			<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+			<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 				<div class="info-box">
-					<span class="info-box-icon bg-red"><i class="ion ion-ios-people-outline"></i></span>
+					<span class="info-box-icon bg-green"><i class="ion ion-ios-people-outline"></i></span>
 					<div class="info-box-content">
-						<span class="info-box-text">BRUKERE</span>
+						<span class="info-box-text">BRUKERE TOTALT</span>
 						<span class="info-box-number globalUsersCountTotal mightOverflow"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
-						<div class="progress bg-red"></div>
+						<div class="progress bg-green"></div>
 						<span class="progress-description text-muted mightOverflow"><span class="globalUsersCountByAffiliation"><!-- --></span></span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
@@ -48,26 +48,57 @@
 			<!-- fix for small devices only -->
 			<div class="clearfix visible-sm-block"></div>
 
-			<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+
+			<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 				<div class="info-box">
-					<span class="info-box-icon bg-green"><i class="ion ion-ios-people"></i></span>
+					<span class="info-box-icon bg-green disabled"><i class="ion ion-ios-people"></i></span>
 					<div class="info-box-content">
-						<span class="info-box-text">MED INNHOLD</span>
-						<span class="info-box-number globalActiveUsersCount mightOverflow"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
-						<div class="progress bg-green"></div>
-						<span class="progress-description text-muted mightOverflow">Ansatte/Studenter</span>
+						<span class="info-box-text">AKTIVE BRUKERE</span>
+						<span class="info-box-number globalActiveUsersCountTotal mightOverflow"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
+						<div class="progress bg-green disabled"></div>
+						<span class="progress-description text-muted mightOverflow"><span class="globalActiveUsersCountByAffiliation"><!-- --></span></span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
 
-			<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+			<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 				<div class="info-box">
-					<span class="info-box-icon bg-yellow-active"><i class="ion ion-ios-film"></i></span>
+					<span class="info-box-icon bg-light-blue-active"><i class="ion ion-upload"></i></span>
+					<div class="info-box-content">
+						<span class="info-box-text">LAGRING</span>
+						<span class="info-box-number subscribersDiskusageTotal"><!-- --></span>
+						<div class="progress bg-light-blue-active"></div>
+						<span class="progress-description text-muted">Akkurat n&aring;</span>
+					</div><!-- /.info-box-content -->
+				</div><!-- /.info-box -->
+			</div><!-- /.col -->
+
+			<!-- fix for small devices only -->
+			<div class="clearfix visible-sm-block"></div>
+
+			<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+				<div class="info-box">
+					<span class="info-box-icon bg-light-blue"><i class="ion ion-ios-film"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text mightOverflow">PRESENTASJONER</span>
 						<span class="info-box-number description-header globalPresentationCount mightOverflow"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
-						<div class="progress bg-yellow-active"></div>
-						<span class="progress-description text-muted">TOTALT</span>
+						<div class="progress bg-light-blue"></div>
+						<span class="progress-description text-muted mightOverflow">Slettede opptak ikke medregnet</span>
+					</div><!-- /.info-box-content -->
+				</div><!-- /.info-box -->
+			</div><!-- /.col -->
+
+			<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+				<div class="info-box">
+					<span class="info-box-icon bg-light-blue disabled"><i class="ion ion-ios-timer-outline"></i></span>
+					<div class="info-box-content">
+						<span class="info-box-text">
+							KØ
+							<button class="icon ion-android-refresh pull-right no-padding btn btn-sm btn-link updateQueue"> oppdater</button>
+						</span>
+						<span class="info-box-number"><span class="queueTotal"><!-- --><i class="fa fa-spinner fa-pulse"></i></span></span>
+						<div class="progress bg-light-blue disabled"></div>
+						<span class="progress-description text-muted">Akkurat n&aring;</span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
@@ -106,6 +137,7 @@
 					<div class="box-header with-border">
 						<h3 class="box-title icon ion-arrow-graph-up-right"> K&oslash;-monitor</h3>
 						<div class="box-tools pull-right">
+							<button class="icon ion-android-refresh no-padding btn btn-sm btn-link updateQueue"> oppdater</button>
 							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 					</div><!-- /.box-header -->

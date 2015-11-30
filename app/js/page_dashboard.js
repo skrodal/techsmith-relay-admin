@@ -20,6 +20,7 @@ var PAGE_DASHBOARD = (function () {
 
 	function refreshQueueMonitor() {
 		$('#pageDashboard').find('#relayQueueMonitor').find('.ajax').show();
+		$('.queueTotal').html('<i class="fa fa-spinner fa-pulse"></i>');
 		$('#relayQueueMonitorContent').html('');
 		$.when(RELAY.serviceQueueXHR()).done(function (queue) {
 			//  TODO: Logic/presentation
@@ -31,8 +32,15 @@ var PAGE_DASHBOARD = (function () {
 					'<strong>Detaljer:</strong> ' + details
 			);
 			$('#pageDashboard').find('#relayQueueMonitor').find('.ajax').hide();
+			$('#pageDashboard').find('#queueBox').find('.ajax').hide();
+
+			$('.queueTotal').html(queue.total || 0);
 		});
 	}
+
+	$('.updateQueue').on('click', function(){
+		refreshQueueMonitor();
+	});
 
 	function _buildLastWeeksHitsChart() {
 		$.when(RELAY.hitsLastWeekXHR()).done(function (hitsArr) {

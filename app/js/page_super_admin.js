@@ -43,7 +43,7 @@ var PAGE_SUPER_ADMIN = (function () {
 		$.when(RELAY.serviceStorageXHR()).done(function (total_mib) {
 			var serviceStorageMiB = total_mib;
 			// On disk as of last reading (total)
-			$('#pageSuperAdmin').find('.subscribersDiskusageTotal').text(UTILS.mib2tb(serviceStorageMiB).toFixed(2) + "TB");
+			// $('#pageSuperAdmin').find('.subscribersDiskusageTotal').text(UTILS.mib2tb(serviceStorageMiB).toFixed(2) + "TB");
 			// Invoice estimate total
 			$('#pageSuperAdmin').find('.totalStorageCostEstimate').text('kr. ' + (UTILS.mib2tb(serviceStorageMiB) * RELAY.storageCostTB()).toFixed());
 			// QuickStats below line graph

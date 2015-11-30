@@ -24,8 +24,8 @@ var MENU = (function () {
 		// Dash only for admins
 		if (KIND.isAdmin()) {
 			PAGE_DASHBOARD.init();
-			$('li#menuDashboard').removeClass('hidden').fadeIn();
-			$('li#menuDashboard').trigger('click');
+			$('#menuDashboard').removeClass('hidden').fadeIn();
+			$('#menuDashboard').trigger('click');
 		}
 
 		// If user has an account
@@ -34,19 +34,19 @@ var MENU = (function () {
 			PAGE_MY_RELAY.init();
 			// If user is not an admin, this is the only page s/he can view
 			if (!KIND.isAdmin()) {
-				$('li#menuMyRelay').trigger('click');
+				$('#menuMyRelay').trigger('click');
 			}
 		}
 
 
 		if (KIND.isSuperAdmin()) {
-			$('li#menuOrgAdmin').removeClass('hidden').fadeIn();
-			$('li#menuSuperAdmin').removeClass('hidden').fadeIn();
+			$('#menuOrgAdmin').removeClass('hidden').fadeIn();
+			$('#menuSuperAdmin').removeClass('hidden').fadeIn();
 			PAGE_ORG_ADMIN.init();
 			PAGE_SUPER_ADMIN.init();
 		} else if (KIND.isOrgAdmin()) {
 			PAGE_ORG_ADMIN.init();
-			$('li#menuOrgAdmin').removeClass('hidden').fadeIn();
+			$('#menuOrgAdmin').removeClass('hidden').fadeIn();
 		}
 
 

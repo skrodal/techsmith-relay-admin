@@ -27,7 +27,7 @@ var RELAY = (function () {
 
 
 	/**
-	 * Trigger point (see APP)
+	 * Only triggered if KIND.isAdmin (see APP)
 	 */
 	function init() {
 		XHR_SUBSCRIBERS_INFO = _getSubscribersInfoXHR();

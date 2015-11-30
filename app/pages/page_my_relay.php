@@ -3,12 +3,6 @@
 		<div class="container">
 			<h1><i class="ion ion-record text-red"></i> <strong>Min</strong>Relay</h1>
 			<p class="lead text-muted">Administrer dine TechSmith Relay presentasjoner</p>
-
-			<mark class="text-muted">Ditt Relay brukernavn er <span class="text-bold relayUserName"></span></mark>
-			<br/><br/>
-			<mark class="text-muted">
-				Nettsted for tjenesten er <a class="text-light-blue" href="https://relay.uninett.no/relay/" target="_blank">https://relay.uninett.no/</a>
-			</mark>
 		</div>
 
 		<div class="pull-right">
@@ -19,7 +13,7 @@
 		</div>
 	</div>
 
-	<h2 class="page-header text-muted">N&oslash;kkeltall</h2>
+	<h2 class="page-header text-muted">N&oslash;kkeltall for ditt innhold</h2>
 
 	<div id="quickStats" class="row">
 		<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
@@ -73,6 +67,41 @@
 			</div><!-- /.info-box -->
 		</div><!-- /.col -->
 	</div>
+
+	<h2 class="page-header text-muted">Informasjon</h2>
+
+	<div class="row">
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+			<div class="box box-solid">
+				<div class="box-header with-border">
+					<h3 class="box-title">Din konto</h3>
+				</div>
+
+				<div class="box-body">
+					<p>Ditt Relay brukernavn er <span class="text-bold relayUserName"></span></p>
+					<p> Nettsted for tjenesten er <a class="text-light-blue" href="https://relay.uninett.no/relay/" target="_blank">https://relay.uninett.no/</a></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+			<div class="box box-solid">
+				<div class="box-header with-border">
+					<h3 class="box-title">Merk</h3>
+				</div>
+
+				<div class="box-body">
+					<ul>
+						<li>Sletting av opptak er, enn så lenge, ikke tilgjengelig.</li>
+						<li>Visningsstatistikk (`hits`) kommer snart.</li>
+						<li>Det kan ofte ta noen timer før dine rykende ferske presentasjoner dukker opp i oversikten.</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<h2 class="page-header text-muted">Oversikt</h2>
 
 	<div id="myRelayContent" class="row">
 		<div class="col-lg-12">
