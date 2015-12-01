@@ -78,8 +78,16 @@
 				</div>
 
 				<div class="box-body">
-					<p>Ditt Relay brukernavn er <span class="text-bold relayUserName"></span></p>
-					<p> Nettsted for tjenesten er <a class="text-light-blue" href="https://relay.uninett.no/relay/" target="_blank">https://relay.uninett.no/</a></p>
+					<p>Brukernavn: <code class="relayUserName"></code></p>
+					<p>E-post: <code class="relayUserEmail"></code></p>
+					<p>
+						Nettsted for tjenesten er <a class="text-light-blue" href="https://relay.uninett.no/relay/" target="_blank">https://relay.uninett.no/</a>.
+						Her kan du endre passord, laste ned programvare, se status på dine publiseringer m.m.
+					</p>
+
+					<p>
+						Brukerveiledninger og mer hjelp med tjenesten finner du på <a class="text-light-blue" href="https://support.ecampus.no/techsmithrelay/" target="_blank">UNINETT eCampus Support</a>.
+					</p>
 				</div>
 			</div>
 		</div>
@@ -205,7 +213,7 @@
 			</div>
 
 			<div class="modal-footer">
-				<button id="presentation_delete" type="button" class="btn bg-red pull-left">
+				<button id="presentation_delete" type="button" class="btn bg-red pull-left disabled">
 					<i class="ion ion-android-delete"></i> SLETT OPPTAK
 				</button>
 

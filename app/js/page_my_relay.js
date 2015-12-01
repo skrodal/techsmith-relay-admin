@@ -52,6 +52,7 @@ var PAGE_MY_RELAY = (function () {
 	function _updateUserUI() {
 		$.when(RELAY_USER.accountXHR()).done(function(userInfo){
 			$('.relayUserName').html(userInfo.username);
+			$('.relayUserEmail').html(userInfo.email);
 		});
 	}
 

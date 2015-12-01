@@ -12,7 +12,7 @@
       </ul><!-- /.sidebar-menu -->
 
 
-		<div id="supportDetails" class="callout bg-light-blue" style="padding: 5px; margin-top: 25px;">
+		<div id="supportDetails" class="alert bg-light-blue-gradient" style="margin-top: 25px;">
 			<!-- -->
 		</div>
     </section>

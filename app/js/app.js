@@ -12,7 +12,12 @@ var APP = (function () {
 	//
 	$(document).ready(function () {
 		// Single instance, shared by all
-		jsonEditor = new JSONEditor(document.getElementById('jsonDataExport'), { "modes": ["view", "text"], "mode": "text", "search": true, "indentation": 4 });
+		jsonEditor = new JSONEditor(document.getElementById('jsonDataExport'), {
+			"modes": ["view", "text"],
+			"mode": "text",
+			"search": true,
+			"indentation": 4
+		});
 
 
 		$.when(FEIDE_CONNECT.readyUser()).done(function () {
@@ -77,23 +82,39 @@ var APP = (function () {
 		$('.subscribersOtherCount').html(KIND.subscriptionCount().other);
 		$('.subscribersTotalCount').html(KIND.subscriptionCount().total);
 
-		// e_post can be URL or email... or not set...
-		var epost = KIND.subscriberDetails().contact_support.e_post || false;
-		if (epost !== false) {
-			// URL or email?
-			epost.indexOf('@') > 0 ?
-				epost = '<a href="mailto:' + epost + '" class="text-navy">Send epost</a>' :
-				epost = '<a href="' + epost + '" target="_blank" class="text-blue">G&aring; til nettsted</a> ';
+
+		var supportEmail, supportName, supportPhone, supportMobile = false;
+
+		if (KIND.subscriberDetails().contact_support) {
+			supportName = KIND.subscriberDetails().contact_support.navn || null;
+			supportPhone = KIND.subscriberDetails().contact_support.direkte_telefon || 'mangler';
+			supportMobile = KIND.subscriberDetails().contact_support.mobil_telefon || 'mangler';
+
+			// Can be URL or email... or not set...
+			supportEmail = KIND.subscriberDetails().contact_support.e_post || false;
+			if (supportEmail !== false) {
+				// URL or email?
+				supportEmail.indexOf('@') > 0 ?
+						supportEmail = '<a href="mailto:' + supportEmail + '" class="text-navy">Send epost</a>' :
+						supportEmail = '<a href="' + supportEmail + '" target="_blank" class="text-blue">G&aring; til nettsted</a> ';
+			}
+
+			// Sidebar
+			$('#supportDetails').html(
+					'<h4>Ditt supportpunkt: </h4>' +
+					'<p class="bold">' + supportName + '</p>' +
+					'<p>' + supportEmail + '</p>' +
+					'<p>Tlf: ' + supportPhone + '</p>' +
+					'<p>Mobil: ' + supportMobile + '</p>'
+			);
+		} else {
+			$('#supportDetails').html(
+					'<h4>Ditt supportpunkt</h4>' +
+					'<p>Vi har dessverre ikke registrert noe kontaktpunkt for ditt lærested. Dersom du trenger bistand, forsøk IT-helpdesk for din avdeling.</p>'
+			);
 		}
 
-		// Sidebar
-		$('#supportDetails').html(
-			'<h4>Ditt supportpunkt: </h4>' +
-			(KIND.subscriberDetails().contact_support.navn == undefined ? '' : '<p class="bold">' + KIND.subscriberDetails().contact_support.navn + '</p>') +
-			'<p>' + epost + '</p>' +
-			(KIND.subscriberDetails().contact_support.mobil_telefon == undefined ? '' : '<p>Mobil: ' + KIND.subscriberDetails().contact_support.mobil_telefon + '</p>') +
-			(KIND.subscriberDetails().contact_support.direkte_telefon == undefined ? '' : '<p>Direkte: ' + KIND.subscriberDetails().contact_support.direkte_telefon + '</p>')
-		);
+
 	}
 
 
@@ -145,7 +166,6 @@ var APP = (function () {
 		// TODO: Something on dashboard about user account
 
 	}
-
 
 
 	// Dynamically add tooltip for overflowed text (requires class mightOverflow on element)
