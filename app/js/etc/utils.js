@@ -74,7 +74,7 @@ var UTILS = (function () {
 		var numhours = Math.floor((seconds % 86400) / 3600);
 		var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
 		var numseconds = ((seconds % 86400) % 3600) % 60;
-		return numdays + " days " + numhours + " hours " + numminutes + " minutes " + numseconds + " seconds";
+		return numdays + " dager " + numhours + " t " + numminutes + " mm " + numseconds + " s";
 	}
 
 	function isNumber(n) {
