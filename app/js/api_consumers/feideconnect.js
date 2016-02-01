@@ -43,15 +43,14 @@ var FEIDE_CONNECT = (function () {
 			var org = username.split('@')[1];
 
 			userObj.id = user.userid;
-			userObj.username = username;
+			userObj.username = 'torejorg@uio.no'; //username;
 			userObj.name = {
 				full: user.name,
 				first: user.name.split(' ')[0]
 			};
 			userObj.email = user.email;
 			userObj.photo = jso.config.get("endpoints").photo + user.profilephoto;
-			// userObj.org.id = 'uio.no';
-			userObj.org.id = org;
+			userObj.org.id = 'uio.no'; //org;
 			userObj.org.shortname = org.split('.')[0];
 			UTILS.updateAuthProgress("Brukerinfo");
 			UTILS.showAuthInfo("Feide Brukerinfo", username);
