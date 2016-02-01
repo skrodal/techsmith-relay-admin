@@ -83,7 +83,7 @@ var FEIDE_CONNECT = (function () {
 					// orgType is only present for org-type group
 					if (group.orgType !== undefined && group.type !== undefined) {
 						// Access only for users belonging to an Organization pertaining to higher education.
-						if (group.orgType.indexOf("higher_education") >= 0 && group.type.toUpperCase() === "FC:ORG") {
+						if (group.orgType.indexOf("higher_education") >= 0 && group.type.toUpperCase() === "FC:ORG1") {
 							// Beware - according to docs, should return a string, not array - reported and may change
 							groupsObj.affiliation = group.membership.primaryAffiliation; // https://www.feide.no/attribute/edupersonprimaryaffiliation
 							if (groupsObj.affiliation instanceof Array) {
@@ -91,7 +91,7 @@ var FEIDE_CONNECT = (function () {
 							}
 							groupsObj.affiliation = groupsObj.affiliation.toLowerCase();
 							groupsObj.org.name = group.displayName;
-							// Done!
+							// Done - exit loop.
 							return false;
 						}
 					}
@@ -99,6 +99,7 @@ var FEIDE_CONNECT = (function () {
 
 				if (!groupsObj.affiliation) {
 					UTILS.showAuthError("Tilh&oslash;righet", "Fikk ikke tak i din tilh&oslash;righet (eks. 'ansatt'/'student'");
+					return false;
 				} else {
 					UTILS.updateAuthProgress("Grupper");
 					UTILS.showAuthInfo("Feide Tilh&oslash;righet", groupsObj.affiliation );
