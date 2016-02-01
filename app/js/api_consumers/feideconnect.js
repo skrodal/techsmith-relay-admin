@@ -107,6 +107,9 @@ var FEIDE_CONNECT = (function () {
 			}
 			return groupsObj;
 		}).fail(function (jqXHR, textStatus, error) {
+			console.error("Grupper: " + jqXHR);
+			console.error("Grupper: " + textStatus);
+			console.error("Grupper: " + error);
 			UTILS.showAuthError("Grupper", jqXHR);
 		});
 	}
