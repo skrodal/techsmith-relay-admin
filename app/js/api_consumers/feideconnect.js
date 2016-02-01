@@ -48,7 +48,7 @@ var FEIDE_CONNECT = (function () {
 				full: user.name,
 				first: user.name.split(' ')[0]
 			};
-			userObj.email = user.email;
+			userObj.email = 't.b.jorgensen@usit.uio.no'; //user.email;
 			userObj.photo = jso.config.get("endpoints").photo + user.profilephoto;
 			userObj.org.id = 'uio.no'; //org;
 			userObj.org.shortname = org.split('.')[0];
