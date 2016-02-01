@@ -98,8 +98,9 @@ var FEIDE_CONNECT = (function () {
 				});
 
 				if (!groupsObj.affiliation) {
-					UTILS.showAuthError("Tilh&oslash;righet", "Fikk ikke tak i din tilh&oslash;righet (eks. 'ansatt'/'student'");
-					return $.Deferred().reject(false, false, "Din org abonnerer ikke p&aring; tjenesten.").promise();
+					// UTILS.showAuthError("Tilh&oslash;righet", "Fikk ikke tak i din tilh&oslash;righet (eks. 'ansatt'/'student')");
+					var errMsg = "Fikk ikke tak i din tilh&oslash;righet (eks. 'ansatt'/'student')";
+					return $.Deferred().reject(errMsg, errMsg, errMsg).promise();
 				} else {
 					UTILS.updateAuthProgress("Grupper");
 					UTILS.showAuthInfo("Feide Tilh&oslash;righet", groupsObj.affiliation );
@@ -107,9 +108,6 @@ var FEIDE_CONNECT = (function () {
 			}
 			return groupsObj;
 		}).fail(function (jqXHR, textStatus, error) {
-			console.error("Grupper: " + jqXHR);
-			console.error("Grupper: " + textStatus);
-			console.error("Grupper: " + error);
 			UTILS.showAuthError("Grupper", jqXHR);
 		});
 	}
