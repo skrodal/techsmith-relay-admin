@@ -51,30 +51,18 @@ var UTILS = (function () {
 	}
 
 	function secToTimeAndDays(seconds) {
-		/*
-		var minutes = Math.floor(totalSec / 60)
-		var seconds = (totalSec % 60).toFixed()
-		var t = two(seconds)
-
-		var hours = Math.floor(minutes / 60)
-		minutes = minutes % 60
-		t = two(minutes) + ":" + t
-
-		var days = Math.floor(hours / 24)
-		hours = hours % 60
-		t = two(hours) + ":" + t
-
-		if (days > 0) {
-			t = days + (days > 1 ? " dager " : " dag ") + t
-		}
-		return t;
-		*/
-
 		var numdays = Math.floor(seconds / 86400);
 		var numhours = Math.floor((seconds % 86400) / 3600);
 		var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
 		var numseconds = ((seconds % 86400) % 3600) % 60;
-		return numdays + " dager " + numhours + " t " + numminutes + " mm " + numseconds + " s";
+
+		if (numdays > 0) {
+			numdays = numdays + (numdays > 1 ? " dager " : " dag ");
+		} else {
+			numdays = "";
+		}
+
+		return numdays + numhours + " t " + numminutes + " mm " + numseconds + " s";
 	}
 
 	function isNumber(n) {
