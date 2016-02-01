@@ -40,7 +40,7 @@ var UTILS = (function () {
 	}
 
 	function secToTime(totalSec) {
-		totalSec+= 44000;
+		totalSec+= 144000;
 		var hours = parseInt(totalSec / 3600);
 		var minutes = parseInt(totalSec / 60) % 60;
 		var seconds = (totalSec % 60).toFixed();
