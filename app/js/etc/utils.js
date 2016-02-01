@@ -40,10 +40,11 @@ var UTILS = (function () {
 	}
 
 	function secToTime(totalSec) {
-		var hours = parseInt(totalSec / 3600) % 24;
+		totalSec+= 44000;
+		var hours = parseInt(totalSec / 3600);
 		var minutes = parseInt(totalSec / 60) % 60;
 		var seconds = (totalSec % 60).toFixed();
-		return (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+		return two(hours) + ":" + two(minutes) + ":" + two(seconds);
 
 	}
 	function two(x) {
