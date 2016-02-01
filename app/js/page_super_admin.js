@@ -242,7 +242,7 @@ var PAGE_SUPER_ADMIN = (function () {
 		var subscribersObj = JSON.parse(JSON.stringify(KIND.subscribers()));
 		// Before passing dataset to table - add storage consumption and usercount per org
 		$.each(subscribersObj, function (org, orgObj) {
-			// Get org from Kind array, map to corresponding Mediasite org and add storage to the end of the Kind array
+			// Get org from Kind array, map to corresponding Relay org and add storage to the end of the Kind array
 			var orgStorageMiB = RELAY.orgStorageTotalMiB(org);
 			var orgUserCount = RELAY.orgUserCount(org);
 			// Create a 6th index in org array
@@ -276,12 +276,12 @@ var PAGE_SUPER_ADMIN = (function () {
 							{
 								"sExtends": "pdf",
 								"sPdfOrientation": "landscape",
-								"sTitle": "Mediasite_Abonnenter"
+								"sTitle": "Relay_Abonnenter"
 							},
 							{
 								"sExtends": "xls",
 								"sButtonText": "Excel (.csv)",
-								"sTitle": "Mediasite_Abonnenter"
+								"sTitle": "Relay_Abonnenter"
 							}
 						]
 					}

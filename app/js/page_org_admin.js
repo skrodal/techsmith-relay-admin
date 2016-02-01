@@ -261,12 +261,12 @@ var PAGE_ORG_ADMIN = (function () {
 								{
 									"sExtends": "pdf",
 									"sPdfOrientation": "landscape",
-									"sTitle": "Mediasite_Abonnenter"
+									"sTitle": "Relay_Abonnenter"
 								},
 								{
 									"sExtends": "xls",
 									"sButtonText": "Excel (.csv)",
-									"sTitle": "Mediasite_Abonnenter"
+									"sTitle": "Relay_Abonnenter"
 								}
 							]
 						}

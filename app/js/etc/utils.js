@@ -50,7 +50,8 @@ var UTILS = (function () {
 		return ((x > 9) ? "" : "0") + x
 	}
 
-	function secToTimeAndDays(totalSec) {
+	function secToTimeAndDays(seconds) {
+		/*
 		var minutes = Math.floor(totalSec / 60)
 		var seconds = (totalSec % 60).toFixed()
 		var t = two(seconds)
@@ -59,7 +60,7 @@ var UTILS = (function () {
 		minutes = minutes % 60
 		t = two(minutes) + ":" + t
 
-		var days = Math.floor(hours / 60)
+		var days = Math.floor(hours / 24)
 		hours = hours % 60
 		t = two(hours) + ":" + t
 
@@ -67,6 +68,13 @@ var UTILS = (function () {
 			t = days + (days > 1 ? " dager " : " dag ") + t
 		}
 		return t;
+		*/
+
+		var numdays = Math.floor(seconds / 86400);
+		var numhours = Math.floor((seconds % 86400) / 3600);
+		var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
+		var numseconds = ((seconds % 86400) % 3600) % 60;
+		return numdays + " days " + numhours + " hours " + numminutes + " minutes " + numseconds + " seconds";
 	}
 
 	function isNumber(n) {
