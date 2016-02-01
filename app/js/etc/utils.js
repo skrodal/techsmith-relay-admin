@@ -62,7 +62,7 @@ var UTILS = (function () {
 			numdays = "";
 		}
 
-		return numdays + numhours + " t " + numminutes + " mm " + numseconds + " s";
+		return numdays + numhours + " t " + numminutes + " m " + numseconds + " s";
 	}
 
 	function isNumber(n) {
