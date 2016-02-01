@@ -165,9 +165,9 @@
 							<div class="col-md-8">
 								<div class="box">
 									<div class="box-body">
-										<h4 class="box-title icon ion-arrow-graph-up-right"> Forbruk disk (i MB)</h4>
+										<h4 class="box-title icon ion-arrow-graph-up-right"> Forbruk disk (i GB)</h4>
 										<p>Viser siste <code class="selectedOrgRecordedDatesNum"></code> datoer med registrert endring på disk for <span class="selectedOrg"></span>.</p>
-										<div id="lineChartAlert" class="callout callout-warning" style="display: none;"></div>
+										<div id="lineChartAlert" class="alert alert-danger" style="display: none;"></div>
 										<div class="chart">
 											<canvas id="orgUsageLineChartSuperAdmin" style="min-height: 350px; max-height: 350px;">
 												<!-- Line Chart -->

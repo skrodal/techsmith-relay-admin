@@ -95,6 +95,7 @@ var PAGE_MY_RELAY = (function () {
 			"bAutoWidth": !true, // Note! Not sure which looks best
 			"language": CONFIG.DATATABLES_LANGUAGE(),
 			"data": contentArr,
+			"order": [[ 3, 'desc' ]],
 			"columns": [
 				// Simon 20FEB2015: 1st column is date presented in a way DataTables can sort (YYYY-MM-DD) and is hidden
 				// The other, visible, date column sorts by this column here. A very useful 'hack'.
@@ -127,7 +128,7 @@ var PAGE_MY_RELAY = (function () {
 						return UTILS.two(date.getUTCDate()) + '. ' + UTILS.months_short(date.getUTCMonth()) + ' ' + date.getUTCFullYear();
 						//return data;
 					},
-					"iDataSort": 0 // USE HIDDEN DATE COLUMN FOR SORTING
+					"iDataSort": 0  // USE HIDDEN DATE COLUMN FOR SORTING
 				},
 
 				{
@@ -144,6 +145,8 @@ var PAGE_MY_RELAY = (function () {
 				}
 			]
 		});
+
+		// contentTable.order( [ 0, 'desc' ] ).draw();
 
 		$('#myRelayContent').find('.ajax').hide();
 	}

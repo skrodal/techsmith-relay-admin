@@ -7,6 +7,9 @@ var UTILS = (function () {
 
 	/**** AUTH CYCLE ****/
 	function updateAuthProgress(msg) {
+
+		console.info ("updateAuthProgress: " + msg);
+
 		var w = parseInt($('#authProgressBar')[0].style.width.slice(0, -1));
 		$('#authProgressBar').width(w + 24 + '%');
 		$('#authProgressBar').text(msg);

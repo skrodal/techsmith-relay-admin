@@ -120,8 +120,13 @@
 
 				<div class="box-body table-responsive">
 					<p>
-						I tabellen finner du alt innhold du har produsert med din TechSmith Relay konto. Klikk p&aring; tittel for mer informasjon.
+						I tabellen finner du alt innhold du har produsert med din TechSmith Relay konto.
 					</p>
+
+					<ul>
+						<li>Klikk p&aring; tittel for mer informasjon.</li>
+						<li>Har du mange presentasjoner - bruk søkefunksjon til høyre, den er veldig bra!</li>
+					</ul>
 
                     <table id="myRelayContentTable" class="table table-bordered table-striped table-hover" style="width: 100%;">
                         <thead>

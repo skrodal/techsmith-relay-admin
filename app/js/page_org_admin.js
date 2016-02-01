@@ -362,7 +362,7 @@ var PAGE_ORG_ADMIN = (function () {
 			var date = new Date(storage.date.sec * 1000);
 			// Chart labels and data
 			labels.push(date.getUTCDate() + '.' + (date.getUTCMonth()+1) + '.' + date.getUTCFullYear());      // Add label
-			data.push(UTILS.mib2mb(storage.size_mib).toFixed(2));    // And value
+			data.push(UTILS.mib2gb(storage.size_mib).toFixed(2));    // And value
 			counter--;
 			if (counter == 0) return false;
 		});

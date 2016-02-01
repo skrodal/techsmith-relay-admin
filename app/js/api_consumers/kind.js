@@ -54,7 +54,7 @@ var KIND = (function () {
 	
 	// Details for logged on user's org
 	function getSubscriberDetails() {
-		return 	KIND.subscribers()[FEIDE_CONNECT.user().org.id];
+		return KIND.subscribers()[FEIDE_CONNECT.user().org.id];
 	}
 	
 	// 1D Array with org names

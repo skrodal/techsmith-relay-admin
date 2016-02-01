@@ -81,9 +81,9 @@ var FEIDE_CONNECT = (function () {
 			} else {
 				$.each(groupsArr, function (index, group) {
 					// orgType is only present for org-type group
-					if (group.orgType !== undefined) {
-						// We only allow higher ed orgs and check that the group is for same org as user's org
-						if (group.orgType.indexOf("higher_education") >= 0 && group.orgType.indexOf("home_organization") >= 0) { // && group.id.indexOf(USER.org.id) >= 0) {
+					if (group.orgType !== undefined && group.type !== undefined) {
+						// Access only for users belonging to an Organization pertaining to higher education.
+						if (group.orgType.indexOf("higher_education") >= 0 && group.type.toUpperCase() === "FC:ORG") {
 							// Beware - according to docs, should return a string, not array - reported and may change
 							groupsObj.affiliation = group.membership.primaryAffiliation; // https://www.feide.no/attribute/edupersonprimaryaffiliation
 							if (groupsObj.affiliation instanceof Array) {
