@@ -99,7 +99,7 @@ var FEIDE_CONNECT = (function () {
 
 				if (!groupsObj.affiliation) {
 					UTILS.showAuthError("Tilh&oslash;righet", "Fikk ikke tak i din tilh&oslash;righet (eks. 'ansatt'/'student'");
-					return false;
+					return $.Deferred().reject(false, false, "Din org abonnerer ikke p&aring; tjenesten.").promise();
 				} else {
 					UTILS.updateAuthProgress("Grupper");
 					UTILS.showAuthInfo("Feide Tilh&oslash;righet", groupsObj.affiliation );
