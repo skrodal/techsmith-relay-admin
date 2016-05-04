@@ -47,8 +47,8 @@ var RELAY = (function () {
 			// Show notification
 			var adminNotification = $.notify(
 				{
-					icon: FEIDE_CONNECT.user().photo,
-					title: 'Hey ' + FEIDE_CONNECT.user().name.first + ', du er admin!',
+					icon: DATAPORTEN.user().photo,
+					title: 'Hey ' + DATAPORTEN.user().name.first + ', du er admin!',
 					message: 'Henter ekstra innhold for deg :-)'
 				},
 				{

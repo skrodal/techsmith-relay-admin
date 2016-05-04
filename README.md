@@ -10,11 +10,11 @@ I pakken inngår følgende sider/tjenester:
     - Kan og bør endres slik at flere har tilgang 
 - Min Relay (for brukere med Relay konto)
 
-I tillegg til UNINETT Connect tjenesteplattform for autentisering benytter RelayAdmin følgende 3.parts APIer:
+I tillegg til UNINETT Dataporten for autentisering benytter RelayAdmin følgende 3.parts APIer:
 
-- Kind API (registrert i Connect)
-  - https://github.com/skrodal/uninett-kind
-- Relay API (registrert i Connect)
+- Kind API (registrert i Dataporten)
+  - https://github.com/skrodal/ecampus-kind
+- Relay API (registrert i Dataporten)
 
 ![Preview](/app/img/RelayAdmin.png)
 

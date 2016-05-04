@@ -19,7 +19,7 @@ var PAGE_SUPER_ADMIN = (function () {
 	 * Called by MENU which checks that necessary data is available
 	 */
 	function init() {
-		SELECTED_ORG = FEIDE_CONNECT.user().org.id;
+		SELECTED_ORG = DATAPORTEN.user().org.id;
 		orgSubscribersTable = _buildOrgSubscribersTable();
 		_updateUI();
 	};

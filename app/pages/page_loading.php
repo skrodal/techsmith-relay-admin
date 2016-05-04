@@ -25,7 +25,7 @@
 
 			<div class="panel">
 				<div class="panel-body text-red">
-				    Tjenesten bruker <a href="http://www.feideconnect.no" target="_blank"><i class="ion ion-star"></i> (Feide)Connect <i class="ion ion-star"></i></a> fra UNINETT for autentisering og dataflyt.
+				    Tjenesten bruker <a href="http://www.dataporten.no" target="_blank"><i class="ion ion-star"></i> Dataporten <i class="ion ion-star"></i></a> fra UNINETT for autentisering og dataflyt.
 				</div>
 			</div>
 		</div>
@@ -37,10 +37,10 @@
 <script src="dist/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
 <!-- JSO -->
 <script src="app/js/auth/jso.js"></script>
-<script src="app/js/auth/connect_auth.js"></script>
+<script src="app/js/auth/dataporten_auth.js"></script>
 
 
-<script src="app/js/api_consumers/feideconnect.js"></script>
+<script src="app/js/api_consumers/dataporten.js"></script>
 <script src="app/js/api_consumers/kind.js"></script>
 
 <script src="app/js/api_consumers/relay.js"></script>

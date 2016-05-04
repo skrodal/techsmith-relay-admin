@@ -20,8 +20,8 @@ var APP = (function () {
 		});
 
 
-		$.when(FEIDE_CONNECT.readyUser()).done(function () {
-			$.when(FEIDE_CONNECT.readyGroups()).done(function () {
+		$.when(DATAPORTEN.readyUser()).done(function () {
+			$.when(DATAPORTEN.readyGroups()).done(function () {
 				// Always
 				updateUIFeide();
 				//
@@ -64,13 +64,13 @@ var APP = (function () {
 	 */
 	function updateUIFeide() {
 		// User-specific
-		$('.userFirstName').html(' ' + FEIDE_CONNECT.user().name.first);
-		$('.userFullName').html(' ' + FEIDE_CONNECT.user().name.full);
-		$('.feideOrg').html(' ' + FEIDE_CONNECT.user().org.name);
-		$('.feideAffiliation').html(' ' + (FEIDE_CONNECT.user().affiliation == "employee") ? " Ansatt" : " Student");
-		$('.userImage').attr('src', FEIDE_CONNECT.user().photo);
+		$('.userFirstName').html(' ' + DATAPORTEN.user().name.first);
+		$('.userFullName').html(' ' + DATAPORTEN.user().name.full);
+		$('.feideOrg').html(' ' + DATAPORTEN.user().org.name);
+		$('.feideAffiliation').html(' ' + (DATAPORTEN.user().affiliation == "employee") ? " Ansatt" : " Student");
+		$('.userImage').attr('src', DATAPORTEN.user().photo);
 		// Dev
-		$('#connectSessionInfo').text(JSON.stringify(FEIDE_CONNECT.user(), undefined, 2));
+		$('#dataportenSessionInfo').text(JSON.stringify(DATAPORTEN.user(), undefined, 2));
 		// Show top logout dropdown
 		$('#userMenu').fadeIn().removeClass('hidden');
 	}
@@ -144,7 +144,7 @@ var APP = (function () {
 		});
 		// User count home org
 		$.when(RELAY.ready()).done(function () {
-			$('.homeOrgUserCount').html(RELAY.orgUserCount(FEIDE_CONNECT.user().org.id));
+			$('.homeOrgUserCount').html(RELAY.orgUserCount(DATAPORTEN.user().org.id));
 		});
 
 		// Server version

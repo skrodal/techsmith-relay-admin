@@ -1,5 +1,5 @@
 /**
- * Feide Connect JSO kickoff for this client.
+ * DATAPORTEN JSO kickoff for this client.
  *
  * Auth and collection of user/group info, all combined in a USER object.
  *
@@ -12,17 +12,17 @@ JSO.enablejQuery($);
 
 // Settings pertaining to this client.
 var jso = new JSO({
-	providerID: "FC-RelayAdmin",
-	client_id: "CONNECT_DASH",
-	redirect_uri: "CONNECT_DASH",
-	authorization: "https://auth.feideconnect.no/oauth/authorization",
+	providerID: "DP-RelayAdmin",
+	client_id: "DATAPORTEN_DASH",
+	redirect_uri: "DATAPORTEN_DASH",
+	authorization: "https://auth.dataporten.no/oauth/authorization",
 	debug: false,
 	endpoints: {
-		groups: "https://groups-api.feideconnect.no/groups/me/groups",
-		photo: "https://auth.feideconnect.no/user/media/",
-		userinfo: "https://auth.feideconnect.no/userinfo",
-		kind: "CONNECT_DASH_3RD_PTY_API",
-		relay: "CONNECT_DASH_3RD_PTY_API"
+		groups: "https://groups-api.dataporten.no/groups/me/groups",
+		photo: "https://auth.dataporten.no/user/media/",
+		userinfo: "https://auth.dataporten.no/userinfo",
+		kind: "DATAPORTEN_DASH_3RD_PTY_API",
+		relay: "DATAPORTEN_DASH_3RD_PTY_API"
 	},
 	kind: {
 		relayID: "FROM_KIND"

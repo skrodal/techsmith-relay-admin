@@ -5,7 +5,7 @@
  * @since August 2015
  */
 
-var FEIDE_CONNECT = (function () {
+var DATAPORTEN = (function () {
 	var USER = {};
 
 	// Autorun

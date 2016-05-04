@@ -14,7 +14,7 @@ var RELAY_ORG = (function () {
 
 	// Autorun
 	(function () {
-		$.when(FEIDE_CONNECT.readyUser()).done(function(){
+		$.when(DATAPORTEN.readyUser()).done(function(){
 			$.when(KIND.ready()).done(function(){
 				if(KIND.isAdmin()){
 					XHR_DISKUSAGE = _getDiskusage();
@@ -27,40 +27,40 @@ var RELAY_ORG = (function () {
 	})();
 
 	function _getDiskusage(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + FEIDE_CONNECT.user().org.id + "/diskusage/", dataType: 'json'}).pipe(function (obj) {
+		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + DATAPORTEN.user().org.id + "/diskusage/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (diskusage):", "Finner ingen lagringspunkt for org <code>" + FEIDE_CONNECT.user().org.id + "</code>");
+			UTILS.alertError("Relay API (diskusage):", "Finner ingen lagringspunkt for org <code>" + DATAPORTEN.user().org.id + "</code>");
 		});
 	}
 
 	function _getPresentations(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + FEIDE_CONNECT.user().org.id + "/presentations/", dataType: 'json'}).pipe(function (obj) {
+		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + DATAPORTEN.user().org.id + "/presentations/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (presentations):", "Finner ingen presentasjoner for org  <code>" + FEIDE_CONNECT.user().org.id + "</code>");
+			UTILS.alertError("Relay API (presentations):", "Finner ingen presentasjoner for org  <code>" + DATAPORTEN.user().org.id + "</code>");
 		});
 	}
 
 	function _getPresentationCount(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + FEIDE_CONNECT.user().org.id + "/presentations/count/", dataType: 'json'}).pipe(function (obj) {
+		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + DATAPORTEN.user().org.id + "/presentations/count/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (presentations):", "Finner ingen presentasjoner for org  <code>" + FEIDE_CONNECT.user().org.id + "</code>");
+			UTILS.alertError("Relay API (presentations):", "Finner ingen presentasjoner for org  <code>" + DATAPORTEN.user().org.id + "</code>");
 		});
 	}
 
 	function _getUsers(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + FEIDE_CONNECT.user().org.id + "/users/", dataType: 'json'}).pipe(function (obj) {
+		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + DATAPORTEN.user().org.id + "/users/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (users):", "Finner ingen brukere for org <code>" + FEIDE_CONNECT.user().org.id + "</code>");
+			UTILS.alertError("Relay API (users):", "Finner ingen brukere for org <code>" + DATAPORTEN.user().org.id + "</code>");
 		});
 	}
 
 
 	function getUser(user){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + FEIDE_CONNECT.user().org.id + "/user/" + user + "/", dataType: 'json'}).pipe(function (obj) {
+		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + DATAPORTEN.user().org.id + "/user/" + user + "/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Finner ikke bruker", "Finner ikke bruker <code>" + user + "</code>");
@@ -68,7 +68,7 @@ var RELAY_ORG = (function () {
 	}
 
 	function getUserContent(user, showAlert){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + FEIDE_CONNECT.user().org.id + "/user/" +  user + "/presentations/", dataType: 'json'}).pipe(function (obj) {
+		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + DATAPORTEN.user().org.id + "/user/" +  user + "/presentations/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			if(showAlert)

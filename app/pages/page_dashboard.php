@@ -245,16 +245,16 @@
 				<!-- Session info (DEV) -->
 				<div class="box box-default">
 					<div class="box-header with-border">
-						<h3 class="box-title ion-ios-person"> (Feide)Connect</h3>
+						<h3 class="box-title ion-ios-person"> Dataporten</h3>
 						<div class="box-tools pull-right">
 							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 					</div>
 					<div class="box-body">
-						<pre><code id="connectSessionInfo"></code></pre>
+						<pre><code id="dataportenSessionInfo"></code></pre>
 					</div><!-- /.box-body -->
 					<div class="box-footer">
-						Attributter hentet fra UNINETT Connect Tjenesteplattform. Evt. feil/mangler kan meldes til <a href="mailto:support@ecampus.no">support@ecampus.no</a>
+						Attributter hentet fra UNINETT Dataporten. Evt. feil/mangler kan meldes til <a href="mailto:support@ecampus.no">support@ecampus.no</a>
 					</div>
 				</div><!-- /.box -->
 
@@ -369,9 +369,9 @@
 							    lærested.
 						    </p>
 
-							<p>(Feide)<strong>Connect</strong></p>
+							<p><strong>Dataporten</strong></p>
 							<p>
-								Tjenesten bruker <a href="http://www.feideconnect.no" target="_blank"><i class="ion ion-star"></i> (Feide)Connect <i class="ion ion-star"></i></a> fra UNINETT for autentisering og dataflyt.
+								Tjenesten bruker <a href="http://www.dataporten.no" target="_blank"><i class="ion ion-star"></i> Dataporten <i class="ion ion-star"></i></a> fra UNINETT for autentisering og dataflyt.
 							</p>
 					</div>
 

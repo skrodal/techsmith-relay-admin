@@ -18,8 +18,8 @@ var PAGE_ORG_ADMIN = (function () {
 	function init() {
 		_updateOrgAdminKindUI();
 		_buildUserTable();
-		USER_ORG_ID = FEIDE_CONNECT.user().org.id;
-		USER_ORG_NAME = FEIDE_CONNECT.user().org.shortname;
+		USER_ORG_ID = DATAPORTEN.user().org.id;
+		USER_ORG_NAME = DATAPORTEN.user().org.shortname;
 	}
 
 	function onShowListener() {

@@ -114,7 +114,7 @@ var PAGE_DASHBOARD = (function () {
 			labelText = KIND.subscriptionCodesToNames()[org.subscription_code];
 			labelColor = KIND.subscriptionCodesToColors()[org.subscription_code];
 			// To highlight home org
-			if (org.org_id == FEIDE_CONNECT.user().org.id) {
+			if (org.org_id == DATAPORTEN.user().org.id) {
 				rowClass = 'active';
 			}
 			// New row

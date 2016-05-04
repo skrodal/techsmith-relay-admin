@@ -14,7 +14,7 @@ var KIND = (function () {
 	// Autorun
 	(function () {
 		// Check subsciber info when we know who the user is
-		$.when(FEIDE_CONNECT.readyUser()).done(function () {
+		$.when(DATAPORTEN.readyUser()).done(function () {
 			XHR_KIND = _getServiceSubscribers();
 		});
 	})();
@@ -54,7 +54,7 @@ var KIND = (function () {
 	
 	// Details for logged on user's org
 	function getSubscriberDetails() {
-		return KIND.subscribers()[FEIDE_CONNECT.user().org.id];
+		return KIND.subscribers()[DATAPORTEN.user().org.id];
 	}
 	
 	// 1D Array with org names
@@ -85,7 +85,7 @@ var KIND = (function () {
 
 	//
 	function isSuperAdmin() {
-		return (FEIDE_CONNECT.user().username.indexOf("@uninett.no") > -1);
+		return (DATAPORTEN.user().username.indexOf("@uninett.no") > -1);
 	}
 
 	//
@@ -93,7 +93,7 @@ var KIND = (function () {
 		if ($.isEmptyObject(KIND.subscriberDetails())) {
 			return false;
 		} else {
-			return (FEIDE_CONNECT.user().email.indexOf(KIND.subscriberDetails().contact_person.e_post.toLowerCase()) > -1);
+			return (DATAPORTEN.user().email.indexOf(KIND.subscriberDetails().contact_person.e_post.toLowerCase()) > -1);
 		}
 	}
 
