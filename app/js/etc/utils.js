@@ -129,7 +129,7 @@ var UTILS = (function () {
 			return  UTILS.two(date.getUTCDate()) + '. ' + UTILS.months_short(date.getUTCMonth()) + ' ' + date.getUTCFullYear();
 		},
 		months_short : function(month){
-			var months = ['jan.', 'feb.', 'apr.', 'mai', 'jun.', 'jul.', 'aug.', 'sep.', 'nov.', 'okt.', 'nov.', 'des.'];
+			var months = ['jan.', 'feb.', 'mar.', 'apr.', 'mai', 'jun.', 'jul.', 'aug.', 'sep.', 'okt.', 'nov.', 'des.'];
 			return months[month];
 		}
 
