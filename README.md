@@ -14,6 +14,11 @@ I pakken inngår følgende sider/tjenester:
 
 ![Preview](/app/img/RelayAdmin.png)
 
+## TODO ##
+
+* Endre tilgangsstyring til å bruke ad-hoc gruppe istedenfor KIND...
+* Dato-selektor for lagringsdata (API tillater mer enn hva UI tilbyr...)
+
 ## Avhengigheter ##
 
 I tillegg til UNINETT Dataporten for autentisering benytter RelayAdmin følgende egenutviklede APIer:
