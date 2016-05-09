@@ -28,7 +28,7 @@ I tillegg til UNINETT Dataporten for autentisering benytter RelayAdmin følgende
 - Relay API (registrert i Dataporten)
     - https://github.com/skrodal/techsmith-relay-api
 
-Mesteparten av Relay-informasjon leses fra datakilder generert at "Relay Harvester":
+Mye av informasjon tilbydt av Relay API er hentet fra datakilder tilgjengeliggjort av "Relay Harvester":
  
  - https://github.com/skrodal/relay-mediasite-harvest
 
