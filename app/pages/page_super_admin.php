@@ -142,13 +142,13 @@
 			</div><!-- /.col  -->
 		</div><!-- /.row -->
 
-		<h2 id="orgDetailsHeader" class="page-header text-muted">Detaljvisning org</h2>
+		<h2 id="orgDetailsHeader" class="page-header text-muted">Detaljvisning</h2>
 
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<h3 class="box-title icon ion-university"> <span class="selectedOrg"></span> &nbsp;&nbsp;&nbsp; <sup><span class="orgSubscriptionStatus"></span></sup></h3>
+						<h3 class="box-title icon ion-university"> Viser oversikt for <span class="selectedOrg"></span> &nbsp;&nbsp;&nbsp; <sup><span class="orgSubscriptionStatus"></span></sup></h3>
 						<div class="box-tools pull-right">
 							<div class="btn-group">
 								<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="ion ion-university"></i> Velg org <span class="fa fa-caret-down"></span></button>
@@ -160,93 +160,82 @@
 						</div>
 					</div>
 					<div class="box-body">
-						<div class="row">
+						<div class="info-box">
+							<span class="info-box-icon bg-aqua"><i class="ion ion-arrow-graph-up-right"></i></span>
+							<div class="info-box-content">
+								<p>
+									Viser siste <code class="selectedOrgRecordedDatesNum"><!----></code> dager med endringer i diskforbruk (i GB) for <code class="selectedOrg"><!----></code>.
+								</p>
+								<p>
+									Bytt org i tittellinja oppe til høyre, eller ved å klikke på pai-grafen.
+								</p>
+							</div><!-- /.info-box-content -->
+						</div>
 
-							<div class="col-md-8">
-								<div class="box">
-									<div class="box-body">
-										<h4 class="box-title icon ion-arrow-graph-up-right"> Forbruk disk (i GB)</h4>
-										<p>Viser siste <code class="selectedOrgRecordedDatesNum"></code> datoer med registrert endring på disk for <span class="selectedOrg"></span>.</p>
-										<div id="lineChartAlert" class="alert alert-danger" style="display: none;"></div>
-										<div class="chart">
-											<canvas id="orgUsageLineChartSuperAdmin" style="min-height: 350px; max-height: 350px;">
-												<!-- Line Chart -->
-											</canvas>
-										</div>
-									</div>
-									<div class="box-footer text-muted">
-										Klikk for å endre farge, høyreklikk for å lagre som bildefil (png).
-									</div>
-								</div>
-							</div>
-
-							<div class="col-md-4">
-								<div class="box">
-									<div class="box-body">
-										<h4 class="box-title icon ion-code-working"> Tall & eksport</h4>
-										<p>Viser detaljer for <span class="selectedOrg"></span></p>.
-										<div class="row">
-											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-												<div class="description-block border-right">
-													<span class="description-percentage text-olive" data-toggle="tooltip" data-original-title="Prosentandel av alle abonnenter"><i class="ion ion-ios-pie"></i> <span class="orgStoragePercentageGlobal"><!-- --></span>%</span>
-													<h5 class="description-header orgTotalStorage"><!-- --></h5>
-													<span class="description-text">LAGRING</span>
-												</div><!-- /.description-block -->
-											</div><!-- /.col -->
-											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-												<div class="description-block border-right">
-													<span class="description-percentage text-aqua"><i class="ion ion-android-people"></i></span>
-													<h5 class="description-header orgUserCount"><!-- --></h5>
-													<span class="description-text">BRUKERE</span>
-												</div><!-- /.description-block -->
-											</div><!-- /.col -->
-											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-												<div class="description-block border-right">
-													<span class="description-percentage text-red"><i class="ion ion-ios-film"></i></span>
-													<h5 class="description-header orgPresentationCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></h5>
-													<span class="description-text">OPPTAK</span>
-												</div><!-- /.description-block -->
-											</div><!-- /.col -->
-											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-												<div class="description-block">
-													<span class="description-percentage text-gray"><i class="ion ion-ios-calendar"></i> Per i dag</span>
-													<h5 class="description-header orgInvoiceEstimate"><!-- --></h5>
-													<span class="description-text">ESTIMAT</span>
-												</div><!-- /.description-block -->
-											</div>
-										</div><!-- /.row -->
-									</div>
-
-									<!-- Export buttons -->
-									<div class="box-footer">
-
-	<button type="button" class="btn btn-default email_export" data-toggle="modal" data-export-group="brukere" data-target="#emailExportSuperAdminModal">
-        <span class="ion ion-ios-email"></span>&nbsp;&nbsp;Epostliste
-    </button>&nbsp;&nbsp;
-
-	<div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle icon ion-code-working" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Data eksport&nbsp;&nbsp;<span class="fa fa-caret-down"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li>
-                <a data-toggle="modal" data-action="Brukere" data-context="superAdmin" data-target="#dataExportModal"><i class="ion ion-ios-people"></i> Metadata <strong>brukere</strong></a>
-            </li>
-            <li>
-                <a data-toggle="modal" data-action="Opptak" data-context="superAdmin" data-target="#dataExportModal"><i class="ion ion-ios-film"></i> Metadata <strong>opptak</strong></a>
-            </li>
-        </ul>
-    </div>
-
-
-									</div>
-								</div>
-							</div>
+						<div id="lineChartAlert" class="alert alert-danger" style="display: none;"></div>
+						<div class="chart">
+							<canvas id="orgUsageLineChartSuperAdmin" style="min-height: 350px; max-height: 350px;">
+								<!-- Line Chart -->
+							</canvas>
+							<span class="text-muted">Klikk for å endre farge, høyreklikk for å lagre som bildefil (png).</span>
 						</div>
 					</div><!-- /.box-body -->
 
-					<div class="box-footer text-muted">
-						<p>Du bytter org ved å klikke på kakediagram i forrige seksjon eller i menyen på tittellinja over.</p>
+					<div class="box-footer">
+						<div class="row">
+							<div class="col-sm-3 col-xs-6">
+								<div class="description-block border-right">
+									<span class="description-percentage text-olive" data-toggle="tooltip" data-original-title="Prosentandel av alle abonnenter"><i class="ion ion-ios-pie"></i> <span class="orgStoragePercentageGlobal"><!-- --></span>%</span>
+									<h5 class="description-header orgTotalStorage"><!-- --></h5>
+									<span class="description-text">TOTALT</span>
+								</div><!-- /.description-block -->
+							</div><!-- /.col -->
+
+							<div class="col-sm-3 col-xs-6">
+								<div class="description-block border-right">
+									<span class="description-percentage text-aqua"><i class="ion ion-android-people"></i></span>
+									<h5 class="description-header orgUserCount"><!-- --></h5>
+									<span class="description-text">BRUKERE</span>
+								</div><!-- /.description-block -->
+							</div><!-- /.col -->
+
+							<div class="col-sm-3 col-xs-6">
+								<div class="description-block border-right">
+									<span class="description-percentage text-red"><i class="ion ion-ios-film"></i></span>
+									<h5 class="description-header orgPresentationCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></h5>
+									<span class="description-text">OPPTAK</span>
+								</div><!-- /.description-block -->
+							</div><!-- /.col -->
+
+							<div class="col-sm-3 col-xs-6">
+								<div class="description-block border-right">
+									<span class="description-percentage text-gray"><i class="ion ion-ios-calendar"></i> Per i dag</span>
+									<h5 class="description-header orgInvoiceEstimate"><!-- --></h5>
+									<span class="description-text">ESTIMAT</span>
+								</div><!-- /.description-block -->
+							</div><!-- /.col -->
+						</div> <!-- /.row -->
+					</div> <!-- /. box-footer -->
+
+					<div class="box-footer">
+						<!-- Export buttons -->
+						<button type="button" class="btn btn-default email_export" data-toggle="modal" data-export-group="brukere" data-target="#emailExportSuperAdminModal">
+					        <span class="ion ion-ios-email"></span>&nbsp;&nbsp;Epostliste
+					    </button>&nbsp;&nbsp;
+
+						<div class="btn-group">
+					        <button type="button" class="btn btn-default dropdown-toggle icon ion-code-working" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					            Data eksport&nbsp;&nbsp;<span class="fa fa-caret-down"></span>
+					        </button>
+					        <ul class="dropdown-menu">
+					            <li>
+					                <a data-toggle="modal" data-action="Brukere" data-context="superAdmin" data-target="#dataExportModal"><i class="ion ion-ios-people"></i> Metadata <strong>brukere</strong></a>
+					            </li>
+					            <li>
+					                <a data-toggle="modal" data-action="Opptak" data-context="superAdmin" data-target="#dataExportModal"><i class="ion ion-ios-film"></i> Metadata <strong>opptak</strong></a>
+					            </li>
+					        </ul>
+					    </div>
 					</div>
 				</div><!-- /.box -->
 			</div><!-- /.col -->
@@ -323,7 +312,7 @@
 					<div class="modal-header bg-dark-gray">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">&nbsp;&nbsp;&nbsp;<span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="modalExportTitle">
-							Epostliste eksport for <strong id="emailExportTargetGroup"><!--JS--></strong>
+							Epostliste eksport for <strong id="emailExportTargetGroup"><!--JS--></strong> ved <code class="selectedOrg"><!----></code>
 							<span id="emailExportCount" class="badge bg-green pull-right" title="Antall adresser i liste"><!--JS--></span>
 						</h4>
 					</div>

@@ -463,14 +463,14 @@ var PAGE_SUPER_ADMIN = (function () {
 			// Find selected export group
 			switch (exportGroup) {
 				case 'Brukere':
-					$modal.find('.modal-title').html('<i class="ion ion-ios-people"></i> Eksporter metadata for alle <strong>brukere</strong>');
+					$modal.find('.modal-title').html('<i class="ion ion-ios-people"></i> Eksporter metadata for alle <strong>brukere</strong> ved <code>' + SELECTED_ORG + '</code>');
 					$modal.find('#legend_users').fadeIn();
 					$.when(RELAY.orgUserListXHR(SELECTED_ORG)).then(function (orgUserList){
 						APP.jsonEditor().set(orgUserList);
 					});
 					break;
 				case 'Opptak':
-					$modal.find('.modal-title').html('<i class="ion ion-ios-film"></i> Eksporter metadata for alle <strong>opptak</strong>');
+					$modal.find('.modal-title').html('<i class="ion ion-ios-film"></i> Eksporter metadata for alle <strong>opptak</strong> fra <code>' + SELECTED_ORG + '</code>');
 					$modal.find('#legend_users').hide();
 					$.when(RELAY.orgPresentationListXHR(SELECTED_ORG)).then(function (orgPresentationList){
 						APP.jsonEditor().set(orgPresentationList);
