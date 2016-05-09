@@ -21,10 +21,10 @@ var KIND = (function () {
 
 
 	function _getServiceSubscribers() {
-		var route = 'service/' + jso.config.get("kind").relayID + '/subscribers/';
+		var route = 'service/' + DP_AUTH.config().kind.relayID + '/subscribers/';
 		
-		return jso.ajax({
-			url: jso.config.get("endpoints").kind + route,
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.kind + route,
 			dataType: 'json'
 		})
 			.then(function (response, status, res) {

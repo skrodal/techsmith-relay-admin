@@ -7,7 +7,7 @@
 
 var RELAY = (function () {
 	// Default value
-	var STORAGE_COST_PER_TB = 11000;
+	var STORAGE_COST_PER_TB = 15000;
 	// Indicator
 	var READY = $.Deferred();
 	// Bunch of ajax calls for org storage, only READY when all of these are done
@@ -71,8 +71,8 @@ var RELAY = (function () {
 
 	/** data.version **/
 	function _getServiceVersionXHR() {
-		return jso.ajax({
-			url: jso.config.get("endpoints").relay + "service/version/",
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "service/version/",
 			dataType: 'json'
 		}).pipe(function (obj) {
 			return obj.data.versValue;
@@ -83,8 +83,8 @@ var RELAY = (function () {
 
 	/** data.total **/
 	function _getServiceWorkersXHR() {
-		return jso.ajax({
-			url: jso.config.get("endpoints").relay + "service/workers/",
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "service/workers/",
 			dataType: 'json'
 		}).pipe(function (obj) {
 			return obj.data.length;
@@ -95,8 +95,8 @@ var RELAY = (function () {
 
 	/** data.total, data.jobs[] **/
 	function getServiceQueueXHR() {
-		return jso.ajax({
-			url: jso.config.get("endpoints").relay + "service/queue/",
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "service/queue/",
 			dataType: 'json'
 		}).pipe(function (obj) {
 			return obj.data;
@@ -107,8 +107,8 @@ var RELAY = (function () {
 
 	/** data **/
 	function _getServiceStorageXHR() {
-		return jso.ajax({
-			url: jso.config.get("endpoints").relay + "service/diskusage/",
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "service/diskusage/",
 			dataType: 'json'
 		}).pipe(function (obj) {
 			return obj.data;
@@ -119,8 +119,8 @@ var RELAY = (function () {
 
 	/** data.employees, data.students **/
 	function _getTotalUsersByAffiliationCountXHR() {
-		return jso.ajax({
-			url: jso.config.get("endpoints").relay + "service/users/affiliation/count/",
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "service/users/affiliation/count/",
 			dataType: 'json'
 		}).pipe(function (obj) {
 			return obj.data;
@@ -131,8 +131,8 @@ var RELAY = (function () {
 
 	/** data.employees, data.students **/
 	function _getTotalActiveUsersByAffiliationCountXHR() {
-		return jso.ajax({
-			url: jso.config.get("endpoints").relay + "service/users/affiliation/active/count/",
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "service/users/affiliation/active/count/",
 			dataType: 'json'
 		}).pipe(function (obj) {
 			return obj.data;
@@ -143,8 +143,8 @@ var RELAY = (function () {
 
 	/** data.total  **/
 	function getOrgPresentationCountXHR(org) {
-		return jso.ajax({
-			url: jso.config.get("endpoints").relay + "org/" + org + "/presentations/count/",
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "org/" + org + "/presentations/count/",
 			dataType: 'json'
 		}).pipe(function (obj) {
 			return obj.data;
@@ -156,7 +156,7 @@ var RELAY = (function () {
 
 	function getOrgPresentationListXHR(org) {
 		if(KIND.isSuperAdmin()){
-			return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + org + "/presentations/", dataType: 'json'}).pipe(function (obj) {
+			return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + org + "/presentations/", dataType: 'json'}).pipe(function (obj) {
 				return obj.data;
 			}).fail(function (jqXHR, textStatus, error) {
 				UTILS.alertError("Relay API (presentations):", "Finner ingen presentasjoner for org  <code>" + org + "</code>");
@@ -168,7 +168,7 @@ var RELAY = (function () {
 	function getOrgUserListXHR(org){
 		// Only for super admins
 		if(KIND.isSuperAdmin()) {
-			return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + org + "/users/", dataType: 'json'}).pipe(function (obj) {
+			return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + org + "/users/", dataType: 'json'}).pipe(function (obj) {
 				return obj.data;
 			}).fail(function (jqXHR, textStatus, error) {
 				UTILS.alertError("Relay API (users):", "Finner ingen brukere for org <code>" + org + "</code>");
@@ -179,8 +179,8 @@ var RELAY = (function () {
 
 	/** data.org, data.org.users, data.org.presentations, data.org.total_mib, data.org.storage[] **/
 	function _getSubscribersInfoXHR() {
-		return jso.ajax({
-			url: jso.config.get("endpoints").relay + "admin/orgs/info/",
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "admin/orgs/info/",
 			dataType: 'json'
 		}).pipe(function (orgList) {
 			return orgList.data;
@@ -191,8 +191,8 @@ var RELAY = (function () {
 
 	/** paginator.total_count **/
 	function _getPresentationsTotalXHR() {
-		return jso.ajax({
-			url: jso.config.get("endpoints").relay + "service/presentations/count/",
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "service/presentations/count/",
 			dataType: 'json'
 		}).pipe(function (obj) {
 			return obj.data;
@@ -207,8 +207,8 @@ var RELAY = (function () {
 		var d = new Date(new Date().setDate(new Date().getDate() - 8));
 		var weekAgo = d.getFullYear() + '-' + (d.getUTCMonth() + 1) + '-' + d.getUTCDate();
 
-		return jso.ajax({
-			url: jso.config.get("endpoints").relay + "requests/from/" + weekAgo + "/to/" + yesterday,
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "requests/from/" + weekAgo + "/to/" + yesterday,
 			dataType: 'json'
 		}).pipe(function (hitsArr) {
 			return hitsArr.data;

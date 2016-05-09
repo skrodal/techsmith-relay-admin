@@ -72,7 +72,7 @@
 	    <h2 class="page-header text-muted">Fakturering &amp; oversikt</h2>
 
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-8">
 				<div id="usersPie" class="box box-success">
 					<div class="box-header with-border">
 						<h3 class="box-title icon ion-ios-pie"> Fordeling av brukere</i></h3>
@@ -86,12 +86,12 @@
 						<i class="fa fa-spinner fa-pulse"></i>
 					</div>
 					<div class="box-footer text-muted">
-						Klikk p&aring; graf for &aring; oppdatere detaljvisning nedenfor.
+						Klikk på paien for å oppdatere detaljvisning nedenfor :)
 					</div>
 				</div><!-- /.box -->
 			</div><!-- /.col -->
 
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<div class="box box-success">
 					<div class="box-header with-border">
 						<h3 class="box-title icon ion-arrow-graph-down-right"> Kostnadsestimator</h3>
@@ -127,13 +127,13 @@
 									<div class="col-md-6">
 										<div class="description-block border-right">
 											<h5 class="description-header costTB"><!-- --></h5>
-											<span class="description-text">PRIS PER TB</span>
+											<span class="description-text">PER TB</span>
 										</div><!-- /.description-block -->
 									</div><!-- /.col -->
 									<div class="col-md-6">
 										<div class="description-block border-right">
 											<h5 class="description-header totalStorageCostEstimate"><!-- --></h5>
-											<span class="description-text">FAKTURAESTIMAT</span>
+											<span class="description-text">ESTIMAT</span>
 										</div><!-- /.description-block -->
 									</div><!-- /.col -->
 								</div><!-- /.row -->
@@ -175,7 +175,7 @@
 										</div>
 									</div>
 									<div class="box-footer text-muted">
-										Klikk p&aring; grafen for annen farge | H&oslash;yreklikk for &aring; lagre bildefil.
+										Klikk for å endre farge, høyreklikk for å lagre som bildefil (png).
 									</div>
 								</div>
 							</div>

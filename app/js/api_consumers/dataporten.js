@@ -25,8 +25,8 @@ var DATAPORTEN = (function () {
 	})();
 
 	function _getUserInfo() {
-		return jso.ajax({
-			url: jso.config.get("endpoints").userinfo,
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().dp_endpoints.userinfo,
 			oauth: { scopes: { request: ["userinfo userinfo-feide userinfo-mail userinfo-photo"] } },
 			dataType: 'json'
 		}).pipe(function (userData) {
@@ -49,7 +49,7 @@ var DATAPORTEN = (function () {
 				first: user.name.split(' ')[0]
 			};
 			userObj.email = user.email;
-			userObj.photo = jso.config.get("endpoints").photo + user.profilephoto;
+			userObj.photo = DP_AUTH.config().dp_endpoints.photo + user.profilephoto;
 			userObj.org.id = org;
 			userObj.org.shortname = org.split('.')[0];
 			UTILS.updateAuthProgress("Brukerinfo");
@@ -64,8 +64,9 @@ var DATAPORTEN = (function () {
 	 * Populate USER object with group info, mostly interested in EduPersonAffiliation...
 	 */
 	function _getUserGroups() {
-		return jso.ajax({
-			url: jso.config.get("endpoints").groups,
+		return DP_AUTH.jso().ajax({
+			//url: DP_AUTH.config().dp_endpoints.groups,
+			url: DP_AUTH.config().dp_endpoints.groups + 'me/groups',
 			oauth: { scopes: { request: ["groups"] } },
 			dataType: 'json'
 		}).pipe(function (groupsData) {

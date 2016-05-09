@@ -27,7 +27,7 @@ var RELAY_ORG = (function () {
 	})();
 
 	function _getDiskusage(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + DATAPORTEN.user().org.id + "/diskusage/", dataType: 'json'}).pipe(function (obj) {
+		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/diskusage/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (diskusage):", "Finner ingen lagringspunkt for org <code>" + DATAPORTEN.user().org.id + "</code>");
@@ -35,7 +35,7 @@ var RELAY_ORG = (function () {
 	}
 
 	function _getPresentations(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + DATAPORTEN.user().org.id + "/presentations/", dataType: 'json'}).pipe(function (obj) {
+		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/presentations/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (presentations):", "Finner ingen presentasjoner for org  <code>" + DATAPORTEN.user().org.id + "</code>");
@@ -43,7 +43,7 @@ var RELAY_ORG = (function () {
 	}
 
 	function _getPresentationCount(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + DATAPORTEN.user().org.id + "/presentations/count/", dataType: 'json'}).pipe(function (obj) {
+		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/presentations/count/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (presentations):", "Finner ingen presentasjoner for org  <code>" + DATAPORTEN.user().org.id + "</code>");
@@ -51,7 +51,7 @@ var RELAY_ORG = (function () {
 	}
 
 	function _getUsers(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + DATAPORTEN.user().org.id + "/users/", dataType: 'json'}).pipe(function (obj) {
+		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/users/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (users):", "Finner ingen brukere for org <code>" + DATAPORTEN.user().org.id + "</code>");
@@ -60,7 +60,7 @@ var RELAY_ORG = (function () {
 
 
 	function getUser(user){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + DATAPORTEN.user().org.id + "/user/" + user + "/", dataType: 'json'}).pipe(function (obj) {
+		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/user/" + user + "/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Finner ikke bruker", "Finner ikke bruker <code>" + user + "</code>");
@@ -68,7 +68,7 @@ var RELAY_ORG = (function () {
 	}
 
 	function getUserContent(user, showAlert){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "org/" + DATAPORTEN.user().org.id + "/user/" +  user + "/presentations/", dataType: 'json'}).pipe(function (obj) {
+		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/user/" +  user + "/presentations/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			if(showAlert)

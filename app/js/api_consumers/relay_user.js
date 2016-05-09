@@ -39,7 +39,7 @@ var RELAY_USER = (function () {
 
 	// {}
 	function _getUserAccountXHR(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "me/", dataType: 'json'}).pipe(function (obj) {
+		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "me/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.showAuthInfo("TechSmith Relay Bruker", RELAY_USER.hasAccount() );
@@ -49,7 +49,7 @@ var RELAY_USER = (function () {
 
 	// []
 	function _getUserContentXHR(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "me/presentations/", dataType: 'json'}).pipe(function (obj) {
+		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "me/presentations/", dataType: 'json'}).pipe(function (obj) {
 			HAS_CONTENT = obj.data.length > 0;
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
@@ -59,7 +59,7 @@ var RELAY_USER = (function () {
 
 	// []
 	function _getUserDiskusageXHR(){
-		return jso.ajax({url: jso.config.get("endpoints").relay + "me/diskusage/", dataType: 'json'}).pipe(function (obj) {
+		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "me/diskusage/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data.storage;
 		}).fail(function (jqXHR, textStatus, error) {
 			return false;

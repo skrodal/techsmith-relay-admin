@@ -72,7 +72,7 @@
 		<h2 class="page-header text-muted">Lagring &amp; Fakturering</h2>
 
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-8">
 				<div class="box box-default">
 					<div class="box-header with-border">
 						<h3 class="box-title icon ion-arrow-graph-up-right"> Forbruk lagring (i GB)</h3>
@@ -91,14 +91,14 @@
 							</canvas>
 						</div>
 					</div><!-- /.box-body -->
-					<div class="box-footer">
-						Grafen kan lagres som bildefil (png) med <code>h&oslash;yreklikk -> lagre som...</code>. <span class="text-muted">Klikk p&aring; grafen for &aring; endre farge...</span>
+					<div class="box-footer text-muted">
+						Klikk for å endre farge, høyreklikk for å lagre som bildefil (png).
 					</div>
 				</div><!-- /.box -->
 			</div>
 
 
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<h3 class="box-title icon ion-arrow-graph-down-right"> Kostnadsestimator</h3>
@@ -130,13 +130,13 @@
 							<div class="col-md-6">
 								<div class="description-block border-right">
 									<h5 class="description-header costTB"><!-- --></h5>
-									<span class="description-text">PRIS PER TB</span>
+									<span class="description-text">PER TB</span>
 								</div><!-- /.description-block -->
 							</div><!-- /.col -->
 							<div class="col-md-6">
 								<div class="description-block border-right">
 									<h5 class="description-header orgStorageCostEstimate"><!-- --></h5>
-									<span class="description-text">FAKTURAESTIMAT</span>
+									<span class="description-text">ESTIMAT</span>
 								</div><!-- /.description-block -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->

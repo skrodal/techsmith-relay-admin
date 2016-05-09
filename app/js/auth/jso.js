@@ -374,7 +374,7 @@
 
 			//Support require(['a'])
 			callback = callback || function () {
-			};
+				};
 
 			//If relName is a function, it is an errback handler,
 			//so remove it.
@@ -440,9 +440,12 @@
 
 	define('utils', ['require', 'exports', 'module'], function (require, exports, module) {
 
-
 		var utils = {};
+		var debug = true;
 
+		utils.setDebug = function(bool){
+			debug = bool;
+		}
 
 		/*
 		 * Returns epoch, seconds since 1970.
@@ -528,7 +531,8 @@
 		 * @param  {string} msg Log message
 		 */
 		utils.log = function (msg) {
-			//if (!options.debug) return;
+			// if (!options.debug) return;
+			if(!debug) return;
 			if (!console) return;
 			if (!console.log) return;
 
@@ -586,7 +590,11 @@
 
 		var utils = require('./utils');
 		var store = {};
+		var debug = true;
 
+		store.setDebug = function(bool) {
+			debug = bool;
+		}
 
 		/**
 		 saveState stores an object with an Identifier.
@@ -619,6 +627,7 @@
 		 */
 		var log = function (msg) {
 			//if (!options.debug) return;
+			if(!debug) return;
 			if (!console) return;
 			if (!console.log) return;
 
@@ -811,21 +820,20 @@
 		var
 			default_config = {
 				"lifetime": 3600,
-				"debug": true,
-				"foo": {
-					"bar": "lsdkjf"
-				}
+				"debug": true
 			};
 
 		var store = require('./store');
 		var utils = require('./utils');
 		var Config = require('./Config');
 
-
 		var JSO = function (config) {
 
 			this.config = new Config(default_config, config);
 			this.providerID = this.getProviderID();
+
+			utils.setDebug(this.config.config.debug);
+			store.setDebug(this.config.config.debug);
 
 			JSO.instances[this.providerID] = this;
 
