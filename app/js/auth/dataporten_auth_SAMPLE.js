@@ -32,9 +32,10 @@ var DP_AUTH = (function () {
 		kind: {
 			relayID: "FROM_KIND"
 		},
+		/* Ikke implementert enda! */
 		access_group: {
-			groupID: "fc:adhoc:3fa31510-d111-448e-97da-879fd003ea30",
-			invitation: "https://grupper.dataporten.no/#!/invitation/3fa31510-d111-448e-97da-879fd003ea30/6c56edaa-1022-4d2a-8906-f4542355c867"
+			groupID: "DP AD-HOC GROUP ID",
+			invitation: "URL"
 		}
 	};
 
