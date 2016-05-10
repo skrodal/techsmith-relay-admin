@@ -27,7 +27,6 @@ var DATAPORTEN = (function () {
 	function _getUserInfo() {
 		return DP_AUTH.jso().ajax({
 			url: DP_AUTH.config().dp_endpoints.userinfo,
-			oauth: { scopes: { request: ["userinfo userinfo-feide userinfo-mail userinfo-photo"] } },
 			dataType: 'json'
 		}).pipe(function (userData) {
 			var user = userData.user;
@@ -65,9 +64,7 @@ var DATAPORTEN = (function () {
 	 */
 	function _getUserGroups() {
 		return DP_AUTH.jso().ajax({
-			//url: DP_AUTH.config().dp_endpoints.groups,
 			url: DP_AUTH.config().dp_endpoints.groups + 'me/groups',
-			oauth: { scopes: { request: ["groups"] } },
 			dataType: 'json'
 		}).pipe(function (groupsData) {
 			var groupsArr = groupsData;

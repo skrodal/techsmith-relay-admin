@@ -9,7 +9,7 @@
 			        <div id="authProgressBar" class="progress-bar progress-bar-light-blue" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><!-- updateProgress --></div>
 			    </div>
 				<!-- -->
-				<p>Går ting tregt, eller har stoppet helt opp? <button class="btn btn-link" onclick="jso.wipeTokens(); location.reload();">Klikk her og prøv på nytt.</button></p>
+				<p>Går ting tregt, eller har stoppet helt opp? <button class="btn btn-link" onclick="DP_AUTH.wipeTokens(); location.reload();">Klikk her og prøv på nytt.</button></p>
 			</div>
 
 			<div id="authError" class="alert alert-danger hidden">
