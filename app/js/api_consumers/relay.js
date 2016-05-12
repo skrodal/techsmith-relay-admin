@@ -7,7 +7,7 @@
 
 var RELAY = (function () {
 	// Default value
-	var STORAGE_COST_PER_TB = 15000;
+	var STORAGE_COST_PER_TB = 12000;
 	// Indicator
 	var READY = $.Deferred();
 	// Bunch of ajax calls for org storage, only READY when all of these are done
