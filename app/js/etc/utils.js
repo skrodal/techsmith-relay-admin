@@ -41,13 +41,15 @@ var UTILS = (function () {
 
 	// {icon, iconcolor, title, message}
 	function notify(settingsObj){
+		var delay = settingsObj.delay ? settingsObj.delay : 4000;
+
 		return $.notify(
 			{
 				title: settingsObj.title,
 				message: settingsObj.message
 			},
 			{
-				type: 'minimalist', delay: 4000, allow_dismiss: true, icon_type: 'class',
+				type: 'minimalist', delay: delay, allow_dismiss: true, icon_type: 'class',
 				placement: {from: "top", align: "right"},
 				template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
 				'<span data-notify="icon" class="img-circle pull-left ion '+settingsObj.icon+'" style="font-size: 50px; color: '+settingsObj.iconcolor+';"></span>' +

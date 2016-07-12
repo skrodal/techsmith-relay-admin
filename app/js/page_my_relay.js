@@ -387,8 +387,6 @@ var PAGE_MY_RELAY = (function () {
 			case "moved":
 				$.when(RELAY_USER.undeletePresentationXHR(btn.data("undeletePath"))).done(function (response) {
 					btn.button('reset');
-					// Notify user
-					UTILS.notify({icon : 'ion-ios-checkmark', iconcolor : 'green', title : 'Sletting kansellert', message : 'Presentasjonen vil bli gjenopprettet snart' });
 					// UPDATE TABLES
 					_updateDeleteListAndBuildTables();
 				});
@@ -396,8 +394,6 @@ var PAGE_MY_RELAY = (function () {
 			case "unmoved":
 				$.when(RELAY_USER.removePresentationXHR(btn.data("restorePath"))).done(function (response) {
 					btn.button('reset');
-					//
-					UTILS.notify({icon : 'ion-ios-checkmark', iconcolor : 'green', title : 'Sletting kansellert', message : 'Presentasjonen vil ikke lenger bli slettet' });
 					// UPDATE TABLES
 					_updateDeleteListAndBuildTables();
 				});
@@ -420,8 +416,6 @@ var PAGE_MY_RELAY = (function () {
 				btn.button('reset');
 				// Hide modal window
 				$('#myRelayPresentationModal').modal('hide');
-				// Notify user
-				UTILS.notify({icon : 'ion-trash-a', iconcolor : 'indianred', title : 'Presentasjon vil slettes', message : 'Presentasjonen vil slettes kl. 03:00' });
 				// UPDATE TABLES
 				_updateDeleteListAndBuildTables();
 			});
