@@ -53,7 +53,7 @@ var RELAY_USER = (function () {
 			HAS_CONTENT = obj.data.length > 0;
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
-			return false;
+			UTILS.notify({icon: 'ion-android-cancel', iconcolor : 'red', title : 'OPS!', message : 'En feil oppstod: Fikk ikke hentet dine presentasjoner. Min Relay vil ikke fungere.'});
 		});
 	}
 
@@ -62,11 +62,137 @@ var RELAY_USER = (function () {
 		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "me/diskusage/", dataType: 'json'}).pipe(function (obj) {
 			return obj.data.storage;
 		}).fail(function (jqXHR, textStatus, error) {
-			return false;
+			UTILS.notify({icon: 'ion-android-cancel', iconcolor : 'red', title : 'OPS!', message : 'En feil oppstod: Fikk ikke tak i all informasjon om ditt innhold.'});
 		});
 	}
 
 
+	/**
+	 * All presentations (deleted, moved, undelete) for this user.
+	 * @returns {*}
+	 * @private
+	 */
+	function _presDeleteListAllXHR(){
+		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "me/presentations/deletelist/all/", dataType: 'json'}).pipe(function (obj) {
+			return obj.status ? obj.data : false;
+		}).fail(function (jqXHR, textStatus, error) {
+			UTILS.notify({icon: 'ion-android-cancel', iconcolor : 'red', title : 'OPS!', message : 'En feil oppstod: Fikk ikke hentet dine presentasjoner. Min Relay vil ikke fungere.'});
+		});
+	}
+
+	/*
+		// Unused, utilising _presDeleteListAllXHR() instead
+		//
+	function _presDeleteGetNotYetMovedXHR(){
+		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "me/presentations/deletelist/notmoved/", dataType: 'json'}).pipe(function (obj) {
+			return obj.status ? obj.data : false;
+		}).fail(function (jqXHR, textStatus, error) {
+			return false;
+		});
+	}
+
+	function _presDeleteGetMovedXHR(){
+		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "me/presentations/deletelist/moved/", dataType: 'json'}).pipe(function (obj) {
+			return obj.status ? obj.data : false;
+		}).fail(function (jqXHR, textStatus, error) {
+			return false;
+		});
+	}
+
+	function _presDeleteGetDeletedXHR(){
+		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "me/presentations/deletelist/deleted/", dataType: 'json'}).pipe(function (obj) {
+			return obj.status ? obj.data : false;
+		}).fail(function (jqXHR, textStatus, error) {
+			return false;
+		});
+	}
+	*/
+
+	/**
+	 * Call deletelist API to request that a path be deleted
+	 * @param presentationPath
+	 * @returns {*}
+	 * @private
+	 */
+	function _presDeletePresentationXHR(presentationPath){
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "me/presentation/deletelist/delete/",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify({
+				"presentation": {
+					"username": DATAPORTEN.user().username + 'aa',
+					"path": presentationPath
+				}
+			})
+		})
+			.done(function(data, textStatus, jqXHR) {
+				console.log("HTTP Request Succeeded: " + jqXHR.status);
+				console.log(data);
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				UTILS.notify({icon: 'ion-android-cancel', iconcolor : 'red', title : 'OPS!', message : 'En feil oppstod: <code>' + jqXHR.responseJSON.message + '</code>'});
+			})
+			.always(function() {
+				/* ... */
+			});
+
+	}
+
+	/**
+	 * Delete a presentation path from deletelist (before it is moved)
+	 * @param presentationPath
+	 * @returns {*}
+	 * @private
+	 */
+	function _presDeleteRemovePresentationXHR(presentationPath){
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "me/presentation/deletelist/restore/",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify({
+				"presentation": {
+					"username": DATAPORTEN.user().username,
+					"path": presentationPath
+				}
+			})
+		})
+			.done(function(data, textStatus, jqXHR) {
+				console.log("HTTP Request Succeeded: " + jqXHR.status);
+				console.log(data);
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				UTILS.notify({icon: 'ion-android-cancel', iconcolor : 'red', title : 'OPS!', message : 'En feil oppstod: <code>' + jqXHR.responseJSON.message + '</code>'});
+			})
+			.always(function() {
+				/* ... */
+			});
+	}
+
+	function _presDeleteUndeletePresentationXHR(presentationPath){
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "me/presentation/deletelist/undelete/",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify({
+				"presentation": {
+					"username": DATAPORTEN.user().username,
+					"path": presentationPath
+				}
+			})
+		})
+			.done(function(data, textStatus, jqXHR) {
+				console.log("HTTP Request Succeeded: " + jqXHR.status);
+				console.log(data);
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				UTILS.notify({icon: 'ion-android-cancel', iconcolor : 'red', title : 'OPS!', message : 'En feil oppstod: ' + textStatus});
+				console.log("Error thrown: " + errorThrown);
+			})
+			.always(function() {
+				/* ... */
+			});
+	}
 
 	return {
 		ready: function(){
@@ -86,6 +212,27 @@ var RELAY_USER = (function () {
 		},
 		hasContent: function(){
 			return HAS_CONTENT;
+		},
+		getPresentationsDeleteListXHR: function() {
+			return _presDeleteListAllXHR();
+		},
+		getDeletedPresentationsXHR: function() {
+			return _presDeleteGetDeletedXHR();
+		},
+		getMovedPresentationsXHR: function() {
+			return _presDeleteGetMovedXHR()
+		},
+		getNotYetMovedPresentationsXHR: function() {
+			return _presDeleteGetNotYetMovedXHR();
+		},
+		deletePresentationXHR: function(presentationPath) {
+			return _presDeletePresentationXHR(presentationPath);
+		},
+		removePresentationXHR: function(presentationPath) {
+			return _presDeleteRemovePresentationXHR(presentationPath);
+		},
+		undeletePresentationXHR: function(presentationPath) {
+			return _presDeleteUndeletePresentationXHR(presentationPath);
 		}
 	}
 })();

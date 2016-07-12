@@ -39,6 +39,24 @@ var UTILS = (function () {
 		$('#modalInfoAlert').modal('show');
 	}
 
+	// {icon, iconcolor, title, message}
+	function notify(settingsObj){
+		return $.notify(
+			{
+				title: settingsObj.title,
+				message: settingsObj.message
+			},
+			{
+				type: 'minimalist', delay: 4000, allow_dismiss: true, icon_type: 'class',
+				placement: {from: "top", align: "right"},
+				template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+				'<span data-notify="icon" class="img-circle pull-left ion '+settingsObj.icon+'" style="font-size: 50px; color: '+settingsObj.iconcolor+';"></span>' +
+				'<span data-notify="title">{1}</span>' +
+				'<span data-notify="message">{2}</span>' +
+				'</div>'
+			});
+	}
+
 	function secToTime(totalSec) {
 		var hours = parseInt(totalSec / 3600);
 		var minutes = parseInt(totalSec / 60) % 60;
@@ -93,6 +111,9 @@ var UTILS = (function () {
 		},
 		showAuthInfo: function (funcname, msg) {
 			showAuthInfo(funcname, msg);
+		},
+		notify: function (settingsObj) {
+			notify(settingsObj);
 		},
 		alertError: function (title, message) {
 			alertError(title, message);

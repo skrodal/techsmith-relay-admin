@@ -254,7 +254,7 @@
 						<pre><code id="dataportenSessionInfo"></code></pre>
 					</div><!-- /.box-body -->
 					<div class="box-footer">
-						Attributter hentet fra UNINETT Dataporten. Evt. feil/mangler kan meldes til <a href="mailto:support@ecampus.no">support@ecampus.no</a>
+						Attributter hentet fra UNINETT Dataporten. Evt. feil/mangler kan meldes til <a href="mailto:kontakt@uninett.no">kontakt@uninett.no</a>
 					</div>
 				</div><!-- /.box -->
 

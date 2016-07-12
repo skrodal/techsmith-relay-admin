@@ -16,7 +16,7 @@
 				<h4><i class="icon fa fa-ban"></i> Beklager! P&aring;loggingsprosessen har dessverre feilet ;-(</h4>
 				<p class="text-bold">Rapporterte &aring;rsak ser du under.</p>
 				<p>Dersom du mener dette er feil kan du kan fors&oslash;ke &aring; laste siden p&aring; nytt.</p>
-				<p>Om problemet vedvarer kan du si ifra om feilen til <a href="mailto:support@ecampus.no">support@ecampus.no</a></p>
+				<p>Om problemet vedvarer kan du si ifra om feilen til <a href="mailto:kontakt@uninett.no">kontakt@uninett.no</a></p>
 			</div>
 
 			<div id="authInfo" class="alert bg-light-blue hidden">
@@ -38,7 +38,6 @@
 <!-- JSO -->
 <script src="app/js/auth/jso.js"></script>
 <script src="app/js/auth/dataporten_auth.js"></script>
-
 
 <script src="app/js/api_consumers/dataporten.js"></script>
 <script src="app/js/api_consumers/kind.js"></script>

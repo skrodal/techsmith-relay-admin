@@ -49,7 +49,7 @@ var DP_AUTH = (function () {
 
 	// Added debug flag to config and to JSO library. Below is mostly a reminder to myself :)
 	if(!DEBUG){
-		console.info("JSO debug/logging is turned off; turn on in JSO instantiation.")
+		console.info("JSO debug/logging is turned off; turn on in JSO instance.")
 	}
 
 

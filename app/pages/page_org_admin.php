@@ -246,7 +246,7 @@
 					<div class="box-footer text-muted">
 						<small>
 							<i class="icon ion-ios-information"></i> Hentet fra UNINETTs driftsdatabase ('KIND'). <br>
-							&Oslash;nsker om endringer av informasjon sendes til <a href="mailto:support@ecampus.no">support@ecampus.no</a>
+							&Oslash;nsker om endringer av informasjon sendes til <a href="mailto:kontakt@uninett.no">kontakt@uninett.no</a>
 						</small>
 					</div>
 				</div>

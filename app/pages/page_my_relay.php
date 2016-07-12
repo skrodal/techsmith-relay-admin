@@ -40,7 +40,7 @@
 			</div><!-- /.info-box -->
 		</div><!-- /.col -->
 
-		<!-- fix for small devices only -->
+		      <!-- fix for small devices only -->
 		<div class="clearfix visible-sm-block"></div>
 
 		<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
@@ -100,8 +100,8 @@
 
 				<div class="box-body">
 					<ul>
-						<li>Sletting av opptak er, enn så lenge, ikke tilgjengelig.</li>
-						<li>Visningsstatistikk (`hits`) kommer snart.</li>
+						<li style="text-decoration: line-through;">Sletting av opptak er, enn så lenge, ikke tilgjengelig.</li>
+						<li style="text-decoration: line-through;">Visningsstatistikk (`hits`) kommer snart.</li>
 						<li>Det kan ofte ta noen timer før dine rykende ferske presentasjoner dukker opp i oversikten.</li>
 					</ul>
 				</div>
@@ -136,7 +136,7 @@
                                 <th><i class="ion ion-document-text text-muted"></i> Beskrivelse</th>
 	                            <th><i class="ion ion-ios-calendar text-muted"></i> Dato</th>
                                 <th><i class="ion ion-ios-clock text-muted"></i> Varighet</th>
-                                <th><i class="ion ion-stats-bars text-muted"></i> Hits</th>
+                                <!-- <th><i class="ion ion-stats-bars text-muted"></i> Hits</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -149,10 +149,10 @@
                                 <th><i class="ion ion-document-text text-muted"></i> Beskrivelse</th>
 	                            <th><i class="ion ion-ios-calendar text-muted"></i> Dato</th>
                                 <th><i class="ion ion-ios-clock text-muted"></i> Varighet</th>
-                                <th><i class="ion ion-stats-bars text-muted"></i> Hits</th>
-                            </tr>
-                        </tfoot>
-                    </table>
+	                            <!-- <th><i class="ion ion-stats-bars text-muted"></i> Hits</th> -->
+							</tr>
+						</tfoot>
+					</table>
 				</div>
 
 				<div class="overlay ajax">
@@ -161,101 +161,169 @@
 
 				<div class="box-footer">
 					<span class="text-muted">
-						Antall hits er et estimat basert p&aring; <em>unike</em> visninger av dine videoer.
+						Evt. slettet innhold er vist i tabellen nedenfor.
+						<!-- Antall hits er et estimat basert p&aring; <em>unike</em> visninger av dine videoer. -->
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div id="myRelayDeletedContent" class="row">
+		<div class="col-lg-12">
+			<div class="box box-warning">
+				<div class="box-header">
+					<h3 class="box-title">Opptak som vil slettes</h3>
+				</div>
+
+				<div class="box-body table-responsive">
+					<p>
+						I tabellen finner du innhold du ønsker skal slettes. Dette fungerer som følger:
+					</p>
+
+					<ol>
+						<li>Innhold du sletter gjøres utilgjengelig (<span class="label label-warning">Flyttes</span>) kl. 03:00</li>
+						<ul>
+							<li>Du kan avbryte sletting/flytting ved å klikke `Angre`-knapp ved siden av opptaket</li>
+						</ul>
+						<li>Sletting har en "angrefrist" på 14 dager; etter dette vil du ikke kunne gjenopprette innholdet ditt.</li>
+					</ol>
+
+                    <table id="myRelayDeletedContentTable" class="table table-bordered table-striped table-hover" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th class="hidden"> Dato (for sortering, skjult)</th>
+                                <th><i class="ion ion-ios-film text-muted"></i> Tittel</th>
+	                            <th><i class="ion ion-ios-calendar text-muted"></i> Dato</th>
+                                <th><i class="ion ion-ios-clock text-muted"></i> Varighet</th>
+	                            <th><i class="ion ion-document-text text-muted"></i> Status</th>
+	                            <th><i class="ion ion-compose text-muted"></i> Handling</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- DataTable -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+	                            <th class="hidden"> Dato (for sortering, skjult)</th>
+                                <th><i class="ion ion-ios-film text-muted"></i> Tittel</th>
+	                            <th><i class="ion ion-ios-calendar text-muted"></i> Dato</th>
+                                <th><i class="ion ion-ios-clock text-muted"></i> Varighet</th>
+                                <th><i class="ion ion-document-text text-muted"></i> Status</th>
+	                            <th><i class="ion ion-compose text-muted"></i> Handling</th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+
+				<div class="overlay ajax">
+					<i class="fa fa-spinner fa-pulse"></i>
+				</div>
+
+				<div class="box-footer">
+					<span class="text-muted">
+						<button id="btnUpdateTables" type="button" class="btn bg-aqua">
+							<i class="ion ion-android-refresh"></i> Oppdater tabell
+						</button>
 					</span>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+
+
 <!-- TEMPLATES -->
 
 
-<!-- Presentation Modal -->
-<div class="modal fade" id="myRelayPresentationModal" tabindex="-1" role="dialog" aria-labelledby="presentation_title" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content bg-black-gradient">
-			<!-- HEADER -->
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title"><i class="ion ion-ios-film"></i> <span id="presentation_title"></span> </h4>
-			</div>
-
-			<!-- BODY -->
-			<div class="modal-body">
-				<p id="presentation_description" style="font-style: italic;"><!-- AJAX --></p>
-				<p id="presentation_author" class="pull-right text-muted right"><!-- AJAX --></p>
-
-				<div align="center" class="">
-				    <video id="presentation_preview" controls class="embed-responsive-item" width="100%">
-					    <!-- AJAX -->
-				    </video>
+	<!-- Presentation Modal -->
+	<div class="modal fade" id="myRelayPresentationModal" tabindex="-1" role="dialog" aria-labelledby="presentation_title" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content bg-black-gradient">
+				<!-- HEADER -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title"><i class="ion ion-ios-film"></i> <span id="presentation_title"></span> </h4>
 				</div>
 
-				<p id="presentation_duration"><!-- AJAX --></p>
+				<!-- BODY -->
+				<div class="modal-body">
+					<p id="presentation_description" style="font-style: italic;"><!-- AJAX --></p>
+					<p id="presentation_author" class="pull-right text-muted right"><!-- AJAX --></p>
 
-				<!-- FILES TABLE -->
-				<div class="box box-solid bg-dark-gray">
-                    <div class="box-header">
-	                    <span id="presentation_hits" class="badge bg-black-gradient pull-right"><!-- AJAX --></span>&nbsp;
-                        <h3 class="box-title">Filer</h3>
-                    </div>
-                    <div class="box-body">
-                        <table id="presentation-files-table" class="table table-condensed">
-                            <thead>
-                                <th>Type</th>
-                                <th>Lenke</th>
-                                <th>Del</th>
-                                <!-- <th>St&oslash;rrelse</th> -->
-                                <th style="width: 40px">Hits</th>
-                            </thead>
-                            <tbody>
-                                <!-- AJAX -->
-                            </tbody>
-                        </table>
-                    </div>
+					<div align="center" class="">
+					    <video id="presentation_preview" controls class="embed-responsive-item" width="100%">
+						    <!-- AJAX -->
+					    </video>
+					</div>
+
+					<p id="presentation_duration"><!-- AJAX --></p>
+
+					<!-- FILES TABLE -->
+					<div class="box box-solid bg-dark-gray">
+	                    <div class="box-header">
+		                    <span id="presentation_hits" class="badge bg-black-gradient pull-right"><!-- AJAX --></span>&nbsp;
+	                        <h3 class="box-title">Filer</h3>
+	                    </div>
+	                    <div class="box-body">
+	                        <table id="presentation-files-table" class="table table-condensed">
+	                            <thead>
+	                                <th>Type</th>
+	                                <th>Lenke</th>
+	                                <th>Del</th>
+	                                <!-- <th>St&oslash;rrelse</th> -->
+	                                <th style="width: 40px">Hits</th>
+	                            </thead>
+	                            <tbody>
+	                                <!-- AJAX -->
+	                            </tbody>
+	                        </table>
+	                    </div>
+					</div>
 				</div>
-			</div>
 
-			<div class="modal-footer">
-				<button id="presentation_delete" type="button" class="btn bg-red pull-left disabled">
-					<i class="ion ion-android-delete"></i> SLETT OPPTAK
-				</button>
+				<div class="modal-footer">
+					<button id="presentation_delete" type="button" class="btn bg-red pull-left">
+						<i class="ion ion-android-delete"></i> SLETT OPPTAK
+					</button>
 
-				<button type="button" class="btn btn-default" data-dismiss="modal">
-					Lukk
-				</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						Lukk
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<!-- EMBED modal -->
+	<!-- EMBED modal -->
 
-<div id="myRelayEmbedModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content bg-lighter-gray">
-			<!-- HEADER -->
-			<div class="modal-header bg-dark-gray">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title"><i class="ion ion-code-working"></i> Bygg inn (embed) opptak p&aring; web</h4>
-			</div>
+	<div id="myRelayEmbedModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content bg-lighter-gray">
+				<!-- HEADER -->
+				<div class="modal-header bg-dark-gray">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title"><i class="ion ion-code-working"></i> Bygg inn (embed) opptak p&aring; web</h4>
+				</div>
 
-			<!-- BODY -->
-			<div class="modal-body">
-				<p>Her er en embedkode du kan bruke for &aring; bygge inn opptaket p&aring; en nettside</p>
+				<!-- BODY -->
+				<div class="modal-body">
+					<p>Her er en embedkode du kan bruke for &aring; bygge inn opptaket p&aring; en nettside</p>
 
-				<textarea id="embedcode" name="embedcode" data-url="" style="width: 100%;" rows="5" onclick="this.select();" style="display: block;"></textarea>
+					<textarea id="embedcode" name="embedcode" data-url="" style="width: 100%;" rows="5" onclick="this.select();" style="display: block;"></textarea>
 
-				<p class="text-muted">Merk: produsert HTML-kode krever en oppdatert nettleser som st&oslash;tter HTML5 video, eks. Chrome, Firefox, Internet Explorer, Opera, Safari m.fl.</p>
-			</div>
+					<p class="text-muted">Merk: produsert HTML-kode krever en oppdatert nettleser som st&oslash;tter HTML5 video, eks. Chrome, Firefox, Internet Explorer, Opera, Safari m.fl.</p>
+				</div>
 
-			<div class="modal-footer bg-dark-gray">
-				<button type="button" class="btn btn-default" data-dismiss="modal">
-					Lukk
-				</button>
+				<div class="modal-footer bg-dark-gray">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						Lukk
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+
+
 <script src="app/js/page_my_relay.js" type="text/javascript"></script>
