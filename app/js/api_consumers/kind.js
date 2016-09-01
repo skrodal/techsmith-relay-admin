@@ -44,8 +44,6 @@ var KIND = (function () {
 			.done(function (data) {
 				UTILS.updateAuthProgress("Tjenestetilganger");
 				UTILS.showAuthInfo("Tjenestetilgang", 'Abonnent');
-				UTILS.showAuthInfo("SuperAdmin", KIND.isSuperAdmin());
-				UTILS.showAuthInfo("OrgAdmin", KIND.isOrgAdmin());
 			})
 			.fail(function (jqXHR, textStatus, error) {
 				UTILS.showAuthError("Tjenestetilganger", error);
@@ -83,27 +81,6 @@ var KIND = (function () {
 		return count;
 	}
 
-	//
-	function isSuperAdmin() {
-		return (DATAPORTEN.user().username.indexOf("@uninett.no") > -1);
-	}
-
-	//
-	function isOrgAdmin() {
-		if ($.isEmptyObject(KIND.subscriberDetails())) {
-			return false;
-		} else {
-			return (DATAPORTEN.user().email.indexOf(KIND.subscriberDetails().contact_person.e_post.toLowerCase()) > -1);
-		}
-	}
-
-	//
-	function getRole() {
-		if (isSuperAdmin()) return 'SuperAdmin';
-		if (isOrgAdmin()) return 'OrgAdmin';
-		return 'Bruker';
-	}
-
 	// 404 if no subscription code from Kind.
 	function getOrgSubscriptionStatusCode(requestedOrg) {
 		return KIND.subscribers()[requestedOrg].subscription_code || 404;
@@ -129,24 +106,9 @@ var KIND = (function () {
 		subscriberDetails: function () {
 			return getSubscriberDetails();
 		},
-		isAdmin: function () {
-			return KIND.isSuperAdmin() || KIND.isOrgAdmin();
-		},
-		isSuperAdmin: function () {
-			return isSuperAdmin();
-		},
-		isOrgAdmin: function () {
-			return isOrgAdmin();
-		},
-		role: function () {
-			return getRole();
-		},
-		
-		
 		orgSubscriptionStatusCode: function (requiredOrg) {
 			return getOrgSubscriptionStatusCode(requiredOrg);
 		},
-
 
 		subscriptionCodesToNames: function () {
 			var codes =

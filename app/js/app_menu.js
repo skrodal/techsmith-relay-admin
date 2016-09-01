@@ -21,34 +21,29 @@ var MENU = (function () {
 	 * @private
 	 */
 	function _showMenuItems() {
-		// Dash only for admins
-		if (KIND.isAdmin()) {
-			PAGE_DASHBOARD.init();
-			$('#menuDashboard').removeClass('hidden').fadeIn();
-			$('#menuDashboard').trigger('click');
-		}
-
 		// If user has an account
 		if (RELAY_USER.hasAccount()) {
 			$('li#menuMyRelay').removeClass('hidden').fadeIn();
 			PAGE_MY_RELAY.init();
 			// If user is not an admin, this is the only page s/he can view
-			if (!KIND.isAdmin()) {
+			if (!DATAPORTEN.isSuperAdmin() && !DATAPORTEN.isOrgAdmin()) {
 				$('#menuMyRelay').trigger('click');
 			}
 		}
-
-
-		if (KIND.isSuperAdmin()) {
-			$('#menuOrgAdmin').removeClass('hidden').fadeIn();
-			$('#menuSuperAdmin').removeClass('hidden').fadeIn();
-			PAGE_ORG_ADMIN.init();
-			PAGE_SUPER_ADMIN.init();
-		} else if (KIND.isOrgAdmin()) {
+		// Dash and OrgAdmin view for admins
+		if (DATAPORTEN.isSuperAdmin() || DATAPORTEN.isOrgAdmin()) {
+			PAGE_DASHBOARD.init();
+			$('#menuDashboard').removeClass('hidden').fadeIn();
+			$('#menuDashboard').trigger('click');
+			//
 			PAGE_ORG_ADMIN.init();
 			$('#menuOrgAdmin').removeClass('hidden').fadeIn();
 		}
-
+		// View for SuperAdmins
+		if (DATAPORTEN.isSuperAdmin()) {
+			PAGE_SUPER_ADMIN.init();
+			$('#menuSuperAdmin').removeClass('hidden').fadeIn();
+		}
 
 	}
 
@@ -72,7 +67,8 @@ $sidebarMenu.on('click', 'li', function () {
 	$('section.app_page').addClass('hidden');
 	// Show selected page
 	$('section#' + $(this).data('page')).removeClass('hidden').hide().fadeIn();
-	//
+
+	// Not the best solution this, but a few updates are required for pages that are hidden.
 	switch ($(this).data('page')) {
 		case 'pageDashboard':
 			PAGE_DASHBOARD.show();

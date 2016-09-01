@@ -62,10 +62,10 @@
 					<span class="info-box-text">HITS</span>
 					<span class="info-box-number myRelayHitCount"><!-- --></span>
 					<div class="progress bg-olive"></div>
-					<span class="progress-description text-muted">Unike visninger</span>
-				</div><!-- /.info-box-content -->
-			</div><!-- /.info-box -->
-		</div><!-- /.col -->
+					<span class="progress-description text-muted"><strong>Ikke tilgjengelig</strong><!-- Unike visninger --></span>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<h2 class="page-header text-muted">Informasjon</h2>
@@ -100,9 +100,8 @@
 
 				<div class="box-body">
 					<ul>
-						<li style="text-decoration: line-through;">Sletting av opptak er, enn så lenge, ikke tilgjengelig.</li>
-						<li style="text-decoration: line-through;">Visningsstatistikk (`hits`) kommer snart.</li>
-						<li>Det kan ofte ta noen timer før dine rykende ferske presentasjoner dukker opp i oversikten.</li>
+						<li>Antall visninger (<code>hits</code>) er ikke tilgjengelig enda.</li>
+						<li>Det kan ta minst en time før nye presentasjoner dukker opp i oversikten.</li>
 					</ul>
 				</div>
 			</div>

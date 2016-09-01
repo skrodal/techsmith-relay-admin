@@ -50,6 +50,10 @@ var PAGE_ORG_ADMIN = (function () {
 			$('#pageOrgAdmin').find('.orgStorageCostEstimate').text("kr. " + (UTILS.mib2tb(usage.total_mib) * RELAY.storageCostTB()).toFixed());
 		});
 
+		$.when(DATAPORTEN.orgAdminInvitationLinkXHR()).done(function (link) {
+			$('#pageOrgAdmin').find('.orgAdminGroupLink').text(link);
+		});
+
 		$.when(RELAY_ORG.presentationCount()).done(function (presCount) {
 			$('#pageOrgAdmin').find('.orgPresentationCount').text(presCount);
 		});

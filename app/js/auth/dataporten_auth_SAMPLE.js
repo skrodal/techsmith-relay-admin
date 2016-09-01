@@ -31,11 +31,6 @@ var DP_AUTH = (function () {
 		},
 		kind: {
 			relayID: "FROM_KIND"
-		},
-		/* Ikke implementert enda! */
-		access_group: {
-			groupID: "DP AD-HOC GROUP ID",
-			invitation: "URL"
 		}
 	};
 

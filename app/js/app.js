@@ -9,7 +9,7 @@ var APP = (function () {
 
 	var jsonEditor;
 
-	//
+	// Startup
 	$(document).ready(function () {
 		// Single instance, shared by all
 		jsonEditor = new JSONEditor(document.getElementById('jsonDataExport'), {
@@ -19,39 +19,35 @@ var APP = (function () {
 			"indentation": 4
 		});
 
-
 		$.when(DATAPORTEN.readyUser()).done(function () {
 			$.when(DATAPORTEN.readyGroups()).done(function () {
-				// Always
-				updateUIFeide();
-				//
-				$.when(KIND.ready()).done(function () {
-					// Always
-					updateUIKind();
-					//
-					$.when(RELAY_USER.accountXHR()).done(function () {
-						// Always
-						updateUIRelayUser();
-						// If user is some sort of admin
-						if (KIND.isAdmin()) {
-							// Fetch global Relay info
-							RELAY.init();
-							//
-							$.when(RELAY.ready()).done(function () {
+				$.when(DATAPORTEN.readyUserRole()).done(function () {
+					updateUIFeide();
+					$.when(KIND.ready()).done(function () {
+						updateUIKind();
+						$.when(RELAY_USER.accountXHR()).done(function () {
+							updateUIRelayUser();
+							// If user is some sort of admin
+							if (DATAPORTEN.isOrgAdmin() || DATAPORTEN.isSuperAdmin()) {
+								// Fetch global Relay info for admins
+								RELAY.init();
+								//
+								$.when(RELAY.ready()).done(function () {
+									MENU.init();
+									updateUIRelay();
+								});
+							} else {
+								// Not even a user account - stop here!
+								if (!RELAY_USER.hasAccount()) {
+									UTILS.showAuthError("Manglende tilgang", "Du mangler brukerkonto og er ikke administrator for tjenesten. Tilgang er derfor sperret.")
+									return false;
+								}
+								// Only My Relay
 								MENU.init();
-								updateUIRelay();
-							});
-						} else {
-							// Not even a user account - stop here!
-							if (!RELAY_USER.hasAccount()) {
-								UTILS.showAuthError("Manglende tilgang", "Du mangler brukerkonto og er ikke administrator for tjenesten. Tilgang er derfor sperret.")
-								return false;
 							}
-							// Only My Relay
-							MENU.init();
-						}
-					}); // relay
-				});	// kind
+						}); // relay
+					});	// kind
+			    });	// userRole
 			});	// groups
 		}); // user
 
@@ -76,12 +72,11 @@ var APP = (function () {
 	}
 
 	function updateUIKind() {
-		$('.userRole').html(' ' + KIND.role());
+		$('.userRole').html(' ' + DATAPORTEN.userRole());
 		$('.subscribersCount').html(KIND.subscriptionCount().full);
 		$('.subscribersTrialCount').html(KIND.subscriptionCount().trial);
 		$('.subscribersOtherCount').html(KIND.subscriptionCount().other);
 		$('.subscribersTotalCount').html(KIND.subscriptionCount().total);
-
 
 		var supportEmail, supportName, supportPhone, supportMobile = false;
 

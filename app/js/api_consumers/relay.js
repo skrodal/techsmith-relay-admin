@@ -11,7 +11,7 @@ var RELAY = (function () {
 	// Indicator
 	var READY = $.Deferred();
 	// Bunch of ajax calls for org storage, only READY when all of these are done
-	var XHR_PROMISES = [];
+	// var XHR_PROMISES = [];
 	// Our main object with totalstorage, all orgs with storage[], total_mib and usercount
 	var XHR_SUBSCRIBERS_INFO;
 	// Set when the above is done()
@@ -27,7 +27,7 @@ var RELAY = (function () {
 
 
 	/**
-	 * Only triggered if KIND.isAdmin (see APP)
+	 * Only triggered if user is some sort of admin(see APP)
 	 */
 	function init() {
 		XHR_SUBSCRIBERS_INFO = _getSubscribersInfoXHR();
@@ -155,7 +155,7 @@ var RELAY = (function () {
 
 
 	function getOrgPresentationListXHR(org) {
-		if(KIND.isSuperAdmin()){
+		if(DATAPORTEN.isSuperAdmin()){
 			return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + org + "/presentations/", dataType: 'json'}).pipe(function (obj) {
 				return obj.data;
 			}).fail(function (jqXHR, textStatus, error) {
@@ -167,7 +167,7 @@ var RELAY = (function () {
 	/** **/
 	function getOrgUserListXHR(org){
 		// Only for super admins
-		if(KIND.isSuperAdmin()) {
+		if(DATAPORTEN.isSuperAdmin()) {
 			return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + org + "/users/", dataType: 'json'}).pipe(function (obj) {
 				return obj.data;
 			}).fail(function (jqXHR, textStatus, error) {

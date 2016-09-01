@@ -221,10 +221,33 @@
 			</div>
 		</div>
 
-	    <h2 class="page-header text-muted">Informasjon om <span class="feideOrg"></span></h2>
+	    <h2 class="page-header text-muted">Tjenesteinfo og tilgang for <span class="feideOrg"></span></h2>
 
 	    <div class="row">
-			<div class="col-lg-5">
+			<div class="col-lg-6">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title icon ion-ios-contact"> Tilgang som administrator i RelayAdmin</h3>
+						<div class="box-tools pull-right">
+							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+						</div>
+					</div>
+					<div class="box-body">
+						<p>Send denne lenka til de du vil skal ha tilgang som <code>OrgAdmin</code>:</p>
+						<div class="well orgAdminGroupLink"><!-- --></div>
+
+						<p>
+							Lenka er en invitasjon til Dataporten-gruppe <em>RelayAdmin</em>. Alle med kjennskap til denne kan
+							melde seg inn og få tilgang som <code>OrgAdmin</code> for sitt lærested.
+						</p>
+					</div>
+					<div class="box-footer text-muted">
+						Informer mottaker om at URL ikke skal deles med hvemsomhelst.
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-6">
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<h3 class="box-title icon ion-ios-contact"> Registrerte detaljer</h3>

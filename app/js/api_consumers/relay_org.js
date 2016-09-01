@@ -16,7 +16,7 @@ var RELAY_ORG = (function () {
 	(function () {
 		$.when(DATAPORTEN.readyUser()).done(function(){
 			$.when(KIND.ready()).done(function(){
-				if(KIND.isAdmin()){
+				if(DATAPORTEN.isSuperAdmin() || DATAPORTEN.isOrgAdmin()){
 					XHR_DISKUSAGE = _getDiskusage();
 					XHR_USERS = _getUsers();
 					XHR_PRESENTATIONS = _getPresentations();
@@ -78,7 +78,7 @@ var RELAY_ORG = (function () {
 
 	return {
 		diskUsage: function(){
-			return !KIND.isAdmin() || XHR_DISKUSAGE;
+			return !DATAPORTEN.isOrgAdmin() || XHR_DISKUSAGE;
 		},
 		presentations: function(){
 			return XHR_PRESENTATIONS;
@@ -87,13 +87,13 @@ var RELAY_ORG = (function () {
 			return XHR_PRESENTATION_COUNT;
 		},
 		user: function(user) {
-			return !KIND.isAdmin() || getUser(user);
+			return !DATAPORTEN.isOrgAdmin() || getUser(user);
 		},
 		userContent: function(user, showAlert) {
-			return !KIND.isAdmin() || getUserContent(user, showAlert);
+			return !DATAPORTEN.isOrgAdmin() || getUserContent(user, showAlert);
 		},
 		users: function(){
-			return !KIND.isAdmin() || XHR_USERS;
+			return !DATAPORTEN.isOrgAdmin() || XHR_USERS;
 		}
 	}
 })();

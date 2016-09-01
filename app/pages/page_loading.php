@@ -13,10 +13,15 @@
 			</div>
 
 			<div id="authError" class="alert alert-danger hidden">
-				<h4><i class="icon fa fa-ban"></i> Beklager! P&aring;loggingsprosessen har dessverre feilet ;-(</h4>
-				<p class="text-bold">Rapporterte &aring;rsak ser du under.</p>
-				<p>Dersom du mener dette er feil kan du kan fors&oslash;ke &aring; laste siden p&aring; nytt.</p>
-				<p>Om problemet vedvarer kan du si ifra om feilen til <a href="mailto:kontakt@uninett.no">kontakt@uninett.no</a></p>
+				<h4><i class="icon fa fa-ban"></i> Beklager!</h4>
+				<p><strong>Pålogging feilet fordi:</strong></p>
+
+				<div id="authErrorMsg"><!-- --></div>
+
+				<p>
+					Dersom du mener dette dreier seg om en feil i tjenesten kan du forsøke å laste siden på nytt eller rapportere feilen til
+					<a href="mailto:kontakt@uninett.no">kontakt@uninett.no</a>
+				</p>
 			</div>
 
 			<div id="authInfo" class="alert bg-light-blue hidden">
