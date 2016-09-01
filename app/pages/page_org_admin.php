@@ -233,7 +233,7 @@
 						</div>
 					</div>
 					<div class="box-body">
-						<p>Send denne lenka til de du vil skal ha tilgang som <code>OrgAdmin</code>:</p>
+						<p>Du kan gjøre andre ansatte ved <span class="feideOrg"><!--></span> til <code>OrgAdmin</code> ved å dele denne lenka:</p>
 						<div class="well orgAdminGroupLink"><!-- --></div>
 
 						<p>
