@@ -30,7 +30,6 @@ var PAGE_MY_RELAY = (function () {
 			// No account - remove all page content, sans Jumbotron
 			$("#pageMyRelay").find("div:first").nextAll().remove();
 		}
-
 	}
 
 	/**
@@ -38,15 +37,15 @@ var PAGE_MY_RELAY = (function () {
 	 * @private
 	 */
 	function _updateDeleteListAndBuildTables() {
-
 		$.when(RELAY_USER.contentXHR(), RELAY_USER.diskusageXHR()).done(function (contentArr, diskusageArr) {
 			if (RELAY_USER.hasContent()) {
 				USERCONTENT = JSON.parse(JSON.stringify(contentArr));
 				DISKUSAGE = diskusageArr;
 				// Now check the relay-presentation-delete service for any presentations that have a delete-request (can be cancelled)
-				// or has already been moved (can be restored). We ignore presentations already deleted, since this is permanent and
+				// or has already been moved (can be restored). We ignore presentations already deleted (in the view), since this is permanent and
 				// no longer of interest.
 				$.when(RELAY_USER.getPresentationsDeleteListXHR()).done(function (presDeleteList) {
+					// Content in list and their status
 					USERCONTENT_DELETELIST = [];
 					// Keep track of which presentations to eliminate from USERCONTENT
 					var indecesToDelete = [];
@@ -67,7 +66,6 @@ var PAGE_MY_RELAY = (function () {
 							}
 						});
 					});
-
 					// Rebuild the array index for deleted content
 					USERCONTENT_DELETELIST = USERCONTENT_DELETELIST.filter(function () { return true; });
 					// Now remove deleted presentations from the USERCONTENT array

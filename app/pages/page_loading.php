@@ -42,7 +42,7 @@
 <script src="dist/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
 <!-- JSO -->
 <script src="app/js/auth/jso.min.js"></script>
-<script src="app/js/auth/dataporten_auth.min.js"></script>
+<script src="app/js/auth/dataporten_auth.js"></script>
 
 <script src="app/js/api_consumers/dataporten.min.js"></script>
 <script src="app/js/api_consumers/kind.min.js"></script>
