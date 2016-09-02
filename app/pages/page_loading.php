@@ -38,16 +38,16 @@
 </section>
 
 <!-- -->
-<script src="app/js/etc/utils.js"></script>
+<script src="app/js/etc/utils.min.js"></script>
 <script src="dist/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
 <!-- JSO -->
-<script src="app/js/auth/jso.js"></script>
-<script src="app/js/auth/dataporten_auth.js"></script>
+<script src="app/js/auth/jso.min.js"></script>
+<script src="app/js/auth/dataporten_auth.min.js"></script>
 
-<script src="app/js/api_consumers/dataporten.js"></script>
-<script src="app/js/api_consumers/kind.js"></script>
+<script src="app/js/api_consumers/dataporten.min.js"></script>
+<script src="app/js/api_consumers/kind.min.js"></script>
 
-<script src="app/js/api_consumers/relay.js"></script>
-<script src="app/js/api_consumers/relay_org.js"></script>
-<script src="app/js/api_consumers/relay_user.js"></script>
+<script src="app/js/api_consumers/relay.min.js"></script>
+<script src="app/js/api_consumers/relay_org.min.js"></script>
+<script src="app/js/api_consumers/relay_user.min.js"></script>
 

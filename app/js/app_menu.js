@@ -1,5 +1,5 @@
 /**
- * MENU Controller
+ * Control the menu items/behaviour — determined by user role/access.
  *
  * @author Simon Skrodal
  * @since August 2015

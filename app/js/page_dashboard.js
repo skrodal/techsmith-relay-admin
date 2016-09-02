@@ -1,5 +1,5 @@
 /**
- * PAGE controller.
+ * PAGE controller for Dashboard.
  *
  * @author Simon Skrodal
  * @since August 2015

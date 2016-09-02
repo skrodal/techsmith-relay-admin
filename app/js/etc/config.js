@@ -1,9 +1,23 @@
+/**
+ * Various defaults.
+ */
+
 var CONFIG = (function () {
 
 	(function(){
 		// Charts.js global config
 		Chart.defaults.global.responsive = true;
 	})()
+
+	$(document).ready(function () {
+		// Single instance, shared by all
+		jsonEditor = new JSONEditor(document.getElementById('jsonDataExport'), {
+			"modes": ["view", "text"],
+			"mode": "text",
+			"search": true,
+			"indentation": 4
+		});
+	});
 
 	return {
 		SCREENCAST_BASE_URL: function () {

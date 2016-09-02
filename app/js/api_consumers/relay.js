@@ -1,5 +1,5 @@
 /**
- * API Consumer.
+ * API Consumer for Relay (admin paths).
  *
  * @author Simon Skrodal
  * @since August 2015

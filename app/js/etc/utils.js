@@ -1,3 +1,7 @@
+/**
+ * Helpers.
+ */
+
 var UTILS = (function () {
 	// Constants
 	var GB_to_TB = 0.001; // Used in MiB_to_GB to GB_to_TB conversion

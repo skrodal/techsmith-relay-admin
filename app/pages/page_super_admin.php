@@ -332,4 +332,4 @@
     </section><!-- /.content -->
 
 <!-- Scripts pertaining only to SuperAdmin -->
-<script src="app/js/page_super_admin.js" type="text/javascript"></script>
+<script src="app/js/page_super_admin.min.js" type="text/javascript"></script>

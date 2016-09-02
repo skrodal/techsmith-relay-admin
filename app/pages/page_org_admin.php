@@ -335,4 +335,4 @@
 
 
 
-<script src="app/js/page_org_admin.js" type="text/javascript"></script>
+<script src="app/js/page_org_admin.min.js" type="text/javascript"></script>

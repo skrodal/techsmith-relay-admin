@@ -13,8 +13,9 @@
 		<link href="dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 		<link href="dist/AdminLTE/css/AdminLTE.min.css" rel="stylesheet" type="text/css"/>
 		<link href="dist/AdminLTE/css/skins/skin-black.min.css" rel="stylesheet" type="text/css"/>
-		<link href="dist/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css"/>
+		<link href="dist/plugins/datatables/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css"/>
 		<link href="dist/plugins/datatables/tabletools/css/dataTables.tableTools.min.css" rel="stylesheet" type="text/css"/>
+		<link href="dist/plugins/jsoneditor/jsoneditor.min.css" rel="stylesheet" type="text/css"/>
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
 		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -82,14 +83,13 @@
 		<!-- Chart.js -->
 		<script src="dist/plugins/chartjs/Chart.min.js" type="text/javascript"></script>
 		<!-- RelayAdmin -->
-		<script src="app/js/etc/config.js" type="text/javascript"></script>
-		<script src="app/js/app.js" type="text/javascript"></script>
+		<script src="app/js/etc/config.min.js" type="text/javascript"></script>
+		<script src="app/js/app.min.js" type="text/javascript"></script>
 		<!-- DataTables -->
 		<script src="dist/plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
-		<script src="dist/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
+		<script src="dist/plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
 		<script src="dist/plugins/datatables/tabletools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
 		<!-- JSON Editor -->
-		<link href="dist/plugins/jsoneditor/jsoneditor.min.css" rel="stylesheet" type="text/css"/>
 		<script src="dist/plugins/jsoneditor/jsoneditor.min.js" type="text/javascript"></script>
 	</body>
 </html>

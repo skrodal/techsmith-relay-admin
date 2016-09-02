@@ -20,4 +20,4 @@
     <!-- /.sidebar -->
 </aside>
 
-<script src="app/js/app_menu.js" type="text/javascript"></script>
+<script src="app/js/app_menu.min.js" type="text/javascript"></script>

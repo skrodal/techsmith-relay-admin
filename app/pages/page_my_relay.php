@@ -325,4 +325,4 @@
 	</div>
 
 
-<script src="app/js/page_my_relay.js" type="text/javascript"></script>
+<script src="app/js/page_my_relay.min.js" type="text/javascript"></script>

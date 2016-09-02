@@ -1,5 +1,5 @@
 /**
- * Application "bootstrapper"
+ * Application "bootstrapper".
  *
  * @author Simon Skrodal
  * @since August 2015
@@ -11,14 +11,7 @@ var APP = (function () {
 
 	// Startup
 	$(document).ready(function () {
-		// Single instance, shared by all
-		jsonEditor = new JSONEditor(document.getElementById('jsonDataExport'), {
-			"modes": ["view", "text"],
-			"mode": "text",
-			"search": true,
-			"indentation": 4
-		});
-
+		// Call important endpoints in sequence: these make part of the login-process
 		$.when(DATAPORTEN.readyUser()).done(function () {
 			$.when(DATAPORTEN.readyGroups()).done(function () {
 				$.when(DATAPORTEN.readyUserRole()).done(function () {
@@ -50,8 +43,6 @@ var APP = (function () {
 			    });	// userRole
 			});	// groups
 		}); // user
-
-
 	});
 
 

@@ -1,11 +1,12 @@
 /**
- * API Consumer.
+ * API Consumer for Dataporten.
  *
  * @author Simon Skrodal
  * @since August 2015
  */
 
 var DATAPORTEN = (function () {
+	// userinfo/groups/role
 	var USER = {};
 	// Autorun
 	var XHR_USER = _getUserInfo(),
@@ -73,7 +74,9 @@ var DATAPORTEN = (function () {
 	/**
 	 * Calls the Relay API, which provides a role obj for the user (e.g. {title: "SuperAdmin", isOrgAdmin: true, isSuperAdmin: true})
 	 *
-	 * Check the Dataporten RelayAdmin ad-hoc group for user membership. If user is member s/he is OrgAdmin.
+	 * Checks the Dataporten RelayAdmin ad-hoc group for user membership. If user is member s/he is OrgAdmin.
+	 *
+	 * Note that the API gives a SuperAdmin status as OrgAdmin regardless of group membership.
 	 *
 	 * @returns {*}
 	 * @private
@@ -109,8 +112,6 @@ var DATAPORTEN = (function () {
 				UTILS.showAuthError(title, message);
 			});
 	}
-
-
 
 	/**
 	 * From Dataporten's Groups API

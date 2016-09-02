@@ -1,3 +1,5 @@
+// SimonS: Added/fixed debug option for JSO.
+
 (function (root, factory) {
 	if (typeof define === 'function' && define.amd) {
 		//Allow using this built library as an AMD module
