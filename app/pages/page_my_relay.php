@@ -182,7 +182,7 @@
 					</p>
 
 					<ol>
-						<li>Innhold du sletter gjøres utilgjengelig (<span class="label label-warning">Flyttes</span>) kl. 03:00</li>
+						<li>Innhold du sletter gjøres utilgjengelig (<span class="label label-warning">Flyttes</span>) innen 5 minutter.</li>
 						<ul>
 							<li>Du kan avbryte sletting/flytting ved å klikke `Angre`-knapp ved siden av opptaket</li>
 						</ul>

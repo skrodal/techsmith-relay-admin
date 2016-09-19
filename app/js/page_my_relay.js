@@ -267,7 +267,7 @@ var PAGE_MY_RELAY = (function () {
 								return '<p><span class="label label-danger">Slettes</span> - slettes permanent om <strong>' + (days_to_delete - diff)  + '</strong> dager</p>';
 							}
 							// If none of the above, presentation is in the process of being moved
-							return '<p><span class="label label-warning">Flyttes</span> - vil bli utilgjengelig kl. 03:00</span></p>';
+							return '<p><span class="label label-warning">Flyttes</span> - gjøres utilgjengelig innen 5 minutter</span></p>';
 						} else {
 							// Not in deletelist at all, should never get here since this content belongs in USERCONTENT
 							return '<p><span class="label label-success">Tilgjengelig</span></p>';

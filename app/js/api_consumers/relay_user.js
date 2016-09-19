@@ -162,7 +162,7 @@ var RELAY_USER = (function () {
 					icon: 'ion-trash-a',
 					iconcolor: 'indianred',
 					title: 'Presentasjon vil slettes',
-					message: 'Presentasjonen vil slettes kl. 03:00'
+					message: 'Presentasjonen gjøres utilgjengelig innen 5 minutter'
 				});
 			})
 			.fail(function (jqXHR, textStatus, errorThrown) {
