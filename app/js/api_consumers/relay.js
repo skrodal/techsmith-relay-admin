@@ -120,7 +120,7 @@ var RELAY = (function () {
 	/** data.employees, data.students **/
 	function _getTotalUsersByAffiliationCountXHR() {
 		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "service/users/affiliation/count/",
+			url: DP_AUTH.config().api_endpoints.relay + "service/users/edupersonaffiliation/count/",
 			dataType: 'json'
 		}).pipe(function (obj) {
 			return obj.data;
@@ -132,7 +132,7 @@ var RELAY = (function () {
 	/** data.employees, data.students **/
 	function _getTotalActiveUsersByAffiliationCountXHR() {
 		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "service/users/affiliation/active/count/",
+			url: DP_AUTH.config().api_endpoints.relay + "service/users/edupersonaffiliation/active/count/",
 			dataType: 'json'
 		}).pipe(function (obj) {
 			return obj.data;

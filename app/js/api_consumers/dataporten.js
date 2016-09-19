@@ -107,7 +107,7 @@ var DATAPORTEN = (function () {
 			})
 			.fail(function (jqXHR, textStatus, error) {
 				var title = "Relay API — <code>org/" + DATAPORTEN.user().org.shortname + "/orgadmin/invitationurl/</code>";
-				var message = "Mediasite API avslo forespørselen - manglende rettigheter?."
+				var message = "Relay API avslo forespørselen - timeout eller manglende rettigheter?"
 				UTILS.alertError(title, message);
 				UTILS.showAuthError(title, message);
 			});
