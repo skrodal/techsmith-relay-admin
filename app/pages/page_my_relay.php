@@ -173,22 +173,17 @@
 		<div class="col-lg-12">
 			<div class="box box-warning">
 				<div class="box-header">
-					<h3 class="box-title">Opptak som vil slettes</h3>
+					<h3 class="box-title">Slettede opptak</h3>
 				</div>
 
 				<div class="box-body table-responsive">
 					<p>
-						I tabellen finner du innhold du ønsker skal slettes. Dette fungerer som følger:
+						Slettet innhold er utilgjengelig på nett, men kan gjenopprettes ved å klikke "angre". Etter 14 dager slettes innholdet <em>permanent</em>.
 					</p>
 
-					<ol>
-						<li>Innhold du sletter gjøres utilgjengelig (<span class="label label-warning">Flyttes</span>) innen 5 minutter.</li>
-						<ul>
-							<li>Du kan avbryte sletting/flytting ved å klikke `Angre`-knapp ved siden av opptaket</li>
-						</ul>
-						<li>Sletting har en "angrefrist" på 14 dager; etter dette vil du ikke kunne gjenopprette innholdet ditt.</li>
-					</ol>
-
+					<p class="text-muted">
+						PS! Det tar inntil 5 minutter før nylig slettet innhold blir gjort utilgjengelig.
+					</p>
                     <table id="myRelayDeletedContentTable" class="table table-bordered table-striped table-hover" style="width: 100%;">
                         <thead>
                             <tr>

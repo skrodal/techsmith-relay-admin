@@ -208,10 +208,20 @@ var PAGE_MY_RELAY = (function () {
 	//
 	function _buildDeletedContentTable(contentArr) {
 		$('#myRelayDeletedContent').find('.ajax').show();
+		// Clone arr and remove from it all permanently deleted presentations (we don't want to show these in the table).
+		// Getting a bit messy these arrays - making some new decisions late in the game..
+		var deletedContentData = JSON.parse(JSON.stringify(contentArr));
+		var i = deletedContentData.length
+		while (i--) {
+			if(deletedContentData[i].is_deleted){
+				deletedContentData.splice(i, 1);
+			}
+		}
+
 		relayDeletedContentTable = $('#myRelayDeletedContentTable').DataTable({
 			"bAutoWidth": !true, // Note! Not sure which looks best
 			"language": CONFIG.DATATABLES_LANGUAGE(),
-			"data": contentArr,
+			"data": deletedContentData,
 			"order": [[2, 'desc']],
 			"columns": [
 				// Simon 20FEB2015: 1st column is date presented in a way DataTables can sort (YYYY-MM-DD) and is hidden
@@ -262,9 +272,11 @@ var PAGE_MY_RELAY = (function () {
 							if (full.is_moved) {
 								var deleted = new Date(full.timestamp).getTime();
 								var now = Date.now();
-								var diff = Math.floor(( now - deleted ) / 86400000);
-
-								return '<p><span class="label label-danger">Slettes</span> - slettes permanent om <strong>' + (days_to_delete - diff)  + '</strong> dager</p>';
+								var diff = days_to_delete - Math.floor(( now - deleted ) / 86400000);
+								var daysText = diff > 1 ? ' om ' + diff + ' dager' : ' i morgen';
+								if(diff < 1) daysText = ' snart';
+								//
+								return '<p><span class="label label-danger">Slettes</span> - slettes permanent <strong>' + daysText  + '</strong></p>';
 							}
 							// If none of the above, presentation is in the process of being moved
 							return '<p><span class="label label-warning">Flyttes</span> - gjøres utilgjengelig innen 5 minutter</span></p>';
@@ -289,8 +301,8 @@ var PAGE_MY_RELAY = (function () {
 								return '<p class="text-center"><button data-trigger="undelete" type="button" data-type="moved" data-undelete-path="' + full.path + '" class="btn btn-primary btn-xs"> <i class="ion ion-ios-undo"></i> Angre</button></p>';
 							}
 							// If none of the above, presentation is not yet moved from user folder
-							// Add data to button for use in XHR call when clicked
-							return '<p class="text-center"><button data-trigger="undelete" type="button" data-type="unmoved" data-restore-path="' + full.path + '"class="btn btn-primary btn-xs"> <i class="ion ion-ios-undo"></i> Angre</button></p>';
+							// return '<p class="text-center"><button data-trigger="undelete" type="button" data-type="unmoved" data-restore-path="' + full.path + '"class="btn btn-primary btn-xs"> <i class="ion ion-ios-undo"></i> Angre</button></p>';
+							return '<p class="text-center text-muted small" data-obj="'+data+'">Flyttes</p>';
 						} else {
 							// Not in deletelist at all, should never get here since this content belongs in USERCONTENT
 							return '<p class="text-center">Tilgjengelig</p>';
@@ -298,6 +310,7 @@ var PAGE_MY_RELAY = (function () {
 					}
 				}
 			],
+			// Deprecated - deleted rows are no longer visible
 			"rowCallback": function (row, data, index) {
 				if (data.is_deleted) {
 					$(row).addClass( 'text-gray' );
@@ -389,6 +402,8 @@ var PAGE_MY_RELAY = (function () {
 					_updateDeleteListAndBuildTables();
 				});
 				break;
+			// Button for this action is commented out from the table. Let's just wait the 5 minutes until the move operation is complete so
+			// as to avoid a situation where user undeletes while the deletescript is running on the server, causing a mismatch i the DB table.
 			case "unmoved":
 				$.when(RELAY_USER.removePresentationXHR(btn.data("restorePath"))).done(function (response) {
 					btn.button('reset');

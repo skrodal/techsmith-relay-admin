@@ -16,17 +16,20 @@ I pakken inngår følgende sider/tjenester:
 
 ## TODO ##
 
-* Endre tilgangsstyring til å bruke ad-hoc gruppe istedenfor KIND...
 * Dato-selektor for lagringsdata (API tillater mer enn hva UI tilbyr...)
 
 ## Avhengigheter ##
 
-I tillegg til UNINETT Dataporten for autentisering benytter RelayAdmin følgende egenutviklede APIer:
+I tillegg til UNINETT Dataporten for autentisering benytter RelayAdmin følgende egenutviklede APIer/services:
 
 - eCampus Kind API (registrert i Dataporten)
     - https://github.com/skrodal/ecampus-kind-api
 - Relay API (registrert i Dataporten)
     - https://github.com/skrodal/techsmith-relay-api
+- Relay Hits (service for IIS parsing, uttrekk implementert i Relay API)
+    - https://github.com/skrodal/techsmith-relay-iis-logparser
+- Relay Delete (service/API selvbetjent sletting, implementert i Relay API)
+    - https://github.com/skrodal/techsmith-relay-presentation-delete
 
 Mye av informasjon tilbydt av Relay API er hentet fra datakilder tilgjengeliggjort av "Relay Harvester":
  
