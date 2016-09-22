@@ -20,6 +20,7 @@ var RELAY = (function () {
 	var XHR_SERVICE_VERSION,
 		XHR_SERVICE_WORKERS,
 		XHR_SERVICE_STORAGE,
+		XHR_SERVICE_JOBS_FAILED,
 		XHR_USERS_TOTAL,
 		XHR_USERS_TOTAL_ACTIVE,
 		XHR_PRESENTATIONS_TOTAL,
@@ -37,6 +38,7 @@ var RELAY = (function () {
 		XHR_USERS_TOTAL_ACTIVE = _getTotalActiveUsersByAffiliationCountXHR();
 		XHR_PRESENTATIONS_TOTAL = _getPresentationsTotalXHR();
 		XHR_SERVICE_STORAGE = _getServiceStorageXHR();
+		XHR_SERVICE_JOBS_FAILED = _getServiceQueueFailedJobsXHR();
 		// TODO: When added to API
 		// XHR_HITS_LAST_WEEK = _getHitsLastWeekXHR();
 
@@ -101,7 +103,20 @@ var RELAY = (function () {
 		}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (queue):", "Henting av k&oslash;status feilet. Pr&oslash;v p&aring; nytt.");
+			UTILS.alertError("Relay API (queue):", "Henting av køstatus feilet. Prøv på nytt.");
+		});
+	}
+
+	function _getServiceQueueFailedJobsXHR() {
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "service/queue/failed/",
+			dataType: 'json'
+		}).pipe(function (obj) {
+			// obj = {"status":true,"data":[{"jobId":258576,"jobType":0,"jobState":3,"jobPresentation_PresId":35046,"jobQueuedTime":"Sep 21 2016 11:12:10:080PM","jobPercentComplete":6.6911389417004,"jobFailureReason":"An error occurred in the encoder","jobNumberOfFailures":87,"jobTitle":null},{"jobId":258578,"jobType":0,"jobState":3,"jobPresentation_PresId":35046,"jobQueuedTime":"Sep 21 2016 11:13:19:173PM","jobPercentComplete":6.6911389417004,"jobFailureReason":"An error occurred in the encoder","jobNumberOfFailures":87,"jobTitle":null},{"jobId":258580,"jobType":0,"jobState":3,"jobPresentation_PresId":35046,"jobQueuedTime":"Sep 21 2016 11:13:43:983PM","jobPercentComplete":6.6911389417004,"jobFailureReason":"An error occurred in the encoder","jobNumberOfFailures":87,"jobTitle":null}]};
+			console.log(obj);
+			return obj.data;
+		}).fail(function (jqXHR, textStatus, error) {
+			UTILS.alertError("Relay API (queue):", "Henting av køstatus feilet. Prøv på nytt.");
 		});
 	}
 
@@ -113,7 +128,7 @@ var RELAY = (function () {
 		}).pipe(function (obj) {
 			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (queue):", "Henting av lagring. Pr&oslash;v p&aring; nytt.");
+			UTILS.alertError("Relay API (queue):", "Henting av lagring. Prøv på nytt.");
 		});
 	}
 
@@ -246,6 +261,9 @@ var RELAY = (function () {
 		serviceQueueXHR: function () {
 			return getServiceQueueXHR();
 		},
+		serviceQueueFailedJobsXHR: function () {
+			return XHR_SERVICE_JOBS_FAILED();
+		},
 		serviceStorageXHR: function () {
 			return XHR_SERVICE_STORAGE;
 		},
@@ -285,7 +303,7 @@ var RELAY = (function () {
 		setStorageCost: function (cost) {
 			cost = Number(cost);
 			if (isNaN(cost)) {
-				UTILS.alertError('Ugyldig verdi', 'Kostnaden du fors&oslash;ker &aring; legge inn er ikke et tall.')
+				UTILS.alertError('Ugyldig verdi', 'Kostnaden du forsøker å legge inn er ikke et tall.')
 				return false;
 			}
 			STORAGE_COST_PER_TB = cost;

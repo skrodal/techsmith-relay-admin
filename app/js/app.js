@@ -11,6 +11,7 @@ var APP = (function () {
 
 	// Startup
 	$(document).ready(function () {
+		updateUIAll();
 		// Call important endpoints in sequence: these make part of the login-process
 		$.when(DATAPORTEN.readyUser()).done(function () {
 			$.when(DATAPORTEN.readyGroups()).done(function () {
@@ -45,6 +46,22 @@ var APP = (function () {
 		}); // user
 	});
 
+
+	function updateUIAll(){
+		//
+		$('span.supportEmail').html(CONFIG.RELAY_SUPPORT_EMAIL());
+		//
+		$('span.relaySupportURL').html(CONFIG.RELAY_SUPPORT_URL());
+		$('a.relaySupportURL').attr("href", CONFIG.RELAY_SUPPORT_URL());
+		//
+		$('span.relayServiceURL').html(CONFIG.RELAY_SERVICE_URL());
+		$('a.relayServiceURL').attr("href", CONFIG.RELAY_SERVICE_URL());
+		$('span.screencastBaseURL').html(CONFIG.SCREENCAST_BASE_URL());
+		$('a.screencastBaseURL').attr("href", CONFIG.SCREENCAST_BASE_URL());
+
+		$('a.relayRegisterURL').attr("href", CONFIG.RELAY_REGISTER_URL());
+		$('a.relayClientDownloadURL').attr("href", CONFIG.RELAY_CLIENT_DOWNLOAD_URL());
+	}
 
 	/**
 	 * Update UI here and there...

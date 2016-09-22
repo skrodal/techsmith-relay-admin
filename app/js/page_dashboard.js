@@ -10,6 +10,8 @@ var PAGE_DASHBOARD = (function () {
 	var pieOrgsUserCount = false;          // The Chart instance
 	//
 	var lineLastWeeksHits = false;
+	//
+	var queuedPresentations = [];
 
 	function init() {
 		// Subscribers table (simple)
@@ -19,28 +21,70 @@ var PAGE_DASHBOARD = (function () {
 	}
 
 	function refreshQueueMonitor() {
-		$('#pageDashboard').find('#relayQueueMonitor').find('.ajax').show();
+		$('#pageDashboard').find('[id^=relayQueueMonitor]').find('.ajax').show();
 		$('.queueTotal').html('<i class="fa fa-spinner fa-pulse"></i>');
-		$('#relayQueueMonitorContent').html('');
 		$.when(RELAY.serviceQueueXHR()).done(function (queue) {
-			//  TODO: Logic/presentation
-			var total = queue.total || 'Ingen jobber i k&oslash;';
-			var details = queue.jobs ? JSON.stringify(queue.jobs, null, 4) : 'Ingen detaljer tilgjengelig';
-
-			$('#relayQueueMonitorContent').html(
-				'<strong>Jobber:</strong> ' + total + '<br>' +
-					'<strong>Detaljer:</strong> ' + details
-			);
-			$('#pageDashboard').find('#relayQueueMonitor').find('.ajax').hide();
-			$('#pageDashboard').find('#queueBox').find('.ajax').hide();
-
-			$('.queueTotal').html(queue.total || 0);
+			// TESTDATA!!!!
+			queue = [{"jobId":264666,"jobPresentation_PresId":35771,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"16:04:45","presPresenterName":"Kristin Bergtora Sandvik","presDuration":"5203933"},{"jobId":264714,"jobPresentation_PresId":35778,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:16:56","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264716,"jobPresentation_PresId":35778,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:16:56","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264718,"jobPresentation_PresId":35778,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:16:56","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264720,"jobPresentation_PresId":35778,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:16:56","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264723,"jobPresentation_PresId":35779,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:38:25","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264725,"jobPresentation_PresId":35779,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:38:25","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264727,"jobPresentation_PresId":35779,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:38:25","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264729,"jobPresentation_PresId":35779,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:38:25","presPresenterName":"Joakim Sundnes","presDuration":"6175416"}];
+			var totalQueuedJobs = queue.length;
+			$('#pageDashboard').find('[id^=relayQueueMonitor]').find('.ajax').hide();
+			$('.queueTotal').html(totalQueuedJobs);
+			// Queue arrayobj
+			queuedPresentations = queue;
+			// Update details table in modal
+			_buildQueueTable();
 		});
 	}
 
 	$('.updateQueue').on('click', function(){
 		refreshQueueMonitor();
 	});
+
+
+	function _buildQueueTable() {
+		var $queueTableBody = $('#queueTableBody');
+		$queueTableBody.html('');
+		if(queuedPresentations.length == 0){
+			$queueTableBody.html('<tr><td colspan="2"><strong>Det er ingen jobber i kø akkurat nå</strong></td></tr>');
+			return;
+		}
+		var presID = false;
+		var newPresID;
+		var jobCount = 0;
+		var lastObj = false;
+		$.each(queuedPresentations, function (index, obj) {
+			// Current presentation ID
+			newPresID = obj['jobPresentation_PresId'];
+			// Initiate presID if this is first time in the loop
+			if (!presID) presID = newPresID;
+			// If current presID has a different number than previous, we can output the job data
+			if (jobCount > 0 && newPresID != presID) {
+				$queueTableBody.append(
+					'<tr><td>#' + lastObj['jobPresentation_PresId'] + '</td>' +
+					'<td>' + lastObj['jobQueuedDate'] + ', kl. ' + lastObj['jobQueuedTime'] + '</td>' +
+					'<td>' + jobCount + '</td>' +
+					// Duration from Relay DB is in ms
+					'<td>' + UTILS.secToTime(lastObj['presDuration']/1000) + '</td>' +
+					'<td>' + lastObj['presPresenterName'].substring(0, lastObj['presPresenterName'].indexOf(' ')) + '</td></tr>');
+				// Reset counter
+				jobCount = 0;
+				// Update pointer
+				presID = obj['jobPresentation_PresId'];
+			}
+			jobCount++;
+			lastObj = obj;
+		});
+
+		// Get the last obj
+		$queueTableBody.append(
+			'<tr><td>#' + lastObj['jobPresentation_PresId'] + '</td>' +
+			'<td>' + lastObj['jobQueuedDate'] + ', kl. ' + lastObj['jobQueuedTime'] + '</td>' +
+			'<td>' + jobCount + '</td>' +
+			// Duration from Relay DB is in ms
+			'<td>' + UTILS.secToTime(lastObj['presDuration']/1000) + '</td>' +
+			'<td>' + lastObj['presPresenterName'].substring(0, lastObj['presPresenterName'].indexOf(' ')) + '</td></tr>');
+	}
+
 
 	function _buildLastWeeksHitsChart() {
 		$.when(RELAY.hitsLastWeekXHR()).done(function (hitsArr) {
@@ -167,6 +211,12 @@ var PAGE_DASHBOARD = (function () {
 		});
 		// TODO: When hits are back in the API
 		// lineLastWeeksHits = _buildLastWeeksHitsChart();
+		if(!RELAY_USER.hasAccount()){
+			$('#relayAccountInfo').html(
+				'<p>'+ DATAPORTEN.user().name.first +', du har ingen konto i tjenesten!</p>' +
+				'<p><a href="'+CONFIG.RELAY_REGISTER_URL()+'" target="_blank" class="btn btn-info">Opprett konto</a></p>'
+			);
+		}
 	}
 
 	/**

@@ -20,7 +20,7 @@
 
 				<p>
 					Dersom du mener dette dreier seg om en feil i tjenesten kan du forsøke å laste siden på nytt eller rapportere feilen til
-					<a href="mailto:kontakt@uninett.no">kontakt@uninett.no</a>
+					<span class="supportEmail"><!--></span>
 				</p>
 			</div>
 

@@ -13,7 +13,7 @@
 		</div>
 	</div>
 
-	<h2 class="page-header text-muted">N&oslash;kkeltall for ditt innhold</h2>
+	<h2 class="page-header text-muted">Nøkkeltall for ditt innhold</h2>
 
 	<div id="quickStats" class="row">
 		<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
@@ -35,7 +35,7 @@
 					<span class="info-box-text">VARIGHET</span>
 					<span class="info-box-number myRelayDurationTotal"><!-- --></span>
 					<div class="progress bg-aqua"></div>
-					<span class="progress-description text-muted">time:min:sek</span>
+					<span class="progress-description text-muted">Slettet ikke medr.</span>
 				</div><!-- /.info-box-content -->
 			</div><!-- /.info-box -->
 		</div><!-- /.col -->
@@ -50,7 +50,7 @@
 					<span class="info-box-text">LAGRING</span>
 					<span class="info-box-number myRelayDiskUsage"><!-- --></span>
 					<div class="progress bg-olive"></div>
-					<span class="progress-description text-muted">Totalt diskforbruk</span>
+					<span class="progress-description text-muted">Akkurat nå</span>
 				</div><!-- /.info-box-content -->
 			</div><!-- /.info-box -->
 		</div><!-- /.col -->
@@ -81,12 +81,12 @@
 					<p>Brukernavn: <code class="relayUserName"></code></p>
 					<p>E-post: <code class="relayUserEmail"></code></p>
 					<p>
-						Nettsted for tjenesten er <a class="text-light-blue" href="https://relay.uninett.no/relay/" target="_blank">https://relay.uninett.no/</a>.
+						Nettsted for tjenesten er <a class="text-light-blue relayServiceURL" target="_blank"><span class="relayServiceURL"><!--></span> </a>.
 						Her kan du endre passord, laste ned programvare, se status på dine publiseringer m.m.
 					</p>
 
 					<p>
-						Brukerveiledninger og mer hjelp med tjenesten finner du på <a class="text-light-blue" href="https://support.ecampus.no/techsmithrelay/" target="_blank">UNINETT eCampus Support</a>.
+						Brukerveiledninger og mer hjelp med tjenesten finner du på <a class="text-light-blue relaySupportURL" target="_blank">UNINETT sine hjelpesider</a>.
 					</p>
 				</div>
 			</div>
@@ -95,35 +95,40 @@
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			<div class="box box-solid">
 				<div class="box-header with-border">
-					<h3 class="box-title">Merk</h3>
+					<h3 class="box-title">Til info...</h3>
 				</div>
 
 				<div class="box-body">
 					<ul>
 						<li>Antall visninger (<code>hits</code>) er ikke tilgjengelig enda.</li>
-						<li>Det kan ta minst en time før nye presentasjoner dukker opp i oversikten.</li>
+						<li>
+							Det kan ta minst en time før ferdige presentasjoner dukker opp i oversikten.
+							<ul>
+								<li>Sjekk kømonitoren  <a href="#" onclick="$('#menuDashboard').trigger('click');">i Dashboard</a> for live status</li>
+							</ul>
+						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<h2 class="page-header text-muted">Oversikt</h2>
+	<h2 class="page-header text-muted">Innhold</h2>
 
 	<div id="myRelayContent" class="row">
 		<div class="col-lg-12">
 			<div class="box box-info">
 				<div class="box-header">
 					<h3 class="box-title">Dine opptak</h3>
+					<div class="box-tools pull-right">
+						<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+					</div>
 				</div>
 
 				<div class="box-body table-responsive">
-					<p>
-						I tabellen finner du alt innhold du har produsert med din TechSmith Relay konto.
-					</p>
-
+					<p>I tabellen finner du alt innhold du har produsert med din TechSmith Relay konto.</p>
 					<ul>
-						<li>Klikk p&aring; tittel for mer informasjon.</li>
+						<li>Klikk på tittel for mer informasjon.</li>
 						<li>Har du mange presentasjoner - bruk søkefunksjon til høyre, den er veldig bra!</li>
 					</ul>
 
@@ -171,9 +176,13 @@
 
 <div id="myRelayDeletedContent" class="row">
 		<div class="col-lg-12">
-			<div class="box box-warning">
+			<div class="box box-warning collapsed-box">
 				<div class="box-header">
 					<h3 class="box-title">Slettede opptak</h3>
+					<div class="box-tools pull-right">
+						<button class="icon ion-android-refresh no-padding btn btn-sm btn-link btnUpdateContentTables"> oppdater</button>
+						<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+					</div>
 				</div>
 
 				<div class="box-body table-responsive">
@@ -217,7 +226,7 @@
 
 				<div class="box-footer">
 					<span class="text-muted">
-						<button id="btnUpdateTables" type="button" class="btn bg-aqua">
+						<button class="btn bg-aqua btnUpdateContentTables" type="button">
 							<i class="ion ion-android-refresh"></i> Oppdater tabell
 						</button>
 					</span>

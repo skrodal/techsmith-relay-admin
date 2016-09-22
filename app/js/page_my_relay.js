@@ -135,7 +135,7 @@ var PAGE_MY_RELAY = (function () {
 		});
 
 		$('.myRelayPresentationCount').html(contentArr.length);
-		$('.myRelayPresentationDeletedCount').html(deletedCount > 0 ? deletedCount + ' av disse slettet' : 'Ingen slettet');
+		$('.myRelayPresentationDeletedCount').html(deletedCount > 0 ? deletedCount + ' slettet' : 'Ingen slettet');
 		$('.myRelayDurationTotal').html(UTILS.secToTimeAndDays(durationTotalSec));
 		$('.myRelayDiskUsage').html(UTILS.mib2gb(diskusageArr[diskusageArr.length - 1].size_mib).toFixed(2) + 'GB');
 		$('.myRelayHitCount').html(hitCount);
@@ -374,7 +374,7 @@ var PAGE_MY_RELAY = (function () {
 		document.getElementById('presentation_preview').pause();
 	});
 
-	$('#pageMyRelay').find('#btnUpdateTables').on('click', function (event) {
+	$('#pageMyRelay').find('.btnUpdateContentTables').on('click', function (event) {
 		var btn = $(this);
 		$('#myRelayContent').find('.ajax').show();
 		$('#myRelayDeletedContent').find('.ajax').show();

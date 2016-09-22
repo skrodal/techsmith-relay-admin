@@ -6,5 +6,5 @@
          </span>
     </div>
     <!-- Default to the left -->
-	<span class="small">Sp&oslash;rsm&aring;l og tilbakemeldinger: <a href="mailto:kontakt@uninett.no">kontakt@uninett.no</a></span>
+	<span class="small">Sp&oslash;rsm&aring;l og tilbakemeldinger: <span class="supportEmail"><!--></span></span>
 </footer>
