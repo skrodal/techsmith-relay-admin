@@ -15,7 +15,9 @@ var PAGE_DASHBOARD = (function () {
 
 	function init() {
 		// Subscribers table (simple)
-		_buildOrgsTableDashboard();
+		_buildOrgsTable();
+		// Hits (pass in last number of days to include)
+		_buildHitsChart(30);
 		// Fresh fetch
 		refreshQueueMonitor();
 	}
@@ -86,41 +88,27 @@ var PAGE_DASHBOARD = (function () {
 	}
 
 
-	function _buildLastWeeksHitsChart() {
-		$.when(RELAY.hitsLastWeekXHR()).done(function (hitsArr) {
+	function _buildHitsChart(days) {
+		$.when(RELAY.hitsByDaysXHR(days)).done(function (hitsArr) {
 			var morrisLineData = [];
-			var datesObj = {};
-			var datePointer; var newDate;
+			var timestamp;
 			var totalHits = 0;
 			$.each(hitsArr, function (index, val) {
-				// YYYY-MM-DD HH:MM:SS
-				newDate = val.date.substring(0, 10).trim();
-				newDate = newDate.split('-');
-				newDate = newDate[1]+"/"+newDate[2]+"/"+newDate[0];
-				// Timestamp
-				newDate = new Date(newDate).getTime();
-				//
-				if(datePointer !== newDate) datePointer = newDate;
-				//
-				if(!datesObj[datePointer]){
-					datesObj[datePointer] = 0;
-				}
-				datesObj[datePointer] += val.requests;
-				totalHits += val.requests;
+				// Date to timestamp
+				timestamp = parseInt(new Date(val.log_date).getTime());
+				morrisLineData.push({date: timestamp, hits: val.hits});
+				totalHits += parseInt(val.hits);
 			});
-
-			// Make a data array for morris chart
-			$.each(datesObj, function (date, hits) {
-				// Used by Morris chart (which is able to read timestamps) - have to add 24 hours to get Morris to display correct dates
-				morrisLineData.push({date: parseInt(date) + 86400000, hits: hits});
-			});
-
-			$('.hitsLastWeekTotal').html(totalHits);
-			$('#hitsLastWeekTotalContainer').find('.ajax').hide();
+			// We don't want today's read - it was likely read early morning and not representative
+			morrisLineData.pop();
+			//
+			$('.hitsLastDaysTotal').html(totalHits);
+			$('.hitsLastDaysChartDays').html(days);
+			$('#hitsLastDaysChartContainer').find('.ajax').hide();
 			//$.AdminLTE.boxWidget.collapse($('#hitsLastWeekChart'));
 
 			return new Morris.Line({
-				element: 'hitsLastWeekChart',
+				element: 'hitsLastDaysChart',
 				resize: true,
 				data: morrisLineData,
 				xkey: 'date',
@@ -147,7 +135,7 @@ var PAGE_DASHBOARD = (function () {
 	 *
 	 * @private
 	 */
-	function _buildOrgsTableDashboard() {
+	function _buildOrgsTable() {
 		$('#subscriber_table_body').empty();
 		var labelText = '---', labelColor = 'red';
 		var rowClass;

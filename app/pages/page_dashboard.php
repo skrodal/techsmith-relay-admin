@@ -205,17 +205,17 @@
 	    <div class="row">
 			<div class="col-lg-12">
 				<!-- HITS -->
-				<div id="hitsLastWeekTotalContainer" class="box box-info">
+				<div id="hitsLastDaysChartContainer" class="box box-info">
 					<div class="box-header with-border">
-						<h3 class="box-title icon ion-ios-eye"> Daglige (unike) hits siste 30 dager</h3>
+						<h3 class="box-title icon ion-ios-eye"> Daglige (unike) hits siste <span class="hitsLastDaysChartDays"><!----></span> dager</h3>
 						<div class="box-tools pull-right">
-							<span data-toggle="tooltip" data-original-title="Visninger siste 30 dager" class="badge bg-aqua-gradient hitsLastMonthTotal" ><!-- --></span>
+							<span data-toggle="tooltip" data-original-title="Unike visninger for periode totalt" class="badge bg-aqua-gradient hitsLastDaysTotal" ><!-- --></span>
 							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 					</div><!-- /.box-header -->
 
 					<div class="box-body">
-						<div class="chart" id="hitsLastMonthChart" style="height: 200px;">
+						<div class="chart" id="hitsLastDaysChart" style="height: 200px;">
 							<!-- AJAX -->
 							<span class="text-center">
 								<h3>Grafen er ikke implementert enda.</h3>

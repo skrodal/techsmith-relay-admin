@@ -105,7 +105,7 @@ var RELAY_USER = (function () {
 				iconcolor: 'red',
 				delay: 10000,
 				title: 'OPS!',
-				message: 'En feil oppstod: Fikk ikke hentet dine presentasjoner. Min Relay vil ikke fungere.'
+				message: 'En feil oppstod: Henting av slettede presentasjoner feilet.'
 			});
 		});
 	}

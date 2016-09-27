@@ -23,8 +23,7 @@ var RELAY = (function () {
 		XHR_SERVICE_JOBS_FAILED,
 		XHR_USERS_TOTAL,
 		XHR_USERS_TOTAL_ACTIVE,
-		XHR_PRESENTATIONS_TOTAL,
-		XHR_HITS_LAST_WEEK;
+		XHR_PRESENTATIONS_TOTAL;
 
 
 	/**
@@ -216,19 +215,17 @@ var RELAY = (function () {
 		});
 	}
 
-	function _getHitsLastWeekXHR() {
-		var d = new Date(new Date().setDate(new Date().getDate() - 1))
-		var yesterday = d.getFullYear() + '-' + (d.getUTCMonth() + 1) + '-' + d.getUTCDate();
-		var d = new Date(new Date().setDate(new Date().getDate() - 8));
-		var weekAgo = d.getFullYear() + '-' + (d.getUTCMonth() + 1) + '-' + d.getUTCDate();
-
+	function getHitsByDaysXHR(days) {
+		// Default if we get no parameter
+		days = typeof days !== 'undefined' ? days : 30;
 		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "requests/from/" + weekAgo + "/to/" + yesterday,
+			url: DP_AUTH.config().api_endpoints.relay + "service/presentations/hits/daily/days/"+days+"/",
 			dataType: 'json'
 		}).pipe(function (hitsArr) {
-			return hitsArr.data;
+			// [ {log_date : hits}, {...} ]
+			return hitsArr.status ? hitsArr.data : false;
 		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (presentationHitCount):", "Henting av data feilet.");
+			UTILS.alertError("Relay API (hitsByDay):", "Henting av data feilet.");
 		});
 	}
 
@@ -276,8 +273,8 @@ var RELAY = (function () {
 		presentationsTotalXHR: function () {
 			return XHR_PRESENTATIONS_TOTAL;
 		},
-		hitsLastWeekXHR: function () {
-			return XHR_HITS_LAST_WEEK;
+		hitsByDaysXHR: function (days) {
+			return getHitsByDaysXHR(days);
 		},
 		orgPresentationCount: function (org) {
 			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].presentations : 0;
