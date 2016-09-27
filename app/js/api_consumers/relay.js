@@ -229,6 +229,18 @@ var RELAY = (function () {
 		});
 	}
 
+	function getHitsTotalXHR(){
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "service/presentations/hits/total/",
+			dataType: 'json'
+		}).pipe(function (totalHits) {
+			// {"hits":"493847","first_timestamp":"1441364104"}
+			return totalHits.data;
+		}).fail(function (jqXHR, textStatus, error) {
+			UTILS.alertError("Relay API (hitsTotal):", "Henting av data feilet.");
+		});
+	}
+
 
 	return {
 		ready: function () {
@@ -275,6 +287,9 @@ var RELAY = (function () {
 		},
 		hitsByDaysXHR: function (days) {
 			return getHitsByDaysXHR(days);
+		},
+		hitsTotalXHR: function () {
+			return getHitsTotalXHR();
 		},
 		orgPresentationCount: function (org) {
 			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].presentations : 0;

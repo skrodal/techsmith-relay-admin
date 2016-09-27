@@ -24,7 +24,7 @@
 				</p>
 			</div>
 
-			<div id="authInfo" class="alert bg-light-blue hidden">
+			<div id="authInfo" class="alert hidden text-muted">
 				<h4><i class="ion ion-checkmark"></i> Info: </h4>
 			</div>
 

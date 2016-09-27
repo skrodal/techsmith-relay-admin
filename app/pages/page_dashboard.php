@@ -207,7 +207,7 @@
 				<!-- HITS -->
 				<div id="hitsLastDaysChartContainer" class="box box-info">
 					<div class="box-header with-border">
-						<h3 class="box-title icon ion-ios-eye"> Daglige (unike) hits siste <span class="hitsLastDaysChartDays"><!----></span> dager</h3>
+						<h3 class="box-title icon ion-ios-eye"> Unike visninger siste <span class="hitsLastDaysChartDays"><!----></span> dager</h3>
 						<div class="box-tools pull-right">
 							<span data-toggle="tooltip" data-original-title="Unike visninger for periode totalt" class="badge bg-aqua-gradient hitsLastDaysTotal" ><!-- --></span>
 							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -217,13 +217,12 @@
 					<div class="box-body">
 						<div class="chart" id="hitsLastDaysChart" style="height: 200px;">
 							<!-- AJAX -->
-							<span class="text-center">
-								<h3>Grafen er ikke implementert enda.</h3>
-								<h4>Kommer (kanskje) snart.</h4>
-							</span>
-
 						</div>
                     </div><!-- /.box-body -->
+
+					<div class="box-footer">
+						<span class="totalHitsInfo text-muted"></span>
+					</div>
 					<div class="overlay ajax">
 						<i class="fa fa-spinner fa-pulse"></i>
 					</div>

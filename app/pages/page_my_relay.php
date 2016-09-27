@@ -62,7 +62,7 @@
 					<span class="info-box-text">HITS</span>
 					<span class="info-box-number myRelayHitCount"><!-- --></span>
 					<div class="progress bg-olive"></div>
-					<span class="progress-description text-muted"><strong>Ikke tilgjengelig</strong><!-- Unike visninger --></span>
+					<span class="progress-description text-muted">Unike visninger</span>
 				</div>
 			</div>
 		</div>
@@ -100,7 +100,6 @@
 
 				<div class="box-body">
 					<ul>
-						<li>Antall visninger (<code>hits</code>) er ikke tilgjengelig enda.</li>
 						<li>
 							Det kan ta minst en time før ferdige presentasjoner dukker opp i oversikten.
 							<ul>
@@ -266,7 +265,7 @@
 					<!-- FILES TABLE -->
 					<div class="box box-solid bg-dark-gray">
 	                    <div class="box-header">
-		                    <span id="presentation_hits" class="badge bg-black-gradient pull-right"><!-- AJAX --></span>&nbsp;
+		                    <span id="presentation_hits" class="badge bg-green pull-right"><!-- AJAX --></span>&nbsp;
 	                        <h3 class="box-title">Filer</h3>
 	                    </div>
 	                    <div class="box-body">
@@ -275,8 +274,7 @@
 	                                <th>Type</th>
 	                                <th>Lenke</th>
 	                                <th>Del</th>
-	                                <!-- <th>St&oslash;rrelse</th> -->
-	                                <th style="width: 40px">Hits</th>
+	                                <th>Størrelse</th>
 	                            </thead>
 	                            <tbody>
 	                                <!-- AJAX -->

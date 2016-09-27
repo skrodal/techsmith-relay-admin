@@ -89,6 +89,12 @@ var PAGE_DASHBOARD = (function () {
 
 
 	function _buildHitsChart(days) {
+		// Global hits info for footer
+		$.when(RELAY.hitsTotalXHR()).done(function (hitsTotal) {
+			$('.totalHitsInfo').html('Totalt ' + hitsTotal.hits + ' unike visninger siden ' + UTILS.timestamp2date(hitsTotal.first_timestamp));
+		});
+
+		// Build chart with Last X days of recorded hits
 		$.when(RELAY.hitsByDaysXHR(days)).done(function (hitsArr) {
 			var morrisLineData = [];
 			var timestamp;

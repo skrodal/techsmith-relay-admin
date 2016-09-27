@@ -129,7 +129,7 @@ var PAGE_MY_RELAY = (function () {
 		var totalStorage = 0;
 
 		$.each(contentArr, function (index, contentObj) {
-			hitCount += contentObj.hits;
+			hitCount += parseInt(contentObj.hits);
 			// deletedCount += parseInt(contentObj.is_deleted);
 			durationTotalSec += contentObj.duration_s;
 		});
@@ -341,7 +341,7 @@ var PAGE_MY_RELAY = (function () {
 		modal.find('#presentation_title').text(presentationObj.title);
 		modal.find('#presentation_description').text(presentationObj.description);
 		modal.find('#presentation_author').html('- ' + presentationObj.recorded_by + '<br/>' + presCreatedDate);
-		modal.find('#presentation_hits').text(presentationObj.hits);
+		modal.find('#presentation_hits').text(presentationObj.hits + ' visninger');
 		modal.find('#presentation_duration').html('<i class="ion ion-ios-clock"></i> ' + UTILS.secToTime(presentationObj.duration_s));
 		// Set preview - load() is important
 		presPreview.html('<source src="' + CONFIG.SCREENCAST_BASE_URL() + presentationObj.files[1].path + '" type="video/mp4">');
@@ -354,8 +354,8 @@ var PAGE_MY_RELAY = (function () {
 				'<td>' + value.encoding + '</td>' +
 				'<td><a class="text-light-blue" target="_blank" href="' + CONFIG.SCREENCAST_BASE_URL() + value.path + '">H&oslash;yreklikk...</a></td>' +
 				'<td><a class="text-light-blue" data-dismiss="modal" data-toggle="modal" data-url="' + CONFIG.SCREENCAST_BASE_URL() + value.path + '" data-target="#myRelayEmbedModal" style="cursor: context-menu;"><i class="ion ion-android-share-alt"></i></a></td>' +
-				//'<td>' + UTILS.mib2mb(value.size_mib).toFixed() + 'MB</td>' +
-				'<td><span class="badge bg-black-gradient">' + value.hits + '</span></td>' +
+				'<td>' + UTILS.mib2mb(value.size_mib).toFixed(1) + 'MB</td>' +
+				// '<td><span class="badge bg-black-gradient">' + value.hits + '</span></td>' +
 				'</tr>'
 			);
 		});
