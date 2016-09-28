@@ -77,6 +77,8 @@ var PAGE_MY_RELAY = (function () {
 					// 08.07.2016: Relay Harvester does not yet record deleted presentations. For now, we use the relay-presentation-delete service
 					// only and match user's MongoDB content with this info. Harvester does, however, update diskusage (also when deleted), so we can
 					// rely on this to be up to date every 24 hours.
+					// 28.09.2016: Relay API now returns is_deleted flag for user presentations (and org-dump). However, best to keep current code,
+					// since a) is_deleted could mean moved/deleted/undelete and b) client handles live updates well as it is.
 					_updateContentUI(USERCONTENT, DISKUSAGE);
 					// Destroy tables (if they already exist) before rebuilding
 					if (relayContentTable)relayContentTable.destroy();
@@ -194,6 +196,12 @@ var PAGE_MY_RELAY = (function () {
 					"data": "duration_s",
 					"render": function (data, type, full, meta) {
 						return UTILS.secToTime(data);
+					}
+				},
+				{
+					"data": "hits",
+					"render": function (data, type, full, meta) {
+						return '<p style="text-align: center;"><span class="badge bg-green">' + data + '</span></p>';
 					}
 				}
 			]
@@ -355,7 +363,7 @@ var PAGE_MY_RELAY = (function () {
 				'<td><a class="text-light-blue" target="_blank" href="' + CONFIG.SCREENCAST_BASE_URL() + value.path + '">H&oslash;yreklikk...</a></td>' +
 				'<td><a class="text-light-blue" data-dismiss="modal" data-toggle="modal" data-url="' + CONFIG.SCREENCAST_BASE_URL() + value.path + '" data-target="#myRelayEmbedModal" style="cursor: context-menu;"><i class="ion ion-android-share-alt"></i></a></td>' +
 				'<td>' + UTILS.mib2mb(value.size_mib).toFixed(1) + 'MB</td>' +
-				// '<td><span class="badge bg-black-gradient">' + value.hits + '</span></td>' +
+				//'<td><span class="badge bg-black-gradient">' + value.hits + '</span></td>' +
 				'</tr>'
 			);
 		});

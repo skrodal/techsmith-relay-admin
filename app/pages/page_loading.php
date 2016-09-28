@@ -28,11 +28,6 @@
 				<h4><i class="ion ion-checkmark"></i> Info: </h4>
 			</div>
 
-			<div class="panel">
-				<div class="panel-body text-red">
-				    Tjenesten bruker <a href="http://www.dataporten.no" target="_blank"><i class="ion ion-star"></i> Dataporten <i class="ion ion-star"></i></a> fra UNINETT for autentisering og dataflyt.
-				</div>
-			</div>
 		</div>
 	</div>
 </section>

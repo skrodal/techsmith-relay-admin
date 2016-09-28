@@ -76,9 +76,21 @@ var RELAY_ORG = (function () {
 		});
 	}
 
+	function getHitsOrgUsersXHR(){
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/presentations/hits/users/",
+			dataType: 'json'
+		}).pipe(function (hits) {
+			console.log(hits);
+			return hits.data;
+		}).fail(function (jqXHR, textStatus, error) {
+			UTILS.alertError("Relay API (hitsTotal):", "Henting av data feilet.");
+		});
+	}
+
 	return {
 		diskUsage: function(){
-			return !DATAPORTEN.isOrgAdmin() || XHR_DISKUSAGE;
+			return XHR_DISKUSAGE;
 		},
 		presentations: function(){
 			return XHR_PRESENTATIONS;
@@ -93,7 +105,10 @@ var RELAY_ORG = (function () {
 			return !DATAPORTEN.isOrgAdmin() || getUserContent(user, showAlert);
 		},
 		users: function(){
-			return !DATAPORTEN.isOrgAdmin() || XHR_USERS;
+			return XHR_USERS;
+		},
+		hitsOrgUsersXHR: function () {
+			return !DATAPORTEN.isOrgAdmin() || getHitsOrgUsersXHR();
 		}
 	}
 })();

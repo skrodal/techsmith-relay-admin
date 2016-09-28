@@ -11,6 +11,14 @@ var APP = (function () {
 
 	// Startup
 	$(document).ready(function () {
+		// Single instance, shared by all
+		jsonEditor = new JSONEditor(document.getElementById('jsonDataExport'), {
+			"modes": ["view", "text"],
+			"mode": "text",
+			"search": true,
+			"indentation": 4
+		});
+
 		updateUIAll();
 		// Call important endpoints in sequence: these make part of the login-process
 		$.when(DATAPORTEN.readyUser()).done(function () {

@@ -57,12 +57,12 @@
 
 		<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
 			<div class="info-box">
-				<span class="info-box-icon bg-olive"><i class="ion ion-stats-bars"></i></span>
+				<span class="info-box-icon bg-olive"><i class="ion ion-ios-eye"></i></span>
 				<div class="info-box-content">
-					<span class="info-box-text">HITS</span>
+					<span class="info-box-text">UNIKE HITS</span>
 					<span class="info-box-number myRelayHitCount"><!-- --></span>
 					<div class="progress bg-olive"></div>
-					<span class="progress-description text-muted">Unike visninger</span>
+					<span class="progress-description text-muted">Siden <span class="hitsFirstRecord"><!--></span></span>
 				</div>
 			</div>
 		</div>
@@ -101,9 +101,16 @@
 				<div class="box-body">
 					<ul>
 						<li>
-							Det kan ta minst en time før ferdige presentasjoner dukker opp i oversikten.
+							Det kan ta minst en time før nye presentasjoner dukker opp i oversikten.
 							<ul>
-								<li>Sjekk kømonitoren  <a href="#" onclick="$('#menuDashboard').trigger('click');">i Dashboard</a> for live status</li>
+								<li>Sjekk <a href="#" onclick="$('#menuDashboard').trigger('click');">kømonitoren i Dashboard</a> for live status</li>
+							</ul>
+						</li>
+						<li>
+							For å slette et opptak, klikk på presentasjonens tittel, og klikk <code>Slett</code>
+							helt nederst i vinduet.
+							<ul>
+								<li>Du har en "angrefrist" på 14 dager, der du kan gjenopprette slettet innhold.</li>
 							</ul>
 						</li>
 					</ul>
@@ -127,9 +134,12 @@
 				<div class="box-body table-responsive">
 					<p>I tabellen finner du alt innhold du har produsert med din TechSmith Relay konto.</p>
 					<ul>
-						<li>Klikk på tittel for mer informasjon.</li>
+						<li>Klikk på tittel for mer informasjon</li>
 						<li>Har du mange presentasjoner - bruk søkefunksjon til høyre, den er veldig bra!</li>
 					</ul>
+
+					<p class="pull-right"><span class="badge bg-green">Hits</span> = antall unike visninger siden <span class="hitsFirstRecord"><!--></span></p>
+					<span class="clearfix"></span>
 
                     <table id="myRelayContentTable" class="table table-bordered table-striped table-hover" style="width: 100%;">
                         <thead>
@@ -137,9 +147,9 @@
                                 <th class="hidden"> Dato (for sortering, skjult)</th>
                                 <th><i class="ion ion-ios-film text-muted"></i> Tittel</th>
                                 <th><i class="ion ion-document-text text-muted"></i> Beskrivelse</th>
-	                            <th><i class="ion ion-ios-calendar text-muted"></i> Dato</th>
-                                <th><i class="ion ion-ios-clock text-muted"></i> Varighet</th>
-                                <!-- <th><i class="ion ion-stats-bars text-muted"></i> Hits</th> -->
+	                            <th nowrap><i class="ion ion-ios-calendar text-muted"></i> Dato</th>
+                                <th nowrap><i class="ion ion-ios-clock text-muted"></i> Varighet</th>
+                                <th nowrap><i class="ion ion-stats-bars text-muted"></i> Hits</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -152,7 +162,7 @@
                                 <th><i class="ion ion-document-text text-muted"></i> Beskrivelse</th>
 	                            <th><i class="ion ion-ios-calendar text-muted"></i> Dato</th>
                                 <th><i class="ion ion-ios-clock text-muted"></i> Varighet</th>
-	                            <!-- <th><i class="ion ion-stats-bars text-muted"></i> Hits</th> -->
+	                            <th><i class="ion ion-stats-bars text-muted"></i> Hits</th>
 							</tr>
 						</tfoot>
 					</table>

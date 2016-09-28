@@ -13,7 +13,7 @@ var PAGE_ORG_ADMIN = (function () {
 	var USER_ORG_NAME;
 
 	/**
-	 * Called by MENU which checks that necessary data is available
+	 * Called by MENU, which checks that necessary data is available
 	 */
 	function init() {
 		_updateOrgAdminKindUI();
@@ -174,9 +174,11 @@ var PAGE_ORG_ADMIN = (function () {
 		var employeeCount = 0;
 		var studentCount = 0;
 
-		$.when(RELAY_ORG.users(), RELAY_ORG.presentations()).done(function (usersArr, presentationsArr) {
+		// Merge data from user/presentations/hits
+		$.when(RELAY_ORG.users(), RELAY_ORG.presentations(), RELAY_ORG.hitsOrgUsersXHR()).done(function (usersArr, presentationsArr, usersHitsArr) {
 			var affiliation;
 			userCount = usersArr.length;
+			orgHits = usersHitsArr.total_hits; // Total #of hits for org
 			// Populate users object
 			$.each(usersArr, function (index, userObj) {
 				// Set affiliation
@@ -193,6 +195,8 @@ var PAGE_ORG_ADMIN = (function () {
 						affiliation = '---';
 				}
 
+				var hits = usersHitsArr['users'][userObj.username_on_disk] ? usersHitsArr['users'][userObj.username_on_disk] : 0;
+
 				USER_LIST[userObj.username] =
 				{
 					displayName: userObj.displayname,
@@ -202,7 +206,7 @@ var PAGE_ORG_ADMIN = (function () {
 					status: userObj.status,
 					userName: userObj.username,
 					userNameOnDisk: userObj.usernameOnDisk,
-					hits: 0,
+					hits: hits,
 					diskusageMiB: 0,
 					presentationDurationTotalSec: 0,
 					presentationCount: 0,
@@ -222,14 +226,9 @@ var PAGE_ORG_ADMIN = (function () {
 						presentationCount++;
 						USER_LIST[value.username].presentationDurationTotalSec += value.duration_s;
 						USER_LIST[value.username].diskusageMiB += value.size_mib;
-						// TODO: Update when IIS harvest is in place.
-						// USERLIST[value.username].hits += value.hits;
-
 						// Update ORG totals
 						presentationTotalDurationSec += value.duration_s;
 						orgDiskusageMiB += value.size_mib;
-						// TODO: Update when IIS harvest is in place.
-						// orgHits += value.hits;
 					} else {
 						USER_LIST[value.username].presentationDeletedCount++;
 						presentationDeletedCount++;

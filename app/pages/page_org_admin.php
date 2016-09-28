@@ -158,10 +158,15 @@
 						</div>
 					</div>
 					<div class="box-body table-responsive">
-						<p>
-							Kontoliste og totaler forbundet med hver konto.
-						</p>
-	                    <table id="usersTableOrg" class="table table-bordered table-striped table-hover" style="width: 100%;">
+						<p>I tabellen finner du ale kontoer knyttet til ditt lærested.</p>
+						<ul>
+							<li>Klikk på brukers navn for mer informasjon</li>
+							<li>Mange brukere? Bruk søkefunksjon til høyre, den er veldig bra!</li>
+							<li>Epostliste og eksport av brukere/presentasjoner under tabellen</li>
+						</ul>
+						<p class="pull-right"><span class="badge bg-red">Hits</span> = antall unike visninger siden <span class="hitsFirstRecord"><!--></span></p>
+	                    <span class="clearfix"></span>
+						<table id="usersTableOrg" class="table table-bordered table-striped table-hover" style="width: 100%;">
 	                        <thead>
 	                            <tr>
 	                                <th><i class="ion ion-android-person text-muted"></i>   Navn</th>

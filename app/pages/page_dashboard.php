@@ -90,15 +90,14 @@
 
 			<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 				<div class="info-box">
-					<span class="info-box-icon bg-light-blue disabled"><i class="ion ion-ios-timer-outline"></i></span>
+					<span class="info-box-icon bg-light-blue disabled"><i class="ion ion-ios-eye"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">
-							JOBBER I KØ
-							<button class="icon ion-android-refresh pull-right no-padding btn btn-sm btn-link updateQueue"> oppdater</button>
+							VISNINGER
 						</span>
-						<span class="info-box-number"><span class="queueTotal"><!-- --><i class="fa fa-spinner fa-pulse"></i></span></span>
+						<span class="info-box-number"><span class="hitsTotalGlobal"><!--></span></span>
 						<div class="progress bg-light-blue disabled"></div>
-						<span class="progress-description text-muted">Akkurat n&aring;</span>
+						<span class="progress-description text-muted">Siden <span class="hitsFirstRecord"><!--></span></span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
@@ -221,7 +220,7 @@
                     </div><!-- /.box-body -->
 
 					<div class="box-footer">
-						<span class="totalHitsInfo text-muted"></span>
+						<span class="text-muted">Totalt <span class="hitsTotalGlobal"><!--></span> unike visninger siden <span class="hitsFirstRecord"><!--></span></span>
 					</div>
 					<div class="overlay ajax">
 						<i class="fa fa-spinner fa-pulse"></i>
@@ -301,6 +300,11 @@
 						</div>
 					</div>
 					<div class="box-body">
+						<div class="panel">
+							<div class="panel-body text-red">
+							    Tjenesten bruker <a href="http://www.dataporten.no" target="_blank"><i class="ion ion-star"></i> Dataporten <i class="ion ion-star"></i></a> fra UNINETT for autentisering og dataflyt.
+							</div>
+						</div>
 						<pre><code id="dataportenSessionInfo"></code></pre>
 					</div><!-- /.box-body -->
 					<div class="box-footer">

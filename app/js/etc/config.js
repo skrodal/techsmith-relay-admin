@@ -18,13 +18,7 @@ var CONFIG = (function () {
 	})()
 
 	$(document).ready(function () {
-		// Single instance, shared by all
-		jsonEditor = new JSONEditor(document.getElementById('jsonDataExport'), {
-			"modes": ["view", "text"],
-			"mode": "text",
-			"search": true,
-			"indentation": 4
-		});
+
 	});
 
 	return {
