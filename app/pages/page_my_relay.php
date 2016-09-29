@@ -62,7 +62,7 @@
 					<span class="info-box-text">UNIKE HITS</span>
 					<span class="info-box-number myRelayHitCount"><!-- --></span>
 					<div class="progress bg-olive"></div>
-					<span class="progress-description text-muted">Siden <span class="hitsFirstRecord"><!--></span></span>
+					<span class="progress-description text-muted">Slettet ikke medr.</span>
 				</div>
 			</div>
 		</div>

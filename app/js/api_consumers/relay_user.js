@@ -19,7 +19,7 @@ var RELAY_USER = (function () {
 
 	// Autorun
 	(function () {
-		$.when(DATAPORTEN.readyUser().done(function () {
+		$.when(DATAPORTEN.readyUser()).done(function () {
 			XHR_USER_ACCOUNT = _getUserAccountXHR();
 			$.when(XHR_USER_ACCOUNT).done(function (userInfo) {
 				// Collect extra info only if user has an account

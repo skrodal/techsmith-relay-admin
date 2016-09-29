@@ -69,6 +69,87 @@
 			</div><!-- /.col -->
 		</div>
 
+		<h2 class="page-header text-muted">Tilstand</h2>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div id="queueFailedJobsContainer" class="box box-danger">
+					<div class="box-header with-border">
+						<h3 class="box-title icon ion-heart-broken"> Kræsjopptak</i></h3>
+						<div class="box-tools pull-right">
+							<button class="icon ion-android-refresh no-padding btn btn-sm btn-link refreshQueueFailedJobs"> oppdater</button>
+						</div>
+					</div>
+					<div class="box-body">
+						<p>
+							Konverteringer som kræsjer vil fortsatt ligge i kø og spise ressurser (Relay vil forsøke konverteringen om og om igjen).
+							Disse bør derfor fikses, kanselleres eller slettes.
+						</p>
+						<p>
+							Aktive jobber i kø som har kræsjet: <span class="badge bg-orange queueFailedJobsCount"></span>
+						</p>
+						<div id="queueFailedJobsTable" class="table-responsive">
+							<table class="table table-bordered table-hover table-condensed">
+								<thead>
+									<tr class="bg-red">
+										<th>ID</th>
+										<th>Antall forsøk</th>
+										<th>Årsak</th>
+									</tr>
+								</thead>
+								<tbody id="queueFailedJobsTableBody"><!--></tbody>
+							</table>
+						</div>
+					</div><!-- /.box-body -->
+
+					<div class="overlay ajax">
+						<i class="fa fa-spinner fa-pulse"></i>
+					</div>
+					<div class="box-footer text-muted">
+						<a class="relayServiceURL">Gå til Relay Server og fix evt. problemer</a>
+					</div>
+				</div><!-- /.box -->
+			</div><!-- /.col -->
+
+			<div class="col-md-6">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title icon ion-code-working"> Server/API</i></h3>
+					</div>
+					<div class="box-body">
+						<table class="table table-bordered table-hover table-condensed no-margin no-padding">
+							<thead>
+								<tr class="bg-aqua-active"><td colspan="3">Serverinformasjon:</td></tr>
+							</thead>
+							<tbody>
+								<tr><td style="width: 30%;" nowrap>Database versjon: </td><td><span class="relayVersion"><!--></span></td></tr>
+								<tr><td>Antall workers:</td><td><span class="relayWorkers"><!--></span> stk.</td></tr>
+								<tr><td>Sist oppgradert:</td><td><span class="relayLastUpgrade"><!--></span></td></tr>
+							</tbody>
+						</table>
+						<br>
+						<p>RelayAdmin er avhengig av mange forskjellige services og APIer, bl.a. <code>Dataporten</code> (bruker/grupper), <code>eCampus Kind</code> (abonnenter), <code>TechSmith Relay</code> (metadata brukere/innhold), <code>Relay Sletting</code> og <code>Relay Hits</code> (IIS logger).</p>
+						<p>Dersom Relay oppgraderes, <em>må</em> service/API-config oppdateres til å peke til riktig DB. Hvis versjon <code class="relayVersion"><!--></code> ikke stemmer overens med <em>faktisk</em> installert versjon av Relay har vi en liten krise på gang:</p>
+						<ul>
+							<li>Nye brukerkontoer skrives til gammel DB</li>
+							<li>Høsting av nytt innhold/brukere/orgs vil ikke lenger fungere</li>
+							<li>Alt av statistikk blir feil og deler av sletting/hits vil ikke lenger virke</li>
+						</ul>
+					</div>
+					<div class="box-footer text-muted">
+						<span class="text-muted">
+							Tjenesteansvarlig har dokumentasjon på hva som må oppdateres ved oppgradering.
+							Videre dokumentasjon/kode/info for ulike services/clients/APIs finnes også på server
+							der de kjører, Simon Skrødal sin <a href="https://github.com/skrodal?tab=repositories" target="_blank">GitHub-side</a>
+							(alle repos med <code>relay</code> i tittel) og i <a href="https://dashboard.dataporten.no">Dataporten</a>.
+						</span>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
 	    <h2 class="page-header text-muted">Fakturering &amp; oversikt</h2>
 
 		<div class="row">

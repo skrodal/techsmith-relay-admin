@@ -14,7 +14,7 @@ var RELAY_ORG = (function () {
 
 	// Autorun
 	(function () {
-		$.when(DATAPORTEN.readyUser()).done(function(){
+		$.when(DATAPORTEN.readyUser(), DATAPORTEN.readyUserRole()).done(function(){
 			$.when(KIND.ready()).done(function(){
 				if(DATAPORTEN.isSuperAdmin() || DATAPORTEN.isOrgAdmin()){
 					XHR_DISKUSAGE = _getDiskusage();
@@ -81,7 +81,6 @@ var RELAY_ORG = (function () {
 			url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/presentations/hits/users/",
 			dataType: 'json'
 		}).pipe(function (hits) {
-			console.log(hits);
 			return hits.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (hitsTotal):", "Henting av data feilet.");

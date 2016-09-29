@@ -160,7 +160,13 @@ var APP = (function () {
 
 		// Server version
 		$.when(RELAY.serviceVersionXHR()).done(function (version) {
-			$('.relayVersion').html(version);
+			$('.relayVersion').html(version.versValue);
+			// API returns the worst formatted date string (e.g "Aug  9 2016 12:15:08:940PM") when using MSSQL
+			//var updated = version.createdOn.split(/\s+/);
+			//$('.relayLastUpgrade').html(updated[0] + ' ' + updated[1] + ' ' + updated[2]);
+			// UPDATE 29.09.2016: Switched to using PDO in API, now the date is returned as: 2016-08-09 12:15:08
+			var d = (version.createdOn.split(' ')[0]).split('-');
+			$('.relayLastUpgrade').html(d[2]+'.'+d[1]+'.'+d[0]);
 		});
 
 		// Server version

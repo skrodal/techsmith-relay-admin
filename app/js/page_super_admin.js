@@ -22,6 +22,7 @@ var PAGE_SUPER_ADMIN = (function () {
 		SELECTED_ORG = DATAPORTEN.user().org.id;
 		orgSubscribersTable = _buildOrgSubscribersTable();
 		_updateUI();
+		refreshQueueFailedJobs();
 	};
 
 	function _updateUI() {
@@ -89,6 +90,35 @@ var PAGE_SUPER_ADMIN = (function () {
 			return false;
 		}
 	}
+
+	function refreshQueueFailedJobs() {
+		$('#pageSuperAdmin').find('#queueFailedJobsContainer').find('.ajax').show();
+		$('#pageSuperAdmin').find('#queueFailedJobsTable').hide();
+
+		$.when(RELAY.serviceQueueFailedJobsXHR()).done(function (jobs) {
+			var totalFailedJobs = jobs.length;
+			$('#pageSuperAdmin').find('.queueFailedJobsCount').text(totalFailedJobs);
+			if(totalFailedJobs > 0){
+				$('#pageSuperAdmin').find('#queueFailedJobsTableBody').html('');
+
+				$.each(jobs, function(index, jobObj){
+					$('#pageSuperAdmin').find('#queueFailedJobsTableBody').append(
+						"<tr>" +
+							"<td>"+ jobObj.jobPresentation_PresId +"</td>" +
+							"<td>"+ jobObj.jobNumberOfFailures +"</td>" +
+							"<td>"+ jobObj.jobFailureReason +"</td>" +
+						"</tr>"
+					);
+				});
+				$('#pageSuperAdmin').find('#queueFailedJobsTable').show();
+			}
+			$('#pageSuperAdmin').find('#queueFailedJobsContainer').find('.ajax').hide();
+		});
+	}
+
+	$('.refreshQueueFailedJobs').on('click', function(){
+		refreshQueueFailedJobs();
+	});
 
 	/** ----------------- PIE CHART ----------------- **/
 

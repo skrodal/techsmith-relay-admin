@@ -20,7 +20,6 @@ var RELAY = (function () {
 	var XHR_SERVICE_VERSION,
 		XHR_SERVICE_WORKERS,
 		XHR_SERVICE_STORAGE,
-		XHR_SERVICE_JOBS_FAILED,
 		XHR_USERS_TOTAL,
 		XHR_USERS_TOTAL_ACTIVE,
 		XHR_PRESENTATIONS_TOTAL;
@@ -37,10 +36,6 @@ var RELAY = (function () {
 		XHR_USERS_TOTAL_ACTIVE = _getTotalActiveUsersByAffiliationCountXHR();
 		XHR_PRESENTATIONS_TOTAL = _getPresentationsTotalXHR();
 		XHR_SERVICE_STORAGE = _getServiceStorageXHR();
-		XHR_SERVICE_JOBS_FAILED = _getServiceQueueFailedJobsXHR();
-		// TODO: When added to API
-		// XHR_HITS_LAST_WEEK = _getHitsLastWeekXHR();
-
 		// When our org list has been fetched
 		$.when(XHR_SUBSCRIBERS_INFO).done(function (info) {
 			// Store first set of data returned from getSubscribersInfoXHR()
@@ -76,7 +71,7 @@ var RELAY = (function () {
 			url: DP_AUTH.config().api_endpoints.relay + "service/version/",
 			dataType: 'json'
 		}).pipe(function (obj) {
-			return obj.data.versValue;
+			return obj.data;
 		}).fail(function (jqXHR, textStatus, error) {
 			UTILS.alertError("Relay API (version):", "Henting av data feilet.");
 		});
@@ -106,16 +101,14 @@ var RELAY = (function () {
 		});
 	}
 
-	function _getServiceQueueFailedJobsXHR() {
+	function getServiceQueueFailedJobsXHR() {
 		return DP_AUTH.jso().ajax({
 			url: DP_AUTH.config().api_endpoints.relay + "service/queue/failed/",
 			dataType: 'json'
-		}).pipe(function (obj) {
-			// obj = {"status":true,"data":[{"jobId":258576,"jobType":0,"jobState":3,"jobPresentation_PresId":35046,"jobQueuedTime":"Sep 21 2016 11:12:10:080PM","jobPercentComplete":6.6911389417004,"jobFailureReason":"An error occurred in the encoder","jobNumberOfFailures":87,"jobTitle":null},{"jobId":258578,"jobType":0,"jobState":3,"jobPresentation_PresId":35046,"jobQueuedTime":"Sep 21 2016 11:13:19:173PM","jobPercentComplete":6.6911389417004,"jobFailureReason":"An error occurred in the encoder","jobNumberOfFailures":87,"jobTitle":null},{"jobId":258580,"jobType":0,"jobState":3,"jobPresentation_PresId":35046,"jobQueuedTime":"Sep 21 2016 11:13:43:983PM","jobPercentComplete":6.6911389417004,"jobFailureReason":"An error occurred in the encoder","jobNumberOfFailures":87,"jobTitle":null}]};
-			console.log(obj);
-			return obj.data;
+		}).pipe(function (response) {
+			return response.data;
 		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (queue):", "Henting av køstatus feilet. Prøv på nytt.");
+			UTILS.alertError("Relay API (queueFailed):", "Henting av køstatus feilet. Prøv på nytt.");
 		});
 	}
 
@@ -199,7 +192,7 @@ var RELAY = (function () {
 		}).pipe(function (orgList) {
 			return orgList.data;
 		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (orgsStorage):", "Henting av data feilet.");
+			UTILS.alertError("Relay API (orgsInfo):", "Henting av data feilet.");
 		});
 	}
 
@@ -241,9 +234,6 @@ var RELAY = (function () {
 		});
 	}
 
-
-
-
 	return {
 		ready: function () {
 			// Completely done fetching subscriber data and users
@@ -273,7 +263,7 @@ var RELAY = (function () {
 			return getServiceQueueXHR();
 		},
 		serviceQueueFailedJobsXHR: function () {
-			return XHR_SERVICE_JOBS_FAILED();
+			return getServiceQueueFailedJobsXHR();
 		},
 		serviceStorageXHR: function () {
 			return XHR_SERVICE_STORAGE;
