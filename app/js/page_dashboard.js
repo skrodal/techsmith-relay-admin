@@ -190,7 +190,7 @@ var PAGE_DASHBOARD = (function () {
 			});
 		});
 		var ctx = document.getElementById("chartOrgsUserCountDashboard").getContext("2d");
-		return new Chart(ctx).Pie(orgsUserCountChartData, {});
+		return new Chart(ctx).Pie(UTILS.arrayShuffle(orgsUserCountChartData), {});
 	}
 
 	/**
