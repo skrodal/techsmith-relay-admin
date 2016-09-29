@@ -26,7 +26,7 @@ var PAGE_MY_RELAY = (function () {
 			_updateDeleteListAndBuildTables();
 			// No account
 		} else {
-			$('.relayUserName').html("MANGLER KONTO");
+			$('.relayUserName').html("Du har ingen konto i tjenesten.");
 			// No account - remove all page content, sans Jumbotron
 			$("#pageMyRelay").find("div:first").nextAll().remove();
 		}

@@ -41,7 +41,7 @@ var APP = (function () {
 							} else {
 								// Not even a user account - stop here!
 								if (!RELAY_USER.hasAccount()) {
-									UTILS.showAuthError("Manglende tilgang", "Du mangler brukerkonto og er ikke administrator for tjenesten. Tilgang er derfor sperret.")
+									UTILS.showAuthError("Nektet tilgang", "Du mangler brukerkonto og er ikke administrator for tjenesten. Du kan <a href='"+CONFIG.RELAY_REGISTER_URL()+"' target='_blank' class='text-light-blue'>opprette konto her</a>.")
 									return false;
 								}
 								// Only My Relay

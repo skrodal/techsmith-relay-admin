@@ -204,8 +204,7 @@ var PAGE_DASHBOARD = (function () {
 			pieOrgsUserCount = _buildOrgsUserCountPie(RELAY.subscribersInfo());
 			$('#pageDashboard').find('#usersPie').find('.ajax').hide();
 		});
-		// TODO: When hits are back in the API
-		// lineLastWeeksHits = _buildLastWeeksHitsChart();
+
 		if(!RELAY_USER.hasAccount()){
 			$('#relayAccountInfo').html(
 				'<p>'+ DATAPORTEN.user().name.first +', du har ingen konto i tjenesten!</p>' +
