@@ -138,12 +138,12 @@ var APP = (function () {
 		$('.storageCostPerTB').html(RELAY.storageCostTB());
 		// Users count
 		$.when(RELAY.usersTotalXHR()).done(function (users) {
-			$('.globalUsersCountTotal').html(users.employees + users.students);
-			$('.globalUsersCountByAffiliation').html(users.employees + ' ansatte og ' + users.students + ' studenter');
+			$('.globalUsersCountTotal').html(parseInt(users.employees) + parseInt(users.students));
+			$('.globalUsersCountByAffiliation').html(parseInt(users.employees) + ' ansatte og ' + parseInt(users.students) + ' studenter');
 		});
 		$.when(RELAY.usersTotalActiveXHR()).done(function (users) {
-			$('.globalActiveUsersCountTotal').html(users.employees + users.students);
-			$('.globalActiveUsersCountByAffiliation').html(users.employees + ' ansatte og ' + users.students + ' studenter');
+			$('.globalActiveUsersCountTotal').html(parseInt(users.employees) + parseInt(users.students));
+			$('.globalActiveUsersCountByAffiliation').html(parseInt(users.employees) + ' ansatte og ' + parseInt(users.students) + ' studenter');
 		});
 		// Presentation count
 		$.when(RELAY.presentationsTotalXHR()).done(function (presentations) {
