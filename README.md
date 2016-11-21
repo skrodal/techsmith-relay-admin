@@ -8,9 +8,10 @@ I pakken inngår følgende sider/tjenester:
 
 - Oversikt (for brukere fra alle fra læresteder som abonnerer på Relay)
 - SuperAdmin (kun for UNINETT ansatte)
-- OrgAdmin (kun for teknisk kontakt med pri==1 i Kind)
-    - Kan og bør endres slik at flere har tilgang 
-- Min Relay (for brukere med Relay konto)
+- OrgAdmin <strike>(kun for teknisk kontakt med pri==1 i Kind)</strike>
+    - Medlem av Dataporten gruppe `RelayAdmin`
+- <strike>Min Relay (for brukere med Relay konto)</strike>
+    - Flyttet ut av tjenesten: https://github.com/skrodal/min-relay
 
 ![Preview](/app/img/RelayAdmin.png)
 
@@ -22,8 +23,8 @@ I pakken inngår følgende sider/tjenester:
 
 I tillegg til UNINETT Dataporten for autentisering benytter RelayAdmin følgende egenutviklede APIer/services:
 
-- eCampus Kind API (registrert i Dataporten)
-    - https://github.com/skrodal/ecampus-kind-api
+- <strike>eCampus Kind API (registrert i Dataporten)
+    - https://github.com/skrodal/ecampus-kind-api</strike>
 - Relay API (registrert i Dataporten)
     - https://github.com/skrodal/techsmith-relay-api
 - Relay Hits (service for IIS parsing, uttrekk implementert i Relay API)
@@ -31,7 +32,7 @@ I tillegg til UNINETT Dataporten for autentisering benytter RelayAdmin følgende
 - Relay Delete (service/API selvbetjent sletting, implementert i Relay API)
     - https://github.com/skrodal/techsmith-relay-presentation-delete
 
-Mye av informasjon tilbydt av Relay API er hentet fra datakilder tilgjengeliggjort av "Relay Harvester":
+Noe av informasjon tilbydt av Relay API er hentet fra datakilder tilgjengeliggjort av "Relay Harvester":
  
  - https://github.com/skrodal/relay-mediasite-harvest
 

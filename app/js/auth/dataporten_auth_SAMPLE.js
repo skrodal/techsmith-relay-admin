@@ -26,11 +26,7 @@ var DP_AUTH = (function () {
 			userinfo: "https://auth.dataporten.no/userinfo"
 		},
 		api_endpoints: {
-			kind: "DATAPORTEN_DASH_3RD_PTY_API",
 			relay: "DATAPORTEN_DASH_3RD_PTY_API"
-		},
-		kind: {
-			relayID: "FROM_KIND"
 		}
 	};
 

@@ -28,7 +28,7 @@
 						<span class="info-box-text">ABONNENTER</span>
 						<span class="info-box-number subscribersCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></span>
 						<div class="progress bg-green-active"></div>
-						<span class="progress-description text-muted">Fullverdige</span>
+						<span class="progress-description text-muted">Med innhold</span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
@@ -132,24 +132,6 @@
 						<i class="fa fa-spinner fa-pulse"></i>
 					</div>
                 </div><!-- /.box -->
-
-				<!-- BOX -->
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<h3 class="box-title icon ion-ios-person"> Din konto</h3>
-						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-						</div>
-					</div>
-
-					<div id="relayAccountInfo" class="box-body">
-						<p>Brukernavn: <code class="relayUserName"></code></p>
-						<p>E-post: <code class="relayUserEmail"></code></p>
-						<p>Nettsted for tjenesten er <a class="text-light-blue relayServiceURL" target="_blank"><span class="relayServiceURL"><!--></span></a></p>
-						<p>Her kan du endre passord, laste ned programvare, se status på dine publiseringer m.m.</p>
-						<p>Brukerveiledninger og mer hjelp med tjenesten finner du på <a class="text-light-blue relaySupportURL" target="_blank">UNINETT sine hjelpesider</a>.</p>
-					</div>
-				</div>
 			</div>
 
 			<div class="col-lg-8">
@@ -261,35 +243,6 @@
 					</div><!-- /.box-footer -->
 				</div><!-- /.box -->
 
-				<div class="box box-success">
-					<div class="box-header with-border">
-						<h3 class="box-title icon ion-ios-list-outline"> Oversikt</h3>
-						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-						</div>
-					</div><!-- /.box-header -->
-
-					<div class="box-body">
-						<div class="info-box bg-olive">
-							<span class="info-box-icon"><i class="icon ion-home"></i></span>
-							<div class="info-box-content">
-								<strong>Abonnenter:</strong> <span class="subscribersCount"><!--updateUserUI--><i class="fa fa-spinner fa-pulse"></i></span><br>
-								<strong>Utprøving/bestilt:</strong> <span class="subscribersTrialCount"><!--updateUserUI--><i class="fa fa-spinner fa-pulse"></i></span><br>
-								<strong>Andre:</strong> <span class="subscribersOtherCount"><!--updateUserUI--><i class="fa fa-spinner fa-pulse"></i></span><br>
-								<strong>Totalt:</strong> <span class="subscribersTotalCount"><!--updateUserUI--><i class="fa fa-spinner fa-pulse"></i></span>
-							</div>
-						</div>
-
-						<div class="info-box bg-olive">
-							<span class="info-box-icon"><i class="icon ion-upload"></i></span>
-							<div class="info-box-content">
-								<span class="info-box-text">Lagring totalt</span>
-								<h3 class="subscribersDiskusageTotal" class="info-box-number"><!--getTotalDiskusage--><i class="fa fa-spinner fa-pulse"></i></h3>
-							</div>
-						</div>
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
-
 				<h2 class="page-header text-muted">Sesjonsinformasjon</h2>
 				<!-- Session info (DEV) -->
 				<div class="box box-default collapsed-box">
@@ -300,11 +253,6 @@
 						</div>
 					</div>
 					<div class="box-body">
-						<div class="panel">
-							<div class="panel-body text-red">
-							    Tjenesten bruker <a href="http://www.dataporten.no" target="_blank"><i class="ion ion-star"></i> Dataporten <i class="ion ion-star"></i></a> fra UNINETT for autentisering og dataflyt.
-							</div>
-						</div>
 						<pre><code id="dataportenSessionInfo"></code></pre>
 					</div><!-- /.box-body -->
 					<div class="box-footer">
@@ -320,23 +268,18 @@
 					<div class="box-header with-border">
 						<h3 class="box-title ion-ios-home"> Abonnenter</h3>
 						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool icon ion-ios-information" style="margin-right: 15px;" data-toggle="modal" data-target="#subscriptionInfoDashModal">&nbsp;info&hellip;</button>
-							<span data-toggle="tooltip" title="Totalt" class="badge bg-blue subscribersTotalCount"><!--updateUserUI--></span>
-							<span data-toggle="tooltip" title="Aktive" class="badge bg-green subscribersCount"><!--updateUserUI--></span>
-							<span data-toggle="tooltip" title="Utpr&oslash;ving/bestilt" class="badge bg-orange subscribersTrialCount"><!--updateUserUI--></span>
-							<span data-toggle="tooltip" title="Andre" class="badge bg-red subscribersOtherCount"><!--updateUserUI--></span>
 							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 					</div>
 
 					<div class="box-body">
-						<p>Følgende læresteder har (hatt) tilgang til TechSmith Relay fra UNINETT:</p>
+						<p>TechSmith Relay fra UNINETT er brukt av følgende læresteder:</p>
 						<div id="subscribers_table_dash" class="table-responsive">
-							<table class="table no-margin">
+							<table class="table table-bordered table-striped table-hover">
 								<thead>
 									<tr>
-										<th>Org</th>
-										<th style="text-align: center;">Status</th>
+										<th style="width: 50%;">Org</th>
+										<th style="width: 50%;">Org</th>
 									</tr>
 								</thead>
 								<tbody id="subscriber_table_body">
@@ -345,11 +288,6 @@
 							</table>
 						</div><!-- /.table-responsive -->
 					</div><!-- /.box-body -->
-
-					<div class="box-footer text-muted">
-						<small><i class="icon ion-ios-information"></i> Abonnementsinformasjon hentet live fra UNINETTs driftsdatabase ('KIND').</small>
-					</div>
-
 					<div class="overlay ajax">
 						<i class="fa fa-spinner fa-pulse"></i>
 					</div>
@@ -357,40 +295,6 @@
             </div><!-- /.col -->
 
         </div><!-- /.row -->
-
-
-	    <!-- SUBSCRIPTION INFO MODAL -->
-		<div id="subscriptionInfoDashModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalSubscriptionInfoTitle" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header bg-dark-gray">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">&nbsp;&nbsp;&nbsp;<span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="modalInfoTitle">Status abonnement</h4>
-					</div>
-					<div class="modal-body">
-						<div class="list-group">
-							<div class="list-group-item bg-green">
-								<h4 class="list-group-item-heading">Abonnent</h4>
-								<p class="list-group-item-text">Avtaleverk signert</p>
-							</div>
-
-							<div class="list-group-item bg-orange">
-								<h4 class="list-group-item-heading">Utpr&oslash;ving</h4>
-								<p class="list-group-item-text">Mangler avtaleverk - &aring;pnet for testing i en tidsbegrenset periode</p>
-							</div>
-
-							<div class="list-group-item bg-red">
-								<h4 class="list-group-item-heading">Andre</h4>
-								<p class="list-group-item-text">Mangler avtaleverk - abonnement/utpr&oslash;ving avsluttet, eller org funsjonert</p>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer bg-dark-gray">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
-					</div>
-				</div>
-			</div>
-		</div>
 
 		<!-- QUEUE DETAILS MODAL -->
 		<div class="modal fade" id="infoQueueModal" tabindex="-1" role="dialog" aria-labelledby="modalQueueTitle" aria-hidden="true">

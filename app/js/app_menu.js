@@ -21,15 +21,6 @@ var MENU = (function () {
 	 * @private
 	 */
 	function _showMenuItems() {
-		// If user has an account
-		if (RELAY_USER.hasAccount()) {
-			$('li#menuMyRelay').removeClass('hidden').fadeIn();
-			PAGE_MY_RELAY.init();
-			// If user is not an admin, this is the only page s/he can view
-			if (!DATAPORTEN.isSuperAdmin() && !DATAPORTEN.isOrgAdmin()) {
-				$('#menuMyRelay').trigger('click');
-			}
-		}
 		// Dash and OrgAdmin view for admins
 		if (DATAPORTEN.isSuperAdmin() || DATAPORTEN.isOrgAdmin()) {
 			PAGE_DASHBOARD.init();
@@ -74,24 +65,24 @@ $sidebarMenu.on('click', 'li', function () {
 			PAGE_DASHBOARD.show();
 			PAGE_SUPER_ADMIN.hide();
 			PAGE_ORG_ADMIN.hide();
-			PAGE_MY_RELAY.hide();
+			//PAGE_MY_RELAY.hide();
 			break;
 		case 'pageSuperAdmin':
 			PAGE_DASHBOARD.hide();
 			PAGE_SUPER_ADMIN.show();
 			PAGE_ORG_ADMIN.hide();
-			PAGE_MY_RELAY.hide();
+			//PAGE_MY_RELAY.hide();
 			break;
 		case 'pageOrgAdmin':
 			PAGE_DASHBOARD.hide();
 			PAGE_SUPER_ADMIN.hide();
 			PAGE_ORG_ADMIN.show();
-			PAGE_MY_RELAY.hide();
+			//PAGE_MY_RELAY.hide();
 			break;
 		case 'pageMyRelay':
 			PAGE_DASHBOARD.hide();
 			PAGE_SUPER_ADMIN.hide();
 			PAGE_ORG_ADMIN.hide();
-			PAGE_MY_RELAY.show();
+			//PAGE_MY_RELAY.show();
 	}
 });

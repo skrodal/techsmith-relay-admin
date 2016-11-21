@@ -8,9 +8,9 @@
 		<title>RelayAdmin</title>
 		<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes' name='viewport'>
 		<!-- Stylesheets -->
+		<link href="dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 		<link href="dist/AdminLTE/fonts/fontawesome/font-awesome.min.css" rel="stylesheet" type="text/css"/>
 		<link href="dist/AdminLTE/fonts/ionicons/ionicons.min.css" rel="stylesheet" type="text/css"/>
-		<link href="dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 		<link href="dist/AdminLTE/css/AdminLTE.min.css" rel="stylesheet" type="text/css"/>
 		<link href="dist/AdminLTE/css/skins/skin-black.min.css" rel="stylesheet" type="text/css"/>
 		<link href="dist/plugins/datatables/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -70,7 +70,6 @@
 					include_once('app/pages/page_dashboard.php');
 					include_once('app/pages/page_org_admin.php');
 					include_once('app/pages/page_super_admin.php');
-					include_once('app/pages/page_my_relay.php');
 				?>
 			</div><!-- /.content-wrapper -->
 

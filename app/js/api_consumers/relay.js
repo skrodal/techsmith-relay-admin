@@ -11,17 +11,14 @@ var RELAY = (function () {
 	// Indicator
 	var READY = $.Deferred();
 	// Bunch of ajax calls for org storage, only READY when all of these are done
-	// var XHR_PROMISES = [];
 	// Our main object with totalstorage, all orgs with storage[], total_mib and usercount
 	var XHR_SUBSCRIBERS_INFO;
 	// Set when the above is done()
 	var SUBSCRIBERS_INFO;
 	// Ajax indicators, pipes result $.when(XHR_).done(result) :-)
-	var XHR_SERVICE_VERSION,
-		XHR_SERVICE_WORKERS,
+	var XHR_SERVICE_INFO,
 		XHR_SERVICE_STORAGE,
-		XHR_USERS_TOTAL,
-		XHR_USERS_TOTAL_ACTIVE,
+		XHR_USERS_TOTAL_COUNT,
 		XHR_PRESENTATIONS_TOTAL;
 
 
@@ -30,10 +27,8 @@ var RELAY = (function () {
 	 */
 	function init() {
 		XHR_SUBSCRIBERS_INFO = _getSubscribersInfoXHR();
-		XHR_SERVICE_VERSION = _getServiceVersionXHR();
-		XHR_SERVICE_WORKERS = _getServiceWorkersXHR();
-		XHR_USERS_TOTAL = _getTotalUsersByAffiliationCountXHR();
-		XHR_USERS_TOTAL_ACTIVE = _getTotalActiveUsersByAffiliationCountXHR();
+		XHR_SERVICE_INFO = _getServiceInfoXHR();
+		XHR_USERS_TOTAL_COUNT = _getTotalUsersCountXHR();
 		XHR_PRESENTATIONS_TOTAL = _getPresentationsTotalXHR();
 		XHR_SERVICE_STORAGE = _getServiceStorageXHR();
 		// When our org list has been fetched
@@ -65,198 +60,98 @@ var RELAY = (function () {
 		});
 	};
 
-	/** data.version **/
-	function _getServiceVersionXHR() {
-		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "service/version/",
-			dataType: 'json'
-		}).pipe(function (obj) {
-			return obj.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (version):", "Henting av data feilet.");
-		});
+	/** data.version, data.workers, data.jobs **/
+	function _getServiceInfoXHR() {
+		return _getAPI("service/info/");
 	}
 
-	/** data.total **/
-	function _getServiceWorkersXHR() {
-		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "service/workers/",
-			dataType: 'json'
-		}).pipe(function (obj) {
-			return obj.data.length;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (workerCount):", "Henting av data feilet.");
-		});
+	function getServiceQueueXHR(){
+		return _getAPI("service/queue/");
 	}
 
-	/** data.total, data.jobs[] **/
-	function getServiceQueueXHR() {
-		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "service/queue/",
-			dataType: 'json'
-		}).pipe(function (obj) {
-			return obj.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (queue):", "Henting av køstatus feilet. Prøv på nytt.");
-		});
-	}
-
-	function getServiceQueueFailedJobsXHR() {
-		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "service/queue/failed/",
-			dataType: 'json'
-		}).pipe(function (response) {
-			return response.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (queueFailed):", "Henting av køstatus feilet. Prøv på nytt.");
-		});
+	function getServiceQueueFailedJobsXHR(){
+		return _getAPI("service/queue/failed/");
 	}
 
 	/** data **/
 	function _getServiceStorageXHR() {
-		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "service/diskusage/",
-			dataType: 'json'
-		}).pipe(function (obj) {
-			return obj.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (queue):", "Henting av lagring. Prøv på nytt.");
-		});
+		return _getAPI("service/diskusage/");
 	}
 
 	/** data.employees, data.students **/
-	function _getTotalUsersByAffiliationCountXHR() {
-		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "service/users/edupersonaffiliation/count/",
-			dataType: 'json'
-		}).pipe(function (obj) {
-			return obj.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (active user count):", "Henting av data feilet.");
-		});
+	function _getTotalUsersCountXHR() {
+		return _getAPI("service/users/count/");
 	}
-
-	/** data.employees, data.students **/
-	function _getTotalActiveUsersByAffiliationCountXHR() {
-		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "service/users/edupersonaffiliation/active/count/",
-			dataType: 'json'
-		}).pipe(function (obj) {
-			return obj.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (user count):", "Henting av data feilet.");
-		});
-	}
-
-	/** data.total  **/
-	function getOrgPresentationCountXHR(org) {
-		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "org/" + org + "/presentations/count/",
-			dataType: 'json'
-		}).pipe(function (obj) {
-			return obj.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (presentations):", "Henting av data feilet.");
-		});
-	}
-
 
 	function getOrgPresentationListXHR(org) {
-		if(DATAPORTEN.isSuperAdmin()){
-			return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + org + "/presentations/", dataType: 'json'}).pipe(function (obj) {
-				return obj.data;
-			}).fail(function (jqXHR, textStatus, error) {
-				UTILS.alertError("Relay API (presentations):", "Finner ingen presentasjoner for org  <code>" + org + "</code>");
-			});
+		if (DATAPORTEN.isSuperAdmin()) {
+			return _getAPI("org/" + org + "/presentations/");
 		}
 	}
 
 	/** **/
-	function getOrgUserListXHR(org){
+	function getOrgUserListXHR(org) {
 		// Only for super admins
-		if(DATAPORTEN.isSuperAdmin()) {
-			return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + org + "/users/", dataType: 'json'}).pipe(function (obj) {
-				return obj.data;
-			}).fail(function (jqXHR, textStatus, error) {
-				UTILS.alertError("Relay API (users):", "Finner ingen brukere for org <code>" + org + "</code>");
-			});
+		if (DATAPORTEN.isSuperAdmin()) {
+			return _getAPI("org/" + org + "/users/");
 		}
 	}
 
-
-	/** data.org, data.org.users, data.org.presentations, data.org.total_mib, data.org.storage[] **/
+	/** org.users.total|employees|students, org.storage[], org.total_mib **/
 	function _getSubscribersInfoXHR() {
-		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "admin/orgs/info/",
-			dataType: 'json'
-		}).pipe(function (orgList) {
-			return orgList.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (orgsInfo):", "Henting av data feilet.");
-		});
+		return _getAPI("admin/orgs/info/");
 	}
 
 	/** paginator.total_count **/
 	function _getPresentationsTotalXHR() {
-		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "service/presentations/count/",
-			dataType: 'json'
-		}).pipe(function (obj) {
-			return obj.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (presentationCount):", "Henting av data feilet.");
-		});
+		return _getAPI("service/presentations/count/");
 	}
 
 	function getHitsByDaysXHR(days) {
-		// Default if we get no parameter
-		days = typeof days !== 'undefined' ? days : 30;
-		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "service/presentations/hits/daily/days/"+days+"/",
-			dataType: 'json'
-		}).pipe(function (hitsArr) {
-			// [ {log_date : hits}, {...} ]
-			return hitsArr.status ? hitsArr.data : false;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (hitsByDay):", "Henting av data feilet.");
-		});
+		return _getAPI("service/presentations/hits/daily/days/" + (typeof days !== 'undefined' ? days : 30) + "/");
 	}
 
-	function getHitsTotalXHR(){
+	function getHitsTotalXHR() {
+		return _getAPI("service/presentations/hits/total/");
+	}
+
+	function _getAPI(route) {
 		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "service/presentations/hits/total/",
-			dataType: 'json'
-		}).pipe(function (totalHits) {
-			// {"hits":"493847","first_timestamp":"1441364104"}
-			return totalHits.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (hitsTotal):", "Henting av data feilet.");
-		});
+			url: DP_AUTH.config().api_endpoints.relay + route,
+			datatype: 'json'
+		})
+			.pipe(function (response) {
+				return response.status ? response.data : false;
+			})
+			.fail(function (jqXHR, textStatus, error) {
+				var title = "<kbd>" + error + "</kbd>";
+				var message =
+					"<p>Forespørsel <code>" + route + "</code> feilet med melding: </p>" +
+					"<p class='well'>" + JSON.parse(jqXHR.responseText).message + "</p>" +
+					"<p><button class='btn btn-default icon ion-refresh' onclick='location.reload();'> Last siden på nytt?</button></p>";
+				UTILS.alertError(title, message);
+			});
 	}
 
 	return {
 		ready: function () {
-			// Completely done fetching subscriber data and users
+			// Resolved when subscribersInfoXHR is done
 			return READY;
 		},
-
 		init: function () {
 			init();
 		},
 		subscribersInfoXHR: function () {
-			// Done with initial collection (sans users)
+			// Done with initial collection
 			return XHR_SUBSCRIBERS_INFO;
 		},
 		subscribersInfo: function () {
-			// Only fetch when subscribersInfoXHR.done() or ready().done (if users also needed)
+			// Only fetch when subscribersInfoXHR.done() or ready().done (if usersXHR also needed)
 			return SUBSCRIBERS_INFO;
 		},
-		// USAGE: $.when(RELAY.serviceVersionXHR()).done(function(version){...do something with version...})
-		serviceVersionXHR: function () {
-			return XHR_SERVICE_VERSION;
-		},
-		serviceWorkersXHR: function () {
-			return XHR_SERVICE_WORKERS;
+		// USAGE: $.when(RELAY.serviceInfoXHR()).done(function(info){...do something with workers/version...})
+		serviceInfoXHR: function () {
+			return XHR_SERVICE_INFO;
 		},
 		// Will update for each call
 		serviceQueueXHR: function () {
@@ -268,11 +163,8 @@ var RELAY = (function () {
 		serviceStorageXHR: function () {
 			return XHR_SERVICE_STORAGE;
 		},
-		usersTotalXHR: function () {
-			return XHR_USERS_TOTAL;
-		},
-		usersTotalActiveXHR: function () {
-			return XHR_USERS_TOTAL_ACTIVE;
+		usersTotalCountXHR: function () {
+			return XHR_USERS_TOTAL_COUNT;
 		},
 		presentationsTotalXHR: function () {
 			return XHR_PRESENTATIONS_TOTAL;
@@ -283,11 +175,20 @@ var RELAY = (function () {
 		hitsTotalXHR: function () {
 			return getHitsTotalXHR();
 		},
+		orgCount: function () {
+			return Object.keys(SUBSCRIBERS_INFO).length;
+		},
 		orgPresentationCount: function (org) {
-			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].presentations : 0;
+			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].presentations.total : 0;
+		},
+		orgEmployeesPresentationCount: function (org) {
+			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].presentations.employees : 0;
+		},
+		orgStudentsPresentationCount: function (org) {
+			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].presentations.students : 0;
 		},
 		orgPresentationListXHR: function (org) {
-			return 	getOrgPresentationListXHR(org);
+			return getOrgPresentationListXHR(org);
 		},
 		orgStorageTotalMiB: function (org) {
 			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].total_mib : 0;
@@ -296,10 +197,16 @@ var RELAY = (function () {
 			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].storage : [];
 		},
 		orgUserCount: function (org) {
-			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].users : 0;
+			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].users.total : 0;
+		},
+		orgEmployeesCount: function (org) {
+			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].users.employees : 0;
+		},
+		orgStudentsCount: function (org) {
+			return SUBSCRIBERS_INFO[org] ? SUBSCRIBERS_INFO[org].users.students : 0;
 		},
 		orgUserListXHR: function (org) {
-			return 	getOrgUserListXHR(org);
+			return getOrgUserListXHR(org);
 		},
 		storageCostTB: function () {
 			return STORAGE_COST_PER_TB;
@@ -312,6 +219,9 @@ var RELAY = (function () {
 			}
 			STORAGE_COST_PER_TB = cost;
 			return true;
+		},
+		_getAPI: function (route) {
+			return _getAPI(route);
 		}
 	}
 })();

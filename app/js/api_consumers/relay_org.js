@@ -6,108 +6,41 @@
  */
 
 var RELAY_ORG = (function () {
-	var XHR_DISKUSAGE;
 	var XHR_USERS;
 	var XHR_PRESENTATIONS;
-	var XHR_PRESENTATION_COUNT;
-
+	var XHR_HITS;
 
 	// Autorun
 	(function () {
-		$.when(DATAPORTEN.readyUser(), DATAPORTEN.readyUserRole()).done(function(){
-			$.when(KIND.ready()).done(function(){
-				if(DATAPORTEN.isSuperAdmin() || DATAPORTEN.isOrgAdmin()){
-					XHR_DISKUSAGE = _getDiskusage();
-					XHR_USERS = _getUsers();
-					XHR_PRESENTATIONS = _getPresentations();
-					XHR_PRESENTATION_COUNT = _getPresentationCount();
-				}
-			});
+		$.when(DATAPORTEN.READY()).done(function () {
+			if (DATAPORTEN.isSuperAdmin() || DATAPORTEN.isOrgAdmin()) {
+				XHR_USERS = _getUsers();
+				XHR_PRESENTATIONS = _getOrgPresentations();
+				XHR_HITS = _getUsersHitsXHR();
+			}
 		});
 	})();
 
-	function _getDiskusage(){
-		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/diskusage/", dataType: 'json'}).pipe(function (obj) {
-			return obj.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (diskusage):", "Finner ingen lagringspunkt for org <code>" + DATAPORTEN.user().org.id + "</code>");
-		});
+	function _getOrgPresentations() {
+		return RELAY._getAPI("org/" + DATAPORTEN.user().org.id + "/presentations/");
+	}
+	function _getUsers() {
+		return RELAY._getAPI("org/" + DATAPORTEN.user().org.id + "/users/");
 	}
 
-	function _getPresentations(){
-		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/presentations/", dataType: 'json'}).pipe(function (obj) {
-			return obj.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (presentations):", "Finner ingen presentasjoner for org  <code>" + DATAPORTEN.user().org.id + "</code>");
-		});
-	}
-
-	function _getPresentationCount(){
-		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/presentations/count/", dataType: 'json'}).pipe(function (obj) {
-			return obj.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (presentations):", "Finner ingen presentasjoner for org  <code>" + DATAPORTEN.user().org.id + "</code>");
-		});
-	}
-
-	function _getUsers(){
-		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/users/", dataType: 'json'}).pipe(function (obj) {
-			return obj.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (users):", "Finner ingen brukere for org <code>" + DATAPORTEN.user().org.id + "</code>");
-		});
-	}
-
-
-	function getUser(user){
-		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/user/" + user + "/", dataType: 'json'}).pipe(function (obj) {
-			return obj.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Finner ikke bruker", "Finner ikke bruker <code>" + user + "</code>");
-		});
-	}
-
-	function getUserContent(user, showAlert){
-		return DP_AUTH.jso().ajax({url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/user/" +  user + "/presentations/", dataType: 'json'}).pipe(function (obj) {
-			return obj.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			if(showAlert)
-				UTILS.alertError("Finner ikke innhold", "Finner ikke noe innhold for bruker <code>" + user + "</code>");
-		});
-	}
-
-	function getHitsOrgUsersXHR(){
-		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay + "org/" + DATAPORTEN.user().org.id + "/presentations/hits/users/",
-			dataType: 'json'
-		}).pipe(function (hits) {
-			return hits.data;
-		}).fail(function (jqXHR, textStatus, error) {
-			UTILS.alertError("Relay API (hitsTotal):", "Henting av data feilet.");
-		});
+	function _getUsersHitsXHR() {
+		return RELAY._getAPI("org/" + DATAPORTEN.user().org.id + "/presentations/hits/users/");
 	}
 
 	return {
-		diskUsage: function(){
-			return XHR_DISKUSAGE;
-		},
-		presentations: function(){
+		usersPresentationsXHR: function () {
 			return XHR_PRESENTATIONS;
 		},
-		presentationCount: function(){
-			return XHR_PRESENTATION_COUNT;
-		},
-		user: function(user) {
-			return !DATAPORTEN.isOrgAdmin() || getUser(user);
-		},
-		userContent: function(user, showAlert) {
-			return !DATAPORTEN.isOrgAdmin() || getUserContent(user, showAlert);
-		},
-		users: function(){
+		usersXHR: function () {
 			return XHR_USERS;
 		},
-		hitsOrgUsersXHR: function () {
-			return !DATAPORTEN.isOrgAdmin() || getHitsOrgUsersXHR();
+		usersHitsXHR: function () {
+			return XHR_HITS;
 		}
 	}
 })();

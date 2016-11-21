@@ -40,9 +40,6 @@
 <script src="app/js/auth/dataporten_auth.js"></script>
 
 <script src="app/js/api_consumers/dataporten.min.js"></script>
-<script src="app/js/api_consumers/kind.min.js"></script>
-
 <script src="app/js/api_consumers/relay.min.js"></script>
 <script src="app/js/api_consumers/relay_org.min.js"></script>
-<script src="app/js/api_consumers/relay_user.min.js"></script>
 

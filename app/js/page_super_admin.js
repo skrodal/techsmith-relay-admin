@@ -28,10 +28,9 @@ var PAGE_SUPER_ADMIN = (function () {
 	function _updateUI() {
 		$('ul#orgListSuperAdmin').html('');
 		// Drop-down for Line Chart
-		$.each(KIND.subscribingOrgNames(), function (index, org) {
+		$.each(RELAY.subscribersInfo(), function (org, orgObj) {
 			$('ul#orgListSuperAdmin').append('<li class="orgLineChartSelector" style="cursor: pointer;" data-org="' + org + '">' + org + '</li>');
 		});
-
 		// Selected from drop-down
 		$('#pageSuperAdmin').find('.selectedOrg').html('<code>' + SELECTED_ORG + "</code>");
 		// Number of dates available in org's storage history (max 30 days)
@@ -40,38 +39,30 @@ var PAGE_SUPER_ADMIN = (function () {
 		$('#pageSuperAdmin').find('#inputCostTB').val(RELAY.storageCostTB());
 		// All fields referring to cost defined by calculator
 		$('#pageSuperAdmin').find('.costTB').text("kr. " + RELAY.storageCostTB());
+		// Users/content
+		$('#pageSuperAdmin').find('.orgUserCount').html(RELAY.orgUserCount(SELECTED_ORG) + "<br><small class='text-muted'>" + RELAY.orgEmployeesCount(SELECTED_ORG) + "/" + RELAY.orgStudentsCount(SELECTED_ORG) + "</small>");
+
+		$('#pageSuperAdmin').find('.orgPresentationCount').html(RELAY.orgPresentationCount(SELECTED_ORG) + "<br><small class='text-muted'>" + RELAY.orgEmployeesPresentationCount(SELECTED_ORG) + "/" + RELAY.orgStudentsPresentationCount(SELECTED_ORG) + "</small>");
 
 		$.when(RELAY.serviceStorageXHR()).done(function (total_mib) {
 			var serviceStorageMiB = total_mib;
-			// On disk as of last reading (total)
-			// $('#pageSuperAdmin').find('.subscribersDiskusageTotal').text(UTILS.mib2tb(serviceStorageMiB).toFixed(2) + "TB");
 			// Invoice estimate total
 			$('#pageSuperAdmin').find('.totalStorageCostEstimate').text('kr. ' + (UTILS.mib2tb(serviceStorageMiB) * RELAY.storageCostTB()).toFixed());
 			// QuickStats below line graph
 			var orgTotalStorageMiB = RELAY.orgStorageTotalMiB(SELECTED_ORG);
 			var orgStoragePercentageGlobal = (orgTotalStorageMiB / serviceStorageMiB) * 100;
-
 			// Storage
 			$('#pageSuperAdmin').find('.orgTotalStorage').text(UTILS.mib2gb(orgTotalStorageMiB).toFixed(2) + " GB");
 			$('#pageSuperAdmin').find('.orgStoragePercentageGlobal').text(orgStoragePercentageGlobal.toFixed(2));
-			// Users
-			$('#pageSuperAdmin').find('.orgUserCount').text(RELAY.orgUserCount(SELECTED_ORG));
-			// Subsctiption status
-			$('#pageSuperAdmin').find('.orgSubscriptionStatus').html('<span class="label bg-' + KIND.subscriptionCodesToColors()[KIND.orgSubscriptionStatusCode(SELECTED_ORG)] + '">' + KIND.subscriptionCodesToNames()[KIND.orgSubscriptionStatusCode(SELECTED_ORG)] + '</span>');
 			// Invoice estimate
 			$('#pageSuperAdmin').find('.orgInvoiceEstimate').text('kr. ' + (UTILS.mib2tb(orgTotalStorageMiB) * RELAY.storageCostTB()).toFixed(2));
-			// Ajax call each time presentation count is requested
-			$('#pageSuperAdmin').find('.orgPresentationCount').html('<i class="fa fa-spinner fa-pulse"></i>');
-			$('#pageSuperAdmin').find('.orgPresentationCount').html(RELAY.orgPresentationCount(SELECTED_ORG));
 		});
 	}
 
 	function onShowListener() {
-		$.when(RELAY.ready().done(function () {
-			pieOrgsUserCount = _buildOrgsUserCountPie(RELAY.subscribersInfo());
-			$('#pageSuperAdmin').find('#usersPie').find('.ajax').hide();
-			chartOrgUsageLine = _buildOrgPresentationLineChart(SELECTED_ORG);
-		}));
+		pieOrgsUserCount = _buildOrgsUserCountPie(RELAY.subscribersInfo());
+		$('#pageSuperAdmin').find('#usersPie').find('.ajax').hide();
+		chartOrgUsageLine = _buildOrgPresentationLineChart(SELECTED_ORG);
 		_updateUI();
 	}
 
@@ -129,7 +120,7 @@ var PAGE_SUPER_ADMIN = (function () {
 		$.each(orgs, function (orgName, orgObj) {
 			// Chart prefs and data
 			orgsUserCountChartData.push({
-				value: orgObj.users,
+				value: orgObj.users.total,
 				color: '#' + (Math.random().toString(16) + '0000000').slice(2, 8),
 				highlight: '#' + (Math.random().toString(16) + '0000000').slice(2, 8),
 				label: orgName
@@ -167,6 +158,14 @@ var PAGE_SUPER_ADMIN = (function () {
 		if (_updateSelectedOrg($(this).data('org'))) {
 			chartOrgUsageLine = _buildOrgPresentationLineChart(SELECTED_ORG);
 			_updateUI();
+		}
+	});
+
+	$('#subscribersTableSuperAdmin').on('click', 'button.org', function () {
+		if (_updateSelectedOrg($(this).data('org'))) {
+			chartOrgUsageLine = _buildOrgPresentationLineChart(SELECTED_ORG);
+			_updateUI();
+			$('html, body').animate({scrollTop: $('#orgDetailsHeader').offset().top + 'px'}, 'fast');
 		}
 	});
 
@@ -268,24 +267,9 @@ var PAGE_SUPER_ADMIN = (function () {
 	 *
 	 */
 	function _buildOrgSubscribersTable() {
-		// Clone the array so as to not modify passed original
-		var subscribersObj = JSON.parse(JSON.stringify(KIND.subscribers()));
-		// Before passing dataset to table - add storage consumption and usercount per org
-		$.each(subscribersObj, function (org, orgObj) {
-			// Get org from Kind array, map to corresponding Relay org and add storage to the end of the Kind array
-			var orgStorageMiB = RELAY.orgStorageTotalMiB(org);
-			var orgUserCount = RELAY.orgUserCount(org);
-			// Create a 6th index in org array
-			orgObj.storage =
-			{
-				mib: orgStorageMiB,
-				gb: UTILS.mib2gb(orgStorageMiB).toFixed(2),
-				percentage: (orgStorageMiB / RELAY.serviceStorageXHR() * 100 ).toFixed(),
-				cost: (UTILS.mib2tb(orgStorageMiB) * RELAY.storageCostTB()).toFixed()
-			};
-			orgObj.userCount = orgUserCount;
-		});
 
+		// Clone the array so as to not modify passed original
+		var subscribersObj = JSON.parse(JSON.stringify(RELAY.subscribersInfo()));
 
 		var table = $('#pageSuperAdmin').find('#subscribersTableSuperAdmin').DataTable({
 			"language": CONFIG.DATATABLES_LANGUAGE(),
@@ -321,92 +305,69 @@ var PAGE_SUPER_ADMIN = (function () {
 			"data": UTILS.convertDataTablesData(subscribersObj), // Obj to Array
 			"columns": [
 				{
-					"data": "org_id",
+					"data": "id",
 					"render": function (data, type, full, meta) {
-						//	console.log('FULL: ');
-						//	console.log(full)
-						//	console.log('DATA: ');
-						//	console.log(data);
-						return full.org_id;
+						return  "<button class='btn btn-link org' data-org='"+data+"'>"+data+"</button>";
 					}
 				},
 				{
-					"data": "contact_person",
+					"data": "users",
+					//"width": "5%",
 					"render": function (data, type, full, meta) {
-						var contact;
-						try {
-							// TODO: POPUP WITH DETAILS
-							contact = '<a class="icon ion-ios-email" href="mailto:' + (full.contact_person.e_post).toLowerCase() + '"> ' + full.contact_person.navn + '</a>';
-						} catch (e) {
-							contact = "<span class='label bg-red'>MANGLER!</span>";
-						}
-						return contact;
+						return  full.users.total
 					}
 				},
 				{
-					"data": "contact_support",
+					"data": "employees",
+					//"width": "5%",
 					"render": function (data, type, full, meta) {
-						var support;
-						try {
-							if ((full.contact_support.e_post).indexOf('http') == -1) {
-								support = '<a class="icon ion-ios-email" href="mailto:' + (full.contact_support.e_post).toLowerCase() + '"> ' + full.contact_support.navn + '</a>';
-							} else {
-								support = '<a class="icon ion-android-open" href="' + (full.contact_support.e_post).toLowerCase() + '" target="_blank"> ' + full.contact_support.navn + '</a>';
-							}
-						} catch (e) {
-							support = "<span class='label bg-red'>MANGLER!</span>";
-						}
-						return support;
+						return  full.users.employees;
 					}
 				},
 				{
-					"data": "userCount",
-					"width": "5%",
+					"data": "students",
+					//"width": "5%",
 					"render": function (data, type, full, meta) {
-						return full.userCount;
+						return  full.users.students;
+					}
+				},
+				{
+					"data": "presentations",
+					//"width": "5%",
+					"render": function (data, type, full, meta) {
+						return full.presentations.total;
+					}
+				},
+				{
+					"data": "hits",
+					//"width": "5%",
+					"render": function (data, type, full, meta) {
+						return full.hits.hits;
 					}
 				},
 				{
 					"data": "storage",
-					"width": "5%",
+					//"width": "5%",
 					"render": function (data, type, full, meta) {
-						return '<div class="progress no-margin">' +
-							'<div class="progress-bar bg-gray tablePercentage" style="width: ' + full.storage.percentage + '%">' + full.storage.gb + '</div>' +
+						return UTILS.mib2gb(full.total_mib).toFixed(2);
+						/*
+							'<div class="progress no-margin">' +
+							'<div class="progress-bar bg-gray tablePercentage" style="width: ' + full.storage.percentage + '%">' +  UTILS.mib2gb(full.total_mib) + '</div>' +
 							'</div>';
-						// return full[0].org;
+						*/
 					}
 				},
 				{
 					"data": "storage",
-					"width": "5%",
+					//"width": "5%",
 					"render": function (data, type, full, meta) {
-						return '<span class="text-muted">' + full.storage.cost + 'kr</span>';
-					}
-				},
-				{
-					"data": "subscription_code",
-					"width": "5%",
-					"render": function (data, type, full, meta) {
-						return "<span class='label bg-" + KIND.subscriptionCodesToColors()[full.subscription_code] + "'>" + KIND.subscriptionCodesToNames()[full.subscription_code] + "</span>";
+						return (UTILS.mib2tb(full.total_mib) * RELAY.storageCostTB()).toFixed() + 'kr';
 					}
 				}
 			]
 		});
 		$('#pageSuperAdmin').find('#subscribersTableBox').find('.ajax').hide();
 		return table;
-	}
-
-	/**
-	 * Make the users JSON object more palatable for DataTables
-	 * @param dataObject
-	 * @returns {Array}
-	 */
-	function _convertDataTablesData(dataObject) {
-		var dataArray = [];
-		$.each(dataObject, function (idx, obj) {
-			dataArray.push($.extend(obj, {name: idx}));
-		});
-		return dataArray;
 	}
 
 	/**
@@ -428,7 +389,7 @@ var PAGE_SUPER_ADMIN = (function () {
 			// AJAX call for this type of data
 			$.when(RELAY.orgUserListXHR(SELECTED_ORG)).then(function (usersArr){
 				$.each(usersArr, function (key, userObj){
-					emailList.push(userObj.displayname + ' <' + userObj.email + '>');
+					emailList.push(userObj.userDisplayName + ' <' + userObj.userEmail + '>');
 				});
 				// Badge number in modal title
 				$modal.find('#emailExportCount').html(emailList.length);
@@ -436,48 +397,16 @@ var PAGE_SUPER_ADMIN = (function () {
 				$modal.find('#emailExportList').html(emailList.toString());
 			});
 		}
-		// Mailinglists for all subscribers selected
-		else {
-			var tmpContact = "";
-			var nonEmailList = {'count': 0, 'orgs': ''};
-			var contactObj;
-
-			$.each(KIND.subscribers(), function (key, org) {
-				// Teknisk ansvarlig or support?
-				contactObj = $btnClicked.data("exportGroup") === 'kontaktpersoner' ? org.contact_person : org.contact_support;
-				//
-				if (contactObj !== null && (org.subscription_code == 20 || org.subscription_code == 15)) {
-					if (contactObj.e_post !== null && contactObj.e_post.indexOf('http') == -1) {
-						tmpContact = '<' + contactObj.e_post.trim() + '>';
-						if (contactObj.navn !== null) {
-							tmpContact = contactObj.navn.trim() + ' ' + tmpContact;
-						}
-						emailList.push(tmpContact);
-
-					} else {
-						nonEmailList.count++;
-						nonEmailList.orgs += "<span class='label bg-red'>" + org.org_id + "</span> ";
-					}
-				} else {
-					nonEmailList.count++;
-					nonEmailList.orgs += "<span class='label bg-red'>" + org.org_id + "</span> ";
-				}
-			});
-			// Badge number in modal title
-			$modal.find('#emailExportCount').html(emailList.length);
-			// TextArea
-			$modal.find('#emailExportList').html(emailList.toString());
-			// Missing contact email adress
-			if (nonEmailList.count > 0) {
-				$('#emailExportSuperAdminModal').find('#emailMissing').html("<span class='badge bg-red'>" + nonEmailList.count + "</span> mangler kontaktadresse: <br/>" + nonEmailList.orgs);
-			}
-		}
 	}
 
 	// Trigger modal
 	$('.email_export').on('click', function () {
 		_showEmailExportModal($(this));
 	});
+
+
+
+
 
 	/** DATA EXPORT MODAL **/
 	$('#dataExportModal').on('show.bs.modal', function (event) {
@@ -494,14 +423,13 @@ var PAGE_SUPER_ADMIN = (function () {
 			switch (exportGroup) {
 				case 'Brukere':
 					$modal.find('.modal-title').html('<i class="ion ion-ios-people"></i> Eksporter metadata for alle <strong>brukere</strong> ved <code>' + SELECTED_ORG + '</code>');
-					$modal.find('#legend_users').fadeIn();
 					$.when(RELAY.orgUserListXHR(SELECTED_ORG)).then(function (orgUserList){
 						APP.jsonEditor().set(orgUserList);
 					});
 					break;
+				// 21.11.2016: Below disabled (and button removed from DOM) after moving to DB-API (won't get anything useful from tblPresentations only, and joined query with tblFile is too expensive).
 				case 'Opptak':
 					$modal.find('.modal-title').html('<i class="ion ion-ios-film"></i> Eksporter metadata for alle <strong>opptak</strong> fra <code>' + SELECTED_ORG + '</code>');
-					$modal.find('#legend_users').hide();
 					$.when(RELAY.orgPresentationListXHR(SELECTED_ORG)).then(function (orgPresentationList){
 						APP.jsonEditor().set(orgPresentationList);
 					});

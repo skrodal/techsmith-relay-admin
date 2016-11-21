@@ -24,7 +24,7 @@
 						<span class="info-box-text">ABONNENTER</span>
 						<span class="info-box-number subscribersCount"><!-- --></span>
 						<div class="progress bg-aqua"></div>
-						<span class="progress-description text-muted">Fullverdige</span>
+						<span class="progress-description text-muted">Med brukerkonto</span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
@@ -75,7 +75,7 @@
 			<div class="col-md-6">
 				<div id="queueFailedJobsContainer" class="box box-danger">
 					<div class="box-header with-border">
-						<h3 class="box-title icon ion-heart-broken"> Kræsjopptak</i></h3>
+						<h3 class="box-title"><i class="icon ion-heart-broken text-red"></i> Kræsjopptak</h3>
 						<div class="box-tools pull-right">
 							<button class="icon ion-android-refresh no-padding btn btn-sm btn-link refreshQueueFailedJobs"> oppdater</button>
 						</div>
@@ -106,7 +106,7 @@
 						<i class="fa fa-spinner fa-pulse"></i>
 					</div>
 					<div class="box-footer text-muted">
-						<a class="relayServiceURL">Gå til Relay Server og fix evt. problemer</a>
+						<a class="relayServiceURL" target="_blank">Gå til Relay Server og fix evt. problemer</a>
 					</div>
 				</div><!-- /.box -->
 			</div><!-- /.col -->
@@ -128,7 +128,7 @@
 							</tbody>
 						</table>
 						<br>
-						<p>RelayAdmin er avhengig av mange forskjellige services og APIer, bl.a. <code>Dataporten</code> (bruker/grupper), <code>eCampus Kind</code> (abonnenter), <code>TechSmith Relay</code> (metadata brukere/innhold), <code>Relay Sletting</code> og <code>Relay Hits</code> (IIS logger).</p>
+						<p>RelayAdmin er avhengig av mange forskjellige services og APIer, bl.a. <code>Dataporten</code> (bruker/grupper), <code>TechSmith Relay</code> (metadata brukere/innhold), <code>Relay Sletting</code> og <code>Relay Hits</code> (IIS logger).</p>
 						<p>Dersom Relay oppgraderes, <em>må</em> service/API-config oppdateres til å peke til riktig DB. Hvis versjon <code class="relayVersion"><!--></code> ikke stemmer overens med <em>faktisk</em> installert versjon av Relay har vi en liten krise på gang:</p>
 						<ul>
 							<li>Nye brukerkontoer skrives til gammel DB</li>
@@ -229,7 +229,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<h3 class="box-title icon ion-university"> Viser oversikt for <span class="selectedOrg"></span> &nbsp;&nbsp;&nbsp; <sup><span class="orgSubscriptionStatus"></span></sup></h3>
+						<h3 class="box-title icon ion-university"> Viser oversikt for <span class="selectedOrg"></span></h3>
 						<div class="box-tools pull-right">
 							<div class="btn-group">
 								<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="ion ion-university"></i> Velg org <span class="fa fa-caret-down"></span></button>
@@ -276,7 +276,9 @@
 								<div class="description-block border-right">
 									<span class="description-percentage text-aqua"><i class="ion ion-android-people"></i></span>
 									<h5 class="description-header orgUserCount"><!-- --></h5>
+									<small class="text-muted">ansatt/student</small><br>
 									<span class="description-text">BRUKERE</span>
+
 								</div><!-- /.description-block -->
 							</div><!-- /.col -->
 
@@ -284,7 +286,9 @@
 								<div class="description-block border-right">
 									<span class="description-percentage text-red"><i class="ion ion-ios-film"></i></span>
 									<h5 class="description-header orgPresentationCount"><!-- --><i class="fa fa-spinner fa-pulse"></i></h5>
+									<small class="text-muted">ansatt/student</small><br>
 									<span class="description-text">OPPTAK</span>
+
 								</div><!-- /.description-block -->
 							</div><!-- /.col -->
 
@@ -300,9 +304,16 @@
 
 					<div class="box-footer">
 						<!-- Export buttons -->
-						<button type="button" class="btn btn-default email_export" data-toggle="modal" data-export-group="brukere" data-target="#emailExportSuperAdminModal">
-					        <span class="ion ion-ios-email"></span>&nbsp;&nbsp;Epostliste
+						<button type="button" class="btn btn-default icon ion-ios-email email_export" data-toggle="modal" data-export-group="brukere" data-target="#emailExportSuperAdminModal">
+					        &nbsp;Epostliste
 					    </button>&nbsp;&nbsp;
+
+						<button type="button" class="btn btn-default icon ion-ios-people users_export" data-toggle="modal" data-action="Brukere" data-context="superAdmin" data-target="#dataExportModal">
+					        &nbsp;Metadata brukere
+					    </button>&nbsp;&nbsp;
+<!--
+// 21.11.2016: Disabled (dropdown button removed from DOM) after moving to DB-API (won't get anything useful from tblPresentations only, and joined query with tblFile is too expensive).
+// Metadata users still kept (above)
 
 						<div class="btn-group">
 					        <button type="button" class="btn btn-default dropdown-toggle icon ion-code-working" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -317,19 +328,20 @@
 					            </li>
 					        </ul>
 					    </div>
+-->
 					</div>
 				</div><!-- /.box -->
 			</div><!-- /.col -->
 		</div><!-- /.row -->
 
-		<h2 class="page-header text-muted">Abonnenter og kontaktpunkt</h2>
+		<h2 class="page-header text-muted">Abonnenter</h2>
 
 	    <div class="row">
 		    <div class="col-lg-12">
 				<!-- SUBSCRIBERS TABLE -->
 				<div id="subscribersTableBox" class="box box-primary">
 					<div class="box-header with-border">
-						<h3 class="box-title icon ion-ios-home"> Abonnenter</h3>
+						<h3 class="box-title icon ion-ios-home"> Oversikt</h3>
 						<div class="box-tools pull-right">
 							<span data-toggle="tooltip" title="Totalt" class="badge bg-blue subscribersTotalCount"><!--updateUserUI--></span>
 							<span data-toggle="tooltip" title="Aktive" class="badge bg-green subscribersCount"><!--updateUserUI--></span>
@@ -339,16 +351,17 @@
 						</div>
 					</div>
 					<div class="box-body table-responsive">
-						<table id="subscribersTableSuperAdmin" class="table table-bordered table-striped table-hover" style="width: 100%; font-size: 13px;">
+						<table id="subscribersTableSuperAdmin" class="table table-bordered table-striped table-hover" style="width: 100%;">
 	                        <thead class="text-muted">
 	                            <tr>
 	                                <th class="text-nowrap"><i class="icon ion-android-home"></i> Org</th>
-	                                <th class="text-nowrap"><i class="icon ion-android-person"></i> Kontakt</th>
-	                                <th class="text-nowrap"><i class="icon ion-help-buoy"></i> Support</th>
 		                            <th class="text-nowrap"><i class="icon ion-ios-people"></i> Brukere</th>
+		                            <th class="text-nowrap"><i class="icon ion-university"></i> Ansatte</th>
+		                            <th class="text-nowrap"><i class="icon ion-university"></i> Studenter</th>
+		                            <th class="text-nowrap"><i class="icon ion-ios-videocam"></i> Presentasjoner</th>
+									<th class="text-nowrap"><i class="icon ion-eye"></i> Hits</th>
 	                                <th class="text-nowrap"><i class="icon ion-upload"></i> Lagring (GB)</th>
 	                                <th class="text-nowrap"><i class="icon ion-cash"></i> Kostnad</th>
-		                            <th class="text-nowrap"><i class="icon ion-key"></i> Status</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
@@ -357,25 +370,27 @@
 	                        <tfoot class="text-muted">
 	                            <tr>
 	                                <th class="text-nowrap"><i class="icon ion-android-home"></i> Org</th>
-	                                <th class="text-nowrap"><i class="icon ion-android-person"></i> Kontakt</th>
-	                                <th class="text-nowrap"><i class="icon ion-help-buoy"></i> Support</th>
 		                            <th class="text-nowrap"><i class="icon ion-ios-people"></i> Brukere</th>
+		                            <th class="text-nowrap"><i class="icon ion-university"></i> Ansatte</th>
+		                            <th class="text-nowrap"><i class="icon ion-university"></i> Studenter</th>
+		                            <th class="text-nowrap"><i class="icon ion-ios-videocam"></i> Presentasjoner</th>
+		                            <th class="text-nowrap"><i class="icon ion-eye"></i> Hits</th>
 		                            <th class="text-nowrap"><i class="icon ion-upload"></i> Lagring (GB)</th>
 		                            <th class="text-nowrap"><i class="icon ion-cash"></i> Kostnad</th>
-		                            <th class="text-nowrap"><i class="icon ion-key"></i> Status</th>
 	                            </tr>
 	                        </tfoot>
 	                    </table>
 					</div><!-- /.box-body -->
 					<div class="box-footer">
-						<div class="btn-group">
-							<button type="button" class="btn btn-default dropdown-toggle icon ion-ios-email" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Epostlister&nbsp;&nbsp;<span class="fa fa-caret-down"></span></button>
-							<ul class="dropdown-menu">
-								<li><a href="#" class="email_export icon ion-android-people" data-export-group="kontaktpersoner" data-toggle="modal" data-target="#emailExportSuperAdminModal"> Kontakter</a></li>
-								<li class="divider"></li>
-								<li><a href="#" class="email_export icon ion-help-buoy" data-export-group="supportpunkt" data-toggle="modal" data-target="#emailExportSuperAdminModal"> Supportpunkt</a></li>
-							</ul>
-						</div>
+						<p>
+							Viktig: Det meste av informasjon trekkes direkte fra tabeller i Relay sin egen DB. Med tanke på fusjonerte læresteder så er det ikke mulig å
+							plukke opp dette automatisk kun basert på info i tabeller. Tabellen vil derfor liste f.eks. UiN som en egen org (selv om de nå er fusjonert til Nord)
+							siden historisk presentasjonsinformasjon i Relay DB ikke oppdateres ved endring av brukernavn.
+						</p>
+
+						<p>
+							Ved fakturering må det tas høyde for dette (eks. slå sammen alle orgs som er fusjonert til f.eks. Nord).
+						</p>
 					</div>
 
 					<div class="overlay ajax">
@@ -386,7 +401,7 @@
 	    </div><!-- /.row -->
 
 
-<!-- EMAIL EXPORT MODAL -->
+		<!-- EMAIL EXPORT MODAL -->
 		<div class="modal fade" id="emailExportSuperAdminModal" tabindex="-1" role="dialog" aria-labelledby="modalExportTitle" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">

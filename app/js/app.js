@@ -21,41 +21,27 @@ var APP = (function () {
 
 		updateUIAll();
 		// Call important endpoints in sequence: these make part of the login-process
-		$.when(DATAPORTEN.readyUser()).done(function () {
-			$.when(DATAPORTEN.readyGroups()).done(function () {
-				$.when(DATAPORTEN.readyUserRole()).done(function () {
-					updateUIFeide();
-					$.when(KIND.ready()).done(function () {
-						updateUIKind();
-						$.when(RELAY_USER.accountXHR()).done(function () {
-							updateUIRelayUser();
-							// If user is some sort of admin
-							if (DATAPORTEN.isOrgAdmin() || DATAPORTEN.isSuperAdmin()) {
-								// Fetch global Relay info for admins
-								RELAY.init();
-								//
-								$.when(RELAY.ready()).done(function () {
-									MENU.init();
-									updateUIRelay();
-								});
-							} else {
-								// Not even a user account - stop here!
-								if (!RELAY_USER.hasAccount()) {
-									UTILS.showAuthError("Nektet tilgang", "Du mangler brukerkonto og er ikke administrator for tjenesten. Du kan <a href='"+CONFIG.RELAY_REGISTER_URL()+"' target='_blank' class='text-light-blue'>opprette konto her</a>.")
-									return false;
-								}
-								// Only My Relay
-								MENU.init();
-							}
-						}); // relay
-					});	// kind
-			    });	// userRole
-			});	// groups
-		}); // user
+		$.when(DATAPORTEN.READY()).done(function () {
+			updateUIFeide();
+			// If user is some sort of admin
+			if (DATAPORTEN.isOrgAdmin() || DATAPORTEN.isSuperAdmin()) {
+				// Fetch global Relay info for admins
+				RELAY.init();
+				//
+				$.when(RELAY.ready()).done(function () {
+					MENU.init();
+					updateUIRelay();
+				});
+			} else {
+
+				UTILS.showAuthError("Nektet tilgang", "Du mangler brukerkonto og er ikke administrator for tjenesten. Du kan <a href='" + CONFIG.RELAY_REGISTER_URL() + "' target='_blank' class='text-light-blue'>opprette konto her</a>.")
+				return false;
+			}
+		});
 	});
 
 
-	function updateUIAll(){
+	function updateUIAll() {
 		//
 		$('span.supportEmail').html(CONFIG.RELAY_SUPPORT_EMAIL());
 		//
@@ -79,6 +65,7 @@ var APP = (function () {
 		$('.userFirstName').html(' ' + DATAPORTEN.user().name.first);
 		$('.userFullName').html(' ' + DATAPORTEN.user().name.full);
 		$('.feideOrg').html(' ' + DATAPORTEN.user().org.name);
+		$('.userRole').html(' ' + DATAPORTEN.user().role.title);
 		$('.feideAffiliation').html(' ' + (DATAPORTEN.user().affiliation == "employee") ? " Ansatt" : " Student");
 		$('.userImage').attr('src', DATAPORTEN.user().photo);
 		// Dev
@@ -87,100 +74,42 @@ var APP = (function () {
 		$('#userMenu').fadeIn().removeClass('hidden');
 	}
 
-	function updateUIKind() {
-		$('.userRole').html(' ' + DATAPORTEN.userRole());
-		$('.subscribersCount').html(KIND.subscriptionCount().full);
-		$('.subscribersTrialCount').html(KIND.subscriptionCount().trial);
-		$('.subscribersOtherCount').html(KIND.subscriptionCount().other);
-		$('.subscribersTotalCount').html(KIND.subscriptionCount().total);
-
-		var supportEmail, supportName, supportPhone, supportMobile = false;
-
-		if (KIND.subscriberDetails().contact_support) {
-			supportName = KIND.subscriberDetails().contact_support.navn || null;
-			supportPhone = KIND.subscriberDetails().contact_support.direkte_telefon || 'mangler';
-			supportMobile = KIND.subscriberDetails().contact_support.mobil_telefon || 'mangler';
-
-			// Can be URL or email... or not set...
-			supportEmail = KIND.subscriberDetails().contact_support.e_post || false;
-			if (supportEmail !== false) {
-				// URL or email?
-				supportEmail.indexOf('@') > 0 ?
-						supportEmail = '<a href="mailto:' + supportEmail + '" class="text-navy">Send epost</a>' :
-						supportEmail = '<a href="' + supportEmail + '" target="_blank" class="text-blue">G&aring; til nettsted</a> ';
-			}
-
-			// Sidebar
-			$('#supportDetails').html(
-					'<h4>Ditt supportpunkt: </h4>' +
-					'<p class="bold">' + supportName + '</p>' +
-					'<p>' + supportEmail + '</p>' +
-					'<p>Tlf: ' + supportPhone + '</p>' +
-					'<p>Mobil: ' + supportMobile + '</p>'
-			);
-		} else {
-			$('#supportDetails').html(
-					'<h4>Ditt supportpunkt</h4>' +
-					'<p>Vi har dessverre ikke registrert noe kontaktpunkt for ditt lærested. Dersom du trenger bistand, forsøk IT-helpdesk for din avdeling.</p>'
-			);
-		}
-
-
-	}
-
-
 	/**
 	 * Each data fragment comes from separate API calls. Update continuously
 	 * as soon as calls are done.
 	 */
 	function updateUIRelay() {
+
+		$('.homeOrgUserCount').html(RELAY.orgUserCount(DATAPORTEN.user().org.id));
+		$('.subscribersCount').html(RELAY.orgCount());
+
+
 		// Invoicing
 		$('.storageCostPerTB').html(RELAY.storageCostTB());
 		// Users count
-		$.when(RELAY.usersTotalXHR()).done(function (users) {
-			$('.globalUsersCountTotal').html(parseInt(users.employees) + parseInt(users.students));
-			$('.globalUsersCountByAffiliation').html(parseInt(users.employees) + ' ansatte og ' + parseInt(users.students) + ' studenter');
-		});
-		$.when(RELAY.usersTotalActiveXHR()).done(function (users) {
-			$('.globalActiveUsersCountTotal').html(parseInt(users.employees) + parseInt(users.students));
-			$('.globalActiveUsersCountByAffiliation').html(parseInt(users.employees) + ' ansatte og ' + parseInt(users.students) + ' studenter');
+		$.when(RELAY.usersTotalCountXHR()).done(function (users) {
+			$('.globalUsersCountTotal').html(parseInt(users.total));
+			$('.globalUsersCountByAffiliation').html(parseInt(users.employees.total) + ' ansatte og ' + parseInt(users.students.total) + ' studenter');
+			$('.globalActiveUsersCountTotal').html(parseInt(users.active));
+			$('.globalActiveUsersCountByAffiliation').html(parseInt(users.employees.active) + ' ansatte og ' + parseInt(users.students.active) + ' studenter');
 		});
 		// Presentation count
 		$.when(RELAY.presentationsTotalXHR()).done(function (presentations) {
 			$('.globalPresentationCount').html(presentations);
 		});
-		// Org info
+		// Service storage
 		$.when(RELAY.serviceStorageXHR()).done(function (total_mib) {
 			$('.subscribersDiskusageTotal').html(UTILS.mib2tb(total_mib).toFixed(2) + "TB");
 		});
-		// User count home org
-		$.when(RELAY.ready()).done(function () {
-			$('.homeOrgUserCount').html(RELAY.orgUserCount(DATAPORTEN.user().org.id));
-		});
-
 		// Server version
-		$.when(RELAY.serviceVersionXHR()).done(function (version) {
-			$('.relayVersion').html(version.versValue);
-			// API returns the worst formatted date string (e.g "Aug  9 2016 12:15:08:940PM") when using MSSQL
-			//var updated = version.createdOn.split(/\s+/);
-			//$('.relayLastUpgrade').html(updated[0] + ' ' + updated[1] + ' ' + updated[2]);
+		$.when(RELAY.serviceInfoXHR()).done(function (info) {
+			$('.relayVersion').html(info.version.versValue);
 			// UPDATE 29.09.2016: Switched to using PDO in API, now the date is returned as: 2016-08-09 12:15:08
-			var d = (version.createdOn.split(' ')[0]).split('-');
-			$('.relayLastUpgrade').html(d[2]+'.'+d[1]+'.'+d[0]);
+			var d = (info.version.createdOn.split(' ')[0]).split('-');
+			$('.relayLastUpgrade').html(d[2] + '.' + d[1] + '.' + d[0]);
+			$('.relayWorkers').html(info.workers.length);
 		});
-
-		// Server version
-		$.when(RELAY.serviceWorkersXHR()).done(function (workers) {
-			$('.relayWorkers').html(workers);
-		});
-
 		$('#pageDashboard').find('#serverInfo').find('.ajax').hide();
-
-	}
-
-
-	function updateUIRelayUser() {
-		// TODO: Something on dashboard about user account
 
 	}
 
@@ -203,13 +132,3 @@ var APP = (function () {
 		}
 	}
 })();
-
-
-/*
- // SUPER ADMIN
- if (is_super_admin) {
- org_active_subscribers = getActiveSubscribersCount(SUBSCRIBERS_KIND_ARR);
- buildSubscribersTable(SUBSCRIBERS_KIND_ARR);
- populateSubscribersDropdown(SUBSCRIBERS_KIND_ARR);
- }
- */

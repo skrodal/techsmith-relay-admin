@@ -13,6 +13,9 @@ var PAGE_DASHBOARD = (function () {
 	//
 	var queuedPresentations = [];
 
+	/**
+	 *
+	 */
 	function init() {
 		// Subscribers table (simple)
 		_buildOrgsTable();
@@ -26,8 +29,6 @@ var PAGE_DASHBOARD = (function () {
 		$('#pageDashboard').find('[id^=relayQueueMonitor]').find('.ajax').show();
 		$('.queueTotal').html('<i class="fa fa-spinner fa-pulse"></i>');
 		$.when(RELAY.serviceQueueXHR()).done(function (queue) {
-			// TESTDATA!!!!
-			//queue = [{"jobId":264666,"jobPresentation_PresId":35771,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"16:04:45","presPresenterName":"Kristin Bergtora Sandvik","presDuration":"5203933"},{"jobId":264714,"jobPresentation_PresId":35778,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:16:56","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264716,"jobPresentation_PresId":35778,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:16:56","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264718,"jobPresentation_PresId":35778,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:16:56","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264720,"jobPresentation_PresId":35778,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:16:56","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264723,"jobPresentation_PresId":35779,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:38:25","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264725,"jobPresentation_PresId":35779,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:38:25","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264727,"jobPresentation_PresId":35779,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:38:25","presPresenterName":"Joakim Sundnes","presDuration":"6175416"},{"jobId":264729,"jobPresentation_PresId":35779,"jobQueuedDate":"21 Sep 2016","jobQueuedTime":"23:38:25","presPresenterName":"Joakim Sundnes","presDuration":"6175416"}];
 			var totalQueuedJobs = queue.length;
 			$('#pageDashboard').find('[id^=relayQueueMonitor]').find('.ajax').hide();
 			$('.queueTotal').html(totalQueuedJobs);
@@ -138,32 +139,41 @@ var PAGE_DASHBOARD = (function () {
 
 
 	/**
-	 * Simple table with orgs and subscription status
+	 * Simple table with orgs
 	 *
 	 * @private
 	 */
 	function _buildOrgsTable() {
 		$('#subscriber_table_body').empty();
-		var labelText = '---', labelColor = 'red';
-		var rowClass;
+		var myOrgHiglight;
 		// Loop all subscribers
-		$.each(KIND.subscribers(), function (index, org) {
-			rowClass = '';
-			// Text/color for subscription status
-			labelText = KIND.subscriptionCodesToNames()[org.subscription_code];
-			labelColor = KIND.subscriptionCodesToColors()[org.subscription_code];
+		var count = 1;
+		var table = "";
+		$.each(RELAY.subscribersInfo(), function (org, orgObj) {
+			myOrgHiglight = '';
 			// To highlight home org
-			if (org.org_id == DATAPORTEN.user().org.id) {
-				rowClass = 'active';
+			if (org == DATAPORTEN.user().org.id) {
+				myOrgHiglight = 'text-blue';
 			}
-			// New row
-			$('#subscriber_table_body').append(
-				"<tr class='" + rowClass + "'>" +
-					"<td>" + org.org_id + "</td>" +
-					"<td style='text-align: center;'><span class='label bg-" + labelColor + "'>" + labelText + "</span></td>" +
-					"</tr>"
-			);
+			// new row
+			if(count % 2 == 1){
+				table = table + "<tr>";
+			}
+			// cell
+			table = table + "<td class='icon ion-university "+myOrgHiglight+"'> &nbsp; &nbsp;" + org + "</td>";
+			// close row
+			if(count % 2 == 0){
+				table = table + "</tr>";
+			}
+			count++;
 		});
+		// If we ended on an odd number, add cell and close row
+		if(count % 2 == 1){
+			table = table + "<td></td></tr>";
+		}
+
+		$('#subscriber_table_body').append(table);
+		delete table;
 		//
 		$('#pageDashboard').find('#subscribersTable').find('.ajax').hide();
 	}
@@ -183,7 +193,7 @@ var PAGE_DASHBOARD = (function () {
 		$.each(orgs, function (org, orgObj) {
 			// Chart prefs and data
 			orgsUserCountChartData.push({
-				value: orgObj.users,
+				value: orgObj.users.total,
 				color: '#' + (Math.random().toString(16) + '0000000').slice(2, 8),
 				highlight: '#' + (Math.random().toString(16) + '0000000').slice(2, 8),
 				label: ""
@@ -200,17 +210,8 @@ var PAGE_DASHBOARD = (function () {
 	 * size is then set to 0.
 	 */
 	function onShowListener() {
-		$.when(RELAY.ready()).done(function () {
-			pieOrgsUserCount = _buildOrgsUserCountPie(RELAY.subscribersInfo());
-			$('#pageDashboard').find('#usersPie').find('.ajax').hide();
-		});
-
-		if(!RELAY_USER.hasAccount()){
-			$('#relayAccountInfo').html(
-				'<p>'+ DATAPORTEN.user().name.first +', du har ingen konto i tjenesten!</p>' +
-				'<p><a href="'+CONFIG.RELAY_REGISTER_URL()+'" target="_blank" class="btn btn-info">Opprett konto</a></p>'
-			);
-		}
+		pieOrgsUserCount = _buildOrgsUserCountPie(RELAY.subscribersInfo());
+		$('#pageDashboard').find('#usersPie').find('.ajax').hide();
 	}
 
 	/**

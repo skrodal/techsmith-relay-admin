@@ -78,7 +78,7 @@ var UTILS = (function () {
 		var numdays = Math.floor(seconds / 86400);
 		var numhours = Math.floor((seconds % 86400) / 3600);
 		var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
-		var numseconds = ((seconds % 86400) % 3600) % 60;
+		var numseconds = Math.floor( ((seconds % 86400) % 3600) % 60 );
 
 		if (numdays > 0) {
 			numdays = numdays + (numdays > 1 ? " dager " : " dag ");
@@ -101,21 +101,21 @@ var UTILS = (function () {
 	function convertDataTablesData(dataObject) {
 		var dataArray = [];
 		$.each(dataObject, function (idx, obj) {
-			dataArray.push($.extend(obj, {name: idx}));
+			dataArray.push($.extend(obj, {id: idx}));
 		});
 		return dataArray;
 	}
 
 	function arrayShuffle(array){
-		let counter = array.length;
+		var counter = array.length;
 		// While there are elements in the array
 		while (counter > 0) {
 			// Pick a random index
-			let index = Math.floor(Math.random() * counter);
+			var index = Math.floor(Math.random() * counter);
 			// Decrease counter by 1
 			counter--;
 			// And swap the last element with it
-			let temp = array[counter];
+			var temp = array[counter];
 			array[counter] = array[index];
 			array[index] = temp;
 		}

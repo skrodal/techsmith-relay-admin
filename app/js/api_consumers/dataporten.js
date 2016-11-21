@@ -6,6 +6,7 @@
  */
 
 var DATAPORTEN = (function () {
+	var READY = $.Deferred();
 	// userinfo/groups/role
 	var USER = {};
 	// Autorun
@@ -15,17 +16,16 @@ var DATAPORTEN = (function () {
 
 
 	(function () {
-		$.when(XHR_USER).done(function(userObj){
-			// Merge returned object with USER
+		$.when(XHR_USER, XHR_USER_ROLE, XHR_GROUPS).done(function(userObj, userRoleObj, groupsObj){
+			// Merge returned objects with USER
+			if(userObj == false){
+				READY.reject("Fant ikke Feide brukernavn.");
+			}
 			$.extend(true, USER, userObj);
-		});
-		$.when(XHR_USER_ROLE).done(function(userRoleObj){
-			// Merge returned object with USER
 			$.extend(true, USER, userRoleObj);
-		});
-		$.when(XHR_GROUPS).done(function(groupsObj){
-			// Merge returned object with USER
 			$.extend(true, USER, groupsObj);
+			// All good
+			READY.resolve();
 		});
 	})();
 
@@ -45,7 +45,7 @@ var DATAPORTEN = (function () {
 			var userObj = {};
 			userObj.org = {};
 
-			if(user.userid_sec[0].indexOf('feide:') == -1){
+			if(user.userid_sec.length == 0 || user.userid_sec[0].indexOf('feide:') == -1){
 				UTILS.showAuthError("Brukerinfo", "Tjenesten krever pålogging med Feide. Fant ikke ditt Feide brukernavn.");
 				return false;
 			}
@@ -134,6 +134,7 @@ var DATAPORTEN = (function () {
 
 			if(groupsArr.length === 0) {
 				UTILS.showAuthError("Mangler rettigheter", "Du har dessverre ikke tilgang til denne tjenesten (fikk ikke tak i din tilhørighet)");
+				return false;
 			} else {
 				$.each(groupsArr, function (index, group) {
 					// orgType is only present for org-type group
@@ -171,14 +172,9 @@ var DATAPORTEN = (function () {
 
 	/*** Expose public functions ***/
 	return {
-		readyUser: function() {
-			return XHR_USER;
-		},
-		readyUserRole: function() {
-			return XHR_USER_ROLE;
-		},
-		readyGroups: function() {
-			return XHR_GROUPS;
+
+		READY: function() {
+			return READY;
 		},
 		user: function() {
 			return USER;

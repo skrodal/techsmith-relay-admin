@@ -51,42 +51,6 @@
 				<!-- Link to source -->
 				<a href="http://jsoneditoronline.org/" class="pull-right" style="text-muted" target="_blank">JSON Editor Online</a>
 				<br/>
-				<!-- Only used for user export -->
-				<div id="legend_users" style="margin-top: 10px; display: none;">
-					<div class="callout bg-light-blue">
-						<h4>Om feltet 'status'</h4>
-						<p>En bruker kan ha status som følger:</p>
-						<table class="table table-bordered table-condensed">
-	                        <tbody>
-	                            <tr>
-	                                <th>Status</th>
-	                                <th>Betydning</th>
-	                            </tr>
-	                            <tr>
-	                                <td>-1</td>
-	                                <td>Status mangler - default når bruker er nyimportert.</td>
-	                            </tr>
-
-	                            <tr>
-	                                <td>1</td>
-	                                <td>Har konto, men mangler innhold.</td>
-	                            </tr>
-	                            <tr>
-	                                <td>2</td>
-	                                <td>Har konto og innhold. Type ansatt/student kan nå identifiseres.</td>
-	                            </tr>
-	                            <tr>
-	                                <td>3</td>
-	                                <td>Konto er slettet, men innhold på disk finnes fortsatt.</td>
-	                            </tr>
-	                            <tr>
-	                                <td>4</td>
-	                                <td>Konto er slettet og mangler innhold (bruker vil snart forsvinne fra systemet).</td>
-	                            </tr>
-	                        </tbody>
-						</table>
-					</div>
-				</div>
 			</div>
 
 			<div class="modal-footer bg-dark-gray">

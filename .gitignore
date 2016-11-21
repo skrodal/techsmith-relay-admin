@@ -1,3 +1,4 @@
 dist/AdminLTE/fonts/colfax/colfax*
 app/js/auth/dataporten_auth.*
 .idea/*
+app/js/auth/dataporten_auth.min.js

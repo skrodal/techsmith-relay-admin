@@ -22,7 +22,7 @@
 					<span class="info-box-icon bg-aqua"><i class="ion ion-ios-people"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">BRUKERE</span>
-						<span class="info-box-number orgUserCount"><!-- --></span>
+						<span class="info-box-number homeOrgUserCount"><!-- --></span>
 						<div class="progress bg-aqua"></div>
 						<span class="progress-description text-muted">Totalt</span>
 					</div><!-- /.info-box-content -->
@@ -36,7 +36,7 @@
 						<span class="info-box-text">PRESENTASJONER</span>
 						<span class="info-box-number orgPresentationCount"><!-- --></span>
 						<div class="progress bg-yellow"></div>
-						<span class="progress-description text-muted">På disk</span>
+						<span class="progress-description text-muted">Ink. evt. slettet</span>
 					</div><!-- /.info-box-content -->
 				</div><!-- /.info-box -->
 			</div><!-- /.col -->
@@ -172,9 +172,7 @@
 	                                <th><i class="ion ion-android-person text-muted"></i>   Navn</th>
 		                            <th><i class="ion ion-university text-muted"></i>       Type</th>
 	                                <th><i class="ion ion-ios-film text-muted"></i>         Opptak</th>
-	                                <th><i class="ion ion-android-delete text-muted"></i>   Slettet</th>
 	                                <th><i class="ion ion-ios-clock text-muted"></i>        Tid</th>
-	                                <th><i class="ion ion-android-upload text-muted"></i>   Lagret (MB)</th>
 	                                <th><i class="ion ion-stats-bars text-muted"></i>       Hits</th>
 	                            </tr>
 	                        </thead>
@@ -186,16 +184,14 @@
 	                                <th class="th-name"></th>
 		                            <th class="th-type"></th>
 		                            <th class="th-presentations"></th>
-	                                <th class="th-deleted"></th>
 	                                <th class="th-duration"></th>
-	                                <th class="th-diskusage"></th>
 	                                <th class="th-hits"></th>
 	                            </tr>
 	                        </tfoot>
 	                    </table>
 
 						<span class="text-muted">
-							Type (ansatt/student) kan bare identifiseres om en bruker har produsert innhold.
+							—
 						</span>
 					</div>
 
@@ -204,9 +200,16 @@
 					</div>
 
 					<div class="box-footer">
-						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#emailExportOrgAdminModal">
-		                    <span class="ion ion-ios-email"></span>&nbsp;&nbsp;Epostliste
+						<button type="button" class="btn btn-default icon ion-ios-email" data-toggle="modal" data-target="#emailExportOrgAdminModal">
+		                    &nbsp;Epostliste
 		                </button>&nbsp;&nbsp;
+
+						<button type="button" class="btn btn-default icon ion-ios-email" data-toggle="modal" data-action="Brukere" data-context="orgAdmin" data-target="#dataExportModal">
+		                    &nbsp;Metadata brukere
+		                </button>&nbsp;&nbsp;
+<!--
+ // 21.11.2016: Disabling presentation data export since new API pulls from Relay DB and tblPresentation provides nothing worthwhile and join with tblFile is expensive.
+ // Would be extremely slow for large orgs (and there is yet to be a need expressed for this type of export).
 
 						<div class="btn-group">
 		                    <button type="button" class="btn btn-default dropdown-toggle icon ion-code-working" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -221,6 +224,7 @@
 		                        </li>
 		                    </ul>
 		                </div>
+-->
 					</div>
 				</div>
 			</div>
@@ -251,34 +255,6 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="col-lg-6">
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<h3 class="box-title icon ion-ios-contact"> Registrerte detaljer</h3>
-						<div class="box-tools pull-right">
-							<span class="subscriptionStatus"><!-- --></span>
-							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-						</div>
-					</div>
-					<div class="box-body">
-						<dl>
-							<dt>Kontaktperson:</dt>
-							<dd class="serviceContact"><!--updateOrgAdminUI()--></dd>
-							<dt>Supportpunkt</dt>
-							<dd class="serviceSupport"><!--updateOrgAdminUI()--></dd>
-							<dt>Tjeneste URL:</dt>
-							<dd class="serviceUrl"><!--updateOrgAdminUI()--></dd>
-						</dl>
-					</div>
-					<div class="box-footer text-muted">
-						<small>
-							<i class="icon ion-ios-information"></i> Hentet fra UNINETTs driftsdatabase ('KIND'). <br>
-							&Oslash;nsker om endringer av informasjon sendes til <span class="supportEmail"><!--></span>
-						</small>
-					</div>
-				</div>
-			</div>
 	    </div>
     </section><!-- /.content -->
 
@@ -304,39 +280,6 @@
 			</div>
 		</div>
   <!-- //.modal -->
-
-<!-- USER DETAILS MODAL -->
-		<div class="modal fade" id="userDetailsModal" tabindex="-1" role="dialog" aria-labelledby="userDetailsModalTitle" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header bg-dark-gray">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">&nbsp;&nbsp;&nbsp;<span aria-hidden="true">&times;</span></button>
-						<h4 id="userDetailsModalTitle" class="modal-title">
-							<i class="ion ion-ios-person"></i> <span id="fullName"><!--JS--></span>
-						</h4>
-					</div>
-
-					<div class="modal-body">
-						<div id="userInfo"><!-- --></div>
-
-						<hr/>
-						<p class="text-bold"><span class="ion ion-code-working"></span> Metadata Presentasjoner</p>
-						<p>Data er i <a href="https://no.wikipedia.org/wiki/JSON" target="_blank">JSON</a>-format</p>
-							<div id="jsonUserPresentations" style="height:250px;"><!-- --></div>
-						<a href="http://jsoneditoronline.org/" class="pull-right" style="text-muted" target="_blank">JSON Editor Online</a>
-
-					</div>
-
-					<div class="modal-footer bg-dark-gray">
-						<span id="footerText" class="pull-left">
-							<!-- -->
-						</span>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
-					</div>
-				</div>
-			</div>
-		</div>
-<!-- //.modal -->
 
 
 
