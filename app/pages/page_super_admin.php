@@ -343,10 +343,6 @@
 					<div class="box-header with-border">
 						<h3 class="box-title icon ion-ios-home"> Oversikt</h3>
 						<div class="box-tools pull-right">
-							<span data-toggle="tooltip" title="Totalt" class="badge bg-blue subscribersTotalCount"><!--updateUserUI--></span>
-							<span data-toggle="tooltip" title="Aktive" class="badge bg-green subscribersCount"><!--updateUserUI--></span>
-							<span data-toggle="tooltip" title="Utpr&oslash;ving" class="badge bg-orange subscribersTrialCount"><!--updateUserUI--></span>
-							<span data-toggle="tooltip" title="Andre" class="badge bg-red subscribersOtherCount"><!--updateUserUI--></span>
 							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 					</div>
