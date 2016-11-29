@@ -89,15 +89,15 @@ var PAGE_SUPER_ADMIN = (function () {
 		$.when(RELAY.serviceQueueFailedJobsXHR()).done(function (jobs) {
 			var totalFailedJobs = jobs.length;
 			$('#pageSuperAdmin').find('.queueFailedJobsCount').text(totalFailedJobs);
-			if(totalFailedJobs > 0){
+			if (totalFailedJobs > 0) {
 				$('#pageSuperAdmin').find('#queueFailedJobsTableBody').html('');
 
-				$.each(jobs, function(index, jobObj){
+				$.each(jobs, function (index, jobObj) {
 					$('#pageSuperAdmin').find('#queueFailedJobsTableBody').append(
 						"<tr>" +
-							"<td>"+ jobObj.jobPresentation_PresId +"</td>" +
-							"<td>"+ jobObj.jobNumberOfFailures +"</td>" +
-							"<td>"+ jobObj.jobFailureReason +"</td>" +
+						"<td>" + jobObj.jobPresentation_PresId + "</td>" +
+						"<td>" + jobObj.jobNumberOfFailures + "</td>" +
+						"<td>" + jobObj.jobFailureReason + "</td>" +
 						"</tr>"
 					);
 				});
@@ -107,7 +107,7 @@ var PAGE_SUPER_ADMIN = (function () {
 		});
 	}
 
-	$('.refreshQueueFailedJobs').on('click', function(){
+	$('.refreshQueueFailedJobs').on('click', function () {
 		refreshQueueFailedJobs();
 	});
 
@@ -172,79 +172,82 @@ var PAGE_SUPER_ADMIN = (function () {
 	function _buildOrgPresentationLineChart(org, fillColor) {
 		_destroyOrgDiskusageLineChart();
 		$('#lineChartAlert').hide();
-		if (RELAY.orgStorageArr(org).length < 2) {
-			$('#lineChartAlert').html('<code>' + org + '</code>&nbsp;&nbsp;har for f&aring; nylige lagringspunkter registrert til &aring; bygge grafen.')
-			$('#lineChartAlert').show();
-			SELECTED_ORG_RECORDED_DATES_NUM = 'INGEN';
-			return false;
-		}
+		// Make sure we have storage data
+		if (RELAY.orgStorageArr(org) !== null) {
+			//...and enough of it
+			if (RELAY.orgStorageArr(org).length >= 2) {
+				//
+				var orgUsageChartData;
+				// "Clone" since we will be reversing and shit later on
+				orgUsageChartData = JSON.parse(JSON.stringify(RELAY.orgStorageArr(org)));
+				//
+				fillColor = typeof fillColor !== 'undefined' ? fillColor : '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
+				// Max 30 days
+				var daysToShow = 30;
+				var counter = daysToShow;
+				var labels = [];
+				var data = [];
+				// Start from most recent date and count backwards in time
+				orgUsageChartData.reverse();
+				//
+				$.each(orgUsageChartData, function (index, storage) {
+					//var date = new Date(storage.date.replace(/-/g, "/"));   // replace hack seems to fix Safari issue...
+					var date = new Date(storage.date.sec * 1000);
+					// Chart labels and data
+					labels.push(date.getUTCDate() + '.' + (date.getUTCMonth() + 1) + '.' + date.getUTCFullYear());      // Add label
+					data.push(UTILS.mib2gb(storage.size_mib).toFixed(2));    // And value
+					counter--;
+					if (counter == 0) return false;
+				});
+				// In case there exist less than 30 days worth of data
+				SELECTED_ORG_RECORDED_DATES_NUM = daysToShow - counter;
+				// Reverse back so we get most recent date last
+				data.reverse();
+				labels.reverse();
 
-		//
-		var orgUsageChartData;
-		// "Clone" since we will be reversing and shit later on
-		orgUsageChartData = JSON.parse(JSON.stringify(RELAY.orgStorageArr(org)));
-		//
-		fillColor = typeof fillColor !== 'undefined' ? fillColor : '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
+				// Build dataset
+				var lineChartData = {
+					labels: labels,
+					datasets: [
+						{
+							label: "Diskforbruk siste " + data.length + ' dager',
+							fillColor: fillColor,
+							strokeColor: "#666",
+							pointColor: "#fff",
+							pointStrokeColor: "#666",
+							pointHighlightFill: "#285C85",
+							pointHighlightStroke: "rgba(60,141,188,1)",
+							data: data
+						}
+					]
+				};
 
-		// Max 30 days
-		var daysToShow = 30;
-		var counter = daysToShow;
-		var labels = [];
-		var data = [];
-		// Start from most recent date and count backwards in time
-		orgUsageChartData.reverse();
-		//
-		$.each(orgUsageChartData, function (index, storage) {
-			//var date = new Date(storage.date.replace(/-/g, "/"));   // replace hack seems to fix Safari issue...
-			var date = new Date(storage.date.sec * 1000);
-			// Chart labels and data
-			labels.push(date.getUTCDate() + '.' + (date.getUTCMonth() + 1) + '.' + date.getUTCFullYear());      // Add label
-			data.push(UTILS.mib2gb(storage.size_mib).toFixed(2));    // And value
-			counter--;
-			if (counter == 0) return false;
-		});
-		// In case there exist less than 30 days worth of data
-		SELECTED_ORG_RECORDED_DATES_NUM = daysToShow - counter;
-		// Reverse back so we get most recent date last
-		data.reverse();
-		labels.reverse();
-
-		// Build dataset
-		var lineChartData = {
-			labels: labels,
-			datasets: [
-				{
-					label: "Diskforbruk siste " + data.length + ' dager',
-					fillColor: fillColor,
-					strokeColor: "#666",
-					pointColor: "#fff",
-					pointStrokeColor: "#666",
-					pointHighlightFill: "#285C85",
-					pointHighlightStroke: "rgba(60,141,188,1)",
-					data: data
-				}
-			]
-		};
-
-		var ctx = document.getElementById("orgUsageLineChartSuperAdmin").getContext("2d");
-		return new Chart(ctx).Line(lineChartData,
-			{
-				showScale: true,
-				scaleShowGridLines: false,
-				scaleShowHorizontalLines: true,
-				scaleShowVerticalLines: true,
-				bezierCurve: true,
-				bezierCurveTension: 0.3,
-				pointDot: true,
-				pointDotRadius: 4,
-				pointDotStrokeWidth: 1,
-				pointHitDetectionRadius: 5,
-				datasetStroke: true,
-				datasetStrokeWidth: 2,
-				datasetFill: true,
-				maintainAspectRatio: false
+				var ctx = document.getElementById("orgUsageLineChartSuperAdmin").getContext("2d");
+				return new Chart(ctx).Line(lineChartData,
+					{
+						showScale: true,
+						scaleShowGridLines: false,
+						scaleShowHorizontalLines: true,
+						scaleShowVerticalLines: true,
+						bezierCurve: true,
+						bezierCurveTension: 0.3,
+						pointDot: true,
+						pointDotRadius: 4,
+						pointDotStrokeWidth: 1,
+						pointHitDetectionRadius: 5,
+						datasetStroke: true,
+						datasetStrokeWidth: 2,
+						datasetFill: true,
+						maintainAspectRatio: false
+					}
+				);
 			}
-		);
+		}
+		// Not enough data, show error msg
+		$('#lineChartAlert').html('<code>' + org + '</code>&nbsp;&nbsp;har for f&aring; nylige lagringspunkter registrert til &aring; bygge grafen.')
+		$('#lineChartAlert').show();
+		SELECTED_ORG_RECORDED_DATES_NUM = 'INGEN';
+		return false;
 	}
 
 	function _destroyOrgDiskusageLineChart() {
@@ -307,28 +310,28 @@ var PAGE_SUPER_ADMIN = (function () {
 				{
 					"data": "id",
 					"render": function (data, type, full, meta) {
-						return  "<button class='btn btn-link org' data-org='"+data+"'>"+data+"</button>";
+						return "<button class='btn btn-link org' data-org='" + data + "'>" + data + "</button>";
 					}
 				},
 				{
 					"data": "users",
 					//"width": "5%",
 					"render": function (data, type, full, meta) {
-						return  full.users.total
+						return full.users.total
 					}
 				},
 				{
 					"data": "employees",
 					//"width": "5%",
 					"render": function (data, type, full, meta) {
-						return  full.users.employees;
+						return full.users.employees;
 					}
 				},
 				{
 					"data": "students",
 					//"width": "5%",
 					"render": function (data, type, full, meta) {
-						return  full.users.students;
+						return full.users.students;
 					}
 				},
 				{
@@ -351,10 +354,10 @@ var PAGE_SUPER_ADMIN = (function () {
 					"render": function (data, type, full, meta) {
 						return UTILS.mib2gb(full.total_mib).toFixed(2);
 						/*
-							'<div class="progress no-margin">' +
-							'<div class="progress-bar bg-gray tablePercentage" style="width: ' + full.storage.percentage + '%">' +  UTILS.mib2gb(full.total_mib) + '</div>' +
-							'</div>';
-						*/
+						 '<div class="progress no-margin">' +
+						 '<div class="progress-bar bg-gray tablePercentage" style="width: ' + full.storage.percentage + '%">' +  UTILS.mib2gb(full.total_mib) + '</div>' +
+						 '</div>';
+						 */
 					}
 				},
 				{
@@ -387,8 +390,8 @@ var PAGE_SUPER_ADMIN = (function () {
 		// Mailinglist for users at selected org selected
 		if ($btnClicked.data("exportGroup") === 'brukere') {
 			// AJAX call for this type of data
-			$.when(RELAY.orgUserListXHR(SELECTED_ORG)).then(function (usersArr){
-				$.each(usersArr, function (key, userObj){
+			$.when(RELAY.orgUserListXHR(SELECTED_ORG)).then(function (usersArr) {
+				$.each(usersArr, function (key, userObj) {
 					emailList.push(userObj.userDisplayName + ' <' + userObj.userEmail + '>');
 				});
 				// Badge number in modal title
@@ -405,13 +408,10 @@ var PAGE_SUPER_ADMIN = (function () {
 	});
 
 
-
-
-
 	/** DATA EXPORT MODAL **/
 	$('#dataExportModal').on('show.bs.modal', function (event) {
 		// Only do something if calling button was on superAdmin page
-		if($(event.relatedTarget).data().context === 'superAdmin') {
+		if ($(event.relatedTarget).data().context === 'superAdmin') {
 			var $modal = $(this);
 			// attr 'data-action' on buttons (Brukere || Opptak)
 			var exportGroup = $(event.relatedTarget).data().action;
@@ -423,14 +423,14 @@ var PAGE_SUPER_ADMIN = (function () {
 			switch (exportGroup) {
 				case 'Brukere':
 					$modal.find('.modal-title').html('<i class="ion ion-ios-people"></i> Eksporter metadata for alle <strong>brukere</strong> ved <code>' + SELECTED_ORG + '</code>');
-					$.when(RELAY.orgUserListXHR(SELECTED_ORG)).then(function (orgUserList){
+					$.when(RELAY.orgUserListXHR(SELECTED_ORG)).then(function (orgUserList) {
 						APP.jsonEditor().set(orgUserList);
 					});
 					break;
 				// 21.11.2016: Below disabled (and button removed from DOM) after moving to DB-API (won't get anything useful from tblPresentations only, and joined query with tblFile is too expensive).
 				case 'Opptak':
 					$modal.find('.modal-title').html('<i class="ion ion-ios-film"></i> Eksporter metadata for alle <strong>opptak</strong> fra <code>' + SELECTED_ORG + '</code>');
-					$.when(RELAY.orgPresentationListXHR(SELECTED_ORG)).then(function (orgPresentationList){
+					$.when(RELAY.orgPresentationListXHR(SELECTED_ORG)).then(function (orgPresentationList) {
 						APP.jsonEditor().set(orgPresentationList);
 					});
 					break;

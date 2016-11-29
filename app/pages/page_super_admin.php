@@ -380,12 +380,11 @@
 					<div class="box-footer">
 						<p>
 							Viktig: Det meste av informasjon trekkes direkte fra tabeller i Relay sin egen DB. Med tanke på fusjonerte læresteder så er det ikke mulig å
-							plukke opp dette automatisk kun basert på info i tabeller. Tabellen vil derfor liste f.eks. UiN som en egen org (selv om de nå er fusjonert til Nord)
-							siden historisk presentasjonsinformasjon i Relay DB ikke oppdateres ved endring av brukernavn.
+							plukke opp antall presentasjoner fra gammel org (eks. `UiN` siden presentasjonshistorikk i Relay DB ikke oppdateres ved endring av brukernavn).
 						</p>
 
 						<p>
-							Ved fakturering må det tas høyde for dette (eks. slå sammen alle orgs som er fusjonert til f.eks. Nord).
+
 						</p>
 					</div>
 

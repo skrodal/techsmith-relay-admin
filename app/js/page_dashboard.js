@@ -107,8 +107,6 @@ var PAGE_DASHBOARD = (function () {
 				morrisLineData.push({date: timestamp, hits: val.hits});
 				totalHits += parseInt(val.hits);
 			});
-			// We don't want today's read - it was likely read early morning and not representative
-			morrisLineData.pop();
 			//
 			$('.hitsLastDaysTotal').html(totalHits);
 			$('.hitsLastDaysChartDays').html(days);

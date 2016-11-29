@@ -3,7 +3,7 @@
 		<div class="col-lg-12">
 			<div class="callout bg-aqua">
 			    <h4>Autentiserer</h4>
-			    <p>Vennligst vent...</p>
+			    <p>Vennligst vent noen sekunder mens innhold hentes...</p>
 
 				<div class="progress">
 			        <div id="authProgressBar" class="progress-bar progress-bar-light-blue" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><!-- updateProgress --></div>

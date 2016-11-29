@@ -125,13 +125,11 @@ var DATAPORTEN = (function () {
 		return DP_AUTH.jso().ajax({
 			url: DP_AUTH.config().dp_endpoints.groups + 'me/groups',
 			dataType: 'json'
-		}).pipe(function (groupsData) {
-			var groupsArr = groupsData;
+		}).pipe(function (groupsArr) {
 			var groupsObj = {};
 			groupsObj.affiliation = null;
 			groupsObj.org = {};
 			groupsObj.org.name = null;
-
 			if(groupsArr.length === 0) {
 				UTILS.showAuthError("Mangler rettigheter", "Du har dessverre ikke tilgang til denne tjenesten (fikk ikke tak i din tilhørighet)");
 				return false;
