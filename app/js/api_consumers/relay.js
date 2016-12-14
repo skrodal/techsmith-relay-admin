@@ -141,6 +141,7 @@ var RELAY = (function () {
 		init: function () {
 			init();
 		},
+		// Data from many sources (RelayDB, hits, mongo, etc)
 		subscribersInfoXHR: function () {
 			// Done with initial collection
 			return XHR_SUBSCRIBERS_INFO;

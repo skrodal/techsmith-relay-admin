@@ -23,6 +23,7 @@ var PAGE_SUPER_ADMIN = (function () {
 		orgSubscribersTable = _buildOrgSubscribersTable();
 		_updateUI();
 		refreshQueueFailedJobs();
+
 	};
 
 	function _updateUI() {
@@ -311,6 +312,20 @@ var PAGE_SUPER_ADMIN = (function () {
 					"data": "id",
 					"render": function (data, type, full, meta) {
 						return "<button class='btn btn-link org' data-org='" + data + "'>" + data + "</button>";
+					}
+				},
+				{
+					"data": "active",
+					//"width": "5%",
+					"render": function (data, type, full, meta) {
+						return full.active == 1 ? '<span class="icon ion-unlocked text-green"></span> Aktiv' : '<span class="icon ion-locked text-red"></span> Stengt';
+					}
+				},
+				{
+					"data": "affiliation_access",
+					//"width": "5%",
+					"render": function (data, type, full, meta) {
+						return full.affiliation_access == 'member' ? '<span class="icon ion-ios-people text-blue"></span> Alle' : '<span class="icon ion-ios-person text-aqua"></span> Ansatt';
 					}
 				},
 				{

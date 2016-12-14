@@ -347,10 +347,21 @@
 						</div>
 					</div>
 					<div class="box-body table-responsive">
+						<p>
+							Tabellen viser alle læresteder som på ett eller annet tidspunkt har hatt befatning med tjenesten, inkludert fusjonerte læresteder.
+							Eksempelvis vil <code>hinesna.no</code> dukke opp, selv om de ikke lenger har et abonnement, ei heller brukerkontoer i Relay. Dette
+							fordi de fortsatt har tilknyttet innhold på filserver (screencast).
+						</p>
+
+						<p>
+							Abonnenter kan redigeres (eller nye legges til) i tjeneste for kontooppretting.
+						</p>
 						<table id="subscribersTableSuperAdmin" class="table table-bordered table-striped table-hover" style="width: 100%;">
 	                        <thead class="text-muted">
 	                            <tr>
 	                                <th class="text-nowrap"><i class="icon ion-android-home"></i> Org</th>
+	                                <th class="text-nowrap"><i class="icon ion-unlocked"></i> Status</th>
+	                                <th class="text-nowrap"><i class="icon ion-person-stalker"></i> Tilgang</th>
 		                            <th class="text-nowrap"><i class="icon ion-ios-people"></i> Brukere</th>
 		                            <th class="text-nowrap"><i class="icon ion-university"></i> Ansatte</th>
 		                            <th class="text-nowrap"><i class="icon ion-university"></i> Studenter</th>
@@ -366,6 +377,8 @@
 	                        <tfoot class="text-muted">
 	                            <tr>
 	                                <th class="text-nowrap"><i class="icon ion-android-home"></i> Org</th>
+	                                <th class="text-nowrap"><i class="icon ion-unlocked"></i> Status</th>
+	                                <th class="text-nowrap"><i class="icon ion-person-stalker"></i> Tilgang</th>
 		                            <th class="text-nowrap"><i class="icon ion-ios-people"></i> Brukere</th>
 		                            <th class="text-nowrap"><i class="icon ion-university"></i> Ansatte</th>
 		                            <th class="text-nowrap"><i class="icon ion-university"></i> Studenter</th>
@@ -379,12 +392,12 @@
 					</div><!-- /.box-body -->
 					<div class="box-footer">
 						<p>
-							Viktig: Det meste av informasjon trekkes direkte fra tabeller i Relay sin egen DB. Med tanke på fusjonerte læresteder så er det ikke mulig å
-							plukke opp antall presentasjoner fra gammel org (eks. `UiN` siden presentasjonshistorikk i Relay DB ikke oppdateres ved endring av brukernavn).
+							Informasjon trekkes direkte fra tabeller i Relay sin egen DB, samt services for diskforbruk, hits og abonnementstabell.
 						</p>
 
 						<p>
-
+							Med tanke på fusjonerte læresteder så vil brukere/presentasjoner stemme overens med ny org (eks. Nord), mens historisk diskforbruk/hits
+							vil være knyttet til gammel org (eks. UiN/HiNesna).
 						</p>
 					</div>
 

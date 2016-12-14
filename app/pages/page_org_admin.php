@@ -191,7 +191,7 @@
 	                    </table>
 
 						<span class="text-muted">
-							—
+							For brukere som evt. er fusjonert over fra et annet lærested vil ikke hits for innhold fra gammelt lærested registreres her.
 						</span>
 					</div>
 
